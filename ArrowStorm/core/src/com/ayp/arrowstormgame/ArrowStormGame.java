@@ -1,6 +1,5 @@
 package com.ayp.arrowstormgame;
 
-import com.ayp.arrowstormgame.screen.MainMenuScreen;
 import com.ayp.arrowstormgame.screen.TitleScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

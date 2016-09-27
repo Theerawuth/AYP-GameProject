@@ -16,4 +16,6 @@ public abstract class Enemy {
         mHeight = height;
         mPosition = new Vector2(x, y);
     }
+
+
 }
