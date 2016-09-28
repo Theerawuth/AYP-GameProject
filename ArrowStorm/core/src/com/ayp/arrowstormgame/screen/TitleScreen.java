@@ -1,29 +1,24 @@
 package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
 /**
  * Created by Theerawuth on 9/23/2016.
  */
 public class TitleScreen implements Screen {
-    final ArrowStormGame mGame;
-    private OrthographicCamera mCamera;
-    Texture mIntroImage;
+    final ArrowStormGame game;
+    private Texture introImage;
 
-    private static float BTN_START_WIDTH = 480;
-    private static float BTN_START_HEIGHT = 800;
-
+    private static float INTRO_BG_WIDTH = 480;
+    private static float INTRO_BG_HEIGHT = 800;
 
     public TitleScreen(final ArrowStormGame game) {
-        mGame = game;
-        mCamera = new OrthographicCamera();
-        mCamera.setToOrtho(false, 480, 800);
-
-        mIntroImage = new Texture(Gdx.files.internal("startgame.png")); //TODO Add intro image
+        this.game = game;
+        introImage = AssetsLoader.introImage;
     }
 
     @Override
@@ -33,19 +28,15 @@ public class TitleScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //TODO Check touching
-        mCamera.update();
 
-        mGame.batch.setProjectionMatrix(mCamera.combined);
-
-        mGame.batch.begin();
-        mGame.batch.draw(mIntroImage, 0, 0, BTN_START_WIDTH, BTN_START_HEIGHT);
-        mGame.batch.end();
+        game.spriteBatch.begin();
+        game.spriteBatch.draw(introImage, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
+        game.spriteBatch.end();
 
         //check touchscreen
         if (Gdx.input.isTouched()) {
             //change display to GameScreen Display
-            mGame.setScreen(new MainMenuScreen(mGame));
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
     }

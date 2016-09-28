@@ -32,10 +32,11 @@ public class ArrowStormGame extends Game {
     @Override
     public void render() {
         super.render();
+        camera.update();
     }
 
     @Override
     public void dispose() {
-
+        AssetsLoader.dispose();
     }
 }

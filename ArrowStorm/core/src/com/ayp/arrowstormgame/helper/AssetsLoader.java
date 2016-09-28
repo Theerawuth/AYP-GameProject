@@ -13,9 +13,18 @@ public class AssetsLoader {
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
 
+    public static Texture introImage;
+
     public static void load(){
         arrowImageTexture = new Texture(Gdx.files.internal("Arrows.png"));
         arrowImageSprite = new Sprite(arrowImageTexture);
         arrowImageSprite.flip(false, true);
+
+        introImage = new Texture(Gdx.files.internal("startgame.png"));
+    }
+
+    public static void dispose(){
+        arrowImageTexture.dispose();
+        introImage.dispose();
     }
 }
