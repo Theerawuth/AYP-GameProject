@@ -10,21 +10,36 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class AssetsLoader {
     // TODO : load all assets here !
+
+    // PlatStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
 
-    public static Texture introImage;
+    // TitleScreen
+    public static Texture introImageTexture;
 
-    public static void load(){
+    // MainMenuScreen
+    public static Texture startImageTexture;
+    public static Sprite startImageSprite;
+
+    public static void load() {
+        // PlatStateScreen
         arrowImageTexture = new Texture(Gdx.files.internal("Arrows.png"));
         arrowImageSprite = new Sprite(arrowImageTexture);
         arrowImageSprite.flip(false, true);
 
-        introImage = new Texture(Gdx.files.internal("startgame.png"));
+        // TitleScreen
+        introImageTexture = new Texture(Gdx.files.internal("startgame.png"));
+
+        // MainMenuScreen
+        startImageTexture = new Texture(Gdx.files.internal("start_button.png"));
+        startImageSprite = new Sprite(startImageTexture);
+        startImageSprite.flip(false, true);
+
     }
 
-    public static void dispose(){
+    public static void dispose() {
         arrowImageTexture.dispose();
-        introImage.dispose();
+        introImageTexture.dispose();
     }
 }

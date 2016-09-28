@@ -18,7 +18,7 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(final ArrowStormGame game) {
         this.game = game;
-        introImage = AssetsLoader.introImage;
+        introImage = AssetsLoader.introImageTexture;
     }
 
     @Override
