@@ -14,10 +14,16 @@ public class TitleScreen implements Screen {
     private OrthographicCamera mCamera;
     Texture mIntroImage;
 
+    private static float BTN_START_WIDTH = 480;
+    private static float BTN_START_HEIGHT = 800;
+
+
     public TitleScreen(final ArrowStormGame game) {
         mGame = game;
         mCamera = new OrthographicCamera();
-        mIntroImage = new Texture(Gdx.files.internal("")); //TODO Add intro image
+        mCamera.setToOrtho(false, 480, 800);
+
+        mIntroImage = new Texture(Gdx.files.internal("startgame.png")); //TODO Add intro image
     }
 
     @Override
@@ -28,6 +34,20 @@ public class TitleScreen implements Screen {
     @Override
     public void render(float delta) {
         //TODO Check touching
+        mCamera.update();
+
+        mGame.batch.setProjectionMatrix(mCamera.combined);
+
+        mGame.batch.begin();
+        mGame.batch.draw(mIntroImage, 0, 0, BTN_START_WIDTH, BTN_START_HEIGHT);
+        mGame.batch.end();
+
+        //check touchscreen
+        if (Gdx.input.isTouched()) {
+            //change display to GameScreen Display
+            mGame.setScreen(new MainMenuScreen(mGame));
+            dispose();
+        }
     }
 
     @Override

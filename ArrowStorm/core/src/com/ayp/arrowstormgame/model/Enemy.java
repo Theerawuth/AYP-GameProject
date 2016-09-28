@@ -16,4 +16,6 @@ public abstract class Enemy {
         this.height = height;
         position = new Vector2(x, y);
     }
+
+
 }
