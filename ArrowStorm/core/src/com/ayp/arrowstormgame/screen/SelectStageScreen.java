@@ -21,10 +21,11 @@ public class SelectStageScreen implements Screen {
     private static final float BTN_BATTLE_WIDTH = 100;
     private static final float BTN_BATTLE_HEIGHT = 100;
 
-    final ArrowStormGame game;
-    Sprite battleImageSprite;
-    Sprite stageImageSprite;
+    private final ArrowStormGame game;
+    private Sprite battleImageSprite;
+    private Sprite stageImageSprite;
 
+    private float elapsedTime;
 
     public SelectStageScreen(final ArrowStormGame game) {
         this.game = game;
@@ -48,9 +49,10 @@ public class SelectStageScreen implements Screen {
         game.spriteBatch.draw(battleImageSprite, BTN_BATTLE_POS_X, BTN_BATTLE_POS_Y, BTN_BATTLE_WIDTH, BTN_BATTLE_HEIGHT);
         game.spriteBatch.draw(stageImageSprite, BTN_STAGE_POS_X, BTN_STAGE_POS_Y, BTN_STAGE_WIDTH, BTN_STAGE_HEIGHT);
         game.spriteBatch.end();
+        elapsedTime += delta;
 
         //check touchscreen
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
             //change display to GameScreen Display
             game.setScreen(new PlayStateScreen(game));
             dispose();

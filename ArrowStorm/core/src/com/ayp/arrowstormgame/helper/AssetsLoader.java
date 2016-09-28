@@ -17,6 +17,7 @@ public class AssetsLoader {
 
     // TitleScreen
     public static Texture introImageTexture;
+    public static Sprite introImageSprite;
 
     // MainMenuScreen
     public static Texture startImageTexture;
@@ -37,6 +38,8 @@ public class AssetsLoader {
 
         // TitleScreen
         introImageTexture = new Texture(Gdx.files.internal("startgame.png"));
+        introImageSprite = new Sprite(introImageTexture);
+        introImageSprite.flip(false, true);
 
         // MainMenuScreen
         startImageTexture = new Texture(Gdx.files.internal("start_button.png"));

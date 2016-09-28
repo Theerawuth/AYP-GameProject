@@ -16,8 +16,10 @@ public class MainMenuScreen implements Screen  {
     private static float BTN_START_WIDTH = 343;
     private static float BTN_START_HEIGHT = 144;
 
-    final ArrowStormGame game;
-    Sprite startImageSprite;
+    private float elapsedTime;
+
+    private final ArrowStormGame game;
+    private Sprite startImageSprite;
 
     //TODO Create menu button
 
@@ -42,8 +44,10 @@ public class MainMenuScreen implements Screen  {
         game.spriteBatch.draw(startImageSprite, BTN_START_POS_X, BTN_START_POS_Y, BTN_START_WIDTH, BTN_START_HEIGHT);
         game.spriteBatch.end();
 
+        elapsedTime += delta;
+
         //check touchscreen
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
             //change display to GameScreen Display
             game.setScreen(new SelectStageScreen(game));
             dispose();
