@@ -1,11 +1,10 @@
 package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
@@ -22,29 +21,16 @@ public class SelectStageScreen implements Screen {
     private static final float BTN_BATTLE_WIDTH = 100;
     private static final float BTN_BATTLE_HEIGHT = 100;
 
-    private OrthographicCamera mCamera;
-    final ArrowStormGame mGame;
-    Texture battleImage;
-    Texture stageImage;
-    Sprite battleButton;
-    Sprite stageButton;
+    final ArrowStormGame game;
+    Sprite battleImageSprite;
+    Sprite stageImageSprite;
 
 
     public SelectStageScreen(final ArrowStormGame game) {
-        mGame = game;
+        this.game = game;
 
-        mCamera = new OrthographicCamera();
-        mCamera.setToOrtho(true, 480, 800);
-
-        battleImage = new Texture(Gdx.files.internal("battle_button.png"));
-        battleButton = new Sprite(battleImage);
-        battleButton.flip(false, true);
-
-        stageImage = new Texture(Gdx.files.internal("stage_button.png"));
-        stageButton = new Sprite(stageImage);
-        stageButton.flip(false, true);
-
-
+        battleImageSprite = AssetsLoader.battleImageSprite;
+        stageImageSprite = AssetsLoader.stageImageSprite;
     }
 
     @Override
@@ -58,19 +44,15 @@ public class SelectStageScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        mCamera.update();
-
-        mGame.batch.setProjectionMatrix(mCamera.combined);
-
-        mGame.batch.begin();
-        mGame.batch.draw(battleButton, BTN_BATTLE_POS_X, BTN_BATTLE_POS_Y, BTN_BATTLE_WIDTH, BTN_BATTLE_HEIGHT);
-        mGame.batch.draw(stageButton, BTN_STAGE_POS_X, BTN_STAGE_POS_Y, BTN_STAGE_WIDTH, BTN_STAGE_HEIGHT);
-        mGame.batch.end();
+        game.spriteBatch.begin();
+        game.spriteBatch.draw(battleImageSprite, BTN_BATTLE_POS_X, BTN_BATTLE_POS_Y, BTN_BATTLE_WIDTH, BTN_BATTLE_HEIGHT);
+        game.spriteBatch.draw(stageImageSprite, BTN_STAGE_POS_X, BTN_STAGE_POS_Y, BTN_STAGE_WIDTH, BTN_STAGE_HEIGHT);
+        game.spriteBatch.end();
 
         //check touchscreen
         if (Gdx.input.isTouched()) {
             //change display to GameScreen Display
-            mGame.setScreen(new PlayStateScreen(mGame));
+            game.setScreen(new PlayStateScreen(game));
             dispose();
         }
 
