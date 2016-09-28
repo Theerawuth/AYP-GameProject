@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Player;
 import com.badlogic.gdx.Gdx;
@@ -21,39 +22,30 @@ import java.util.Iterator;
  * Created by Theerawuth on 9/23/2016.
  */
 public class PlayStateScreen implements Screen {
-    public static String TAG = "PlayStateScreen";
-    final ArrowStormGame mGame;
-    private OrthographicCamera mCamera;
-    private SpriteBatch mBatch;
-    private ShapeRenderer mShapeRenderer;
-    private Array<Arrow> mArrows;
-    private Texture arrowImage;
     private static int PREPARE_SHOOT = -1;
+    public static String TAG = "PlayStateScreen";
+    final private ArrowStormGame game;
+
+    private Array<Arrow> mArrows;
+
+    private int scaleArrowX;
+
+    private int scaleArrowY;
+    private float arrowVelocity = 200;
     private long shootDelay = 500000000;
     private long lastArrow;
     private long lastTouched;
-    private Sprite mSprite;
-    private int scaleArrowX;
-    private int scaleArrowY;
+    private Sprite arrowSprite;
     private Vector3 touchPosition;
-    private float ARROW_VELOCITY = 200;
 
     public PlayStateScreen(final ArrowStormGame game) {
-        mGame = game;
-        arrowImage = new Texture(Gdx.files.internal("Arrows.png"));
-        mSprite = new Sprite(arrowImage);
-        mSprite.flip(false, true);
-        mCamera = new OrthographicCamera();
-        mCamera.setToOrtho(true, ArrowStormGame.GAME_WIDTH, ArrowStormGame.GAME_HEIGHT);
-        mBatch = new SpriteBatch();
-        mBatch.setProjectionMatrix(mCamera.combined);
-        mShapeRenderer = new ShapeRenderer();
-        mShapeRenderer.setProjectionMatrix(mCamera.combined);
+        this.game = game;
         mArrows = new Array<Arrow>();
         lastArrow = PREPARE_SHOOT;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
         scaleArrowX = 1;
         scaleArrowY = 1;
+        arrowSprite = AssetsLoader.arrowImageSprite;
     }
 
     @Override
@@ -66,13 +58,13 @@ public class PlayStateScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        mShapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         drawBackground();
-        mShapeRenderer.end();
+        game.shapeRenderer.end();
 
-        mBatch.begin();
+        game.spriteBatch.begin();
         drawArrow();
-        mBatch.end();
+        game.spriteBatch.end();
 
         handleTouchEvent();
         updateArrow(delta);
@@ -105,8 +97,8 @@ public class PlayStateScreen implements Screen {
 
     private void drawArrow() {
         for (Arrow arrow : mArrows) {
-            mBatch.draw(
-                    mSprite,
+            game.spriteBatch.draw(
+                    arrowSprite,
                     arrow.getPosition().x - arrow.getWidth() / 2,
                     arrow.getPosition().y,
                     arrow.getWidth() / 2,
@@ -135,10 +127,10 @@ public class PlayStateScreen implements Screen {
     }
 
     private void drawBackground() {
-        mShapeRenderer.setColor(1, 0, 0, 1);
-        mShapeRenderer.rect(Player.POSITION_X, Player.POSITION_Y, Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
-        mShapeRenderer.setColor(1, 1, 0, 1);
-        mShapeRenderer.rect(Player.POSITION_X + Player.PLAYER_WIDTH / 2, Player.POSITION_Y,
+        game.shapeRenderer.setColor(1, 0, 0, 1);
+        game.shapeRenderer.rect(Player.POSITION_X, Player.POSITION_Y, Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT);
+        game.shapeRenderer.setColor(1, 1, 0, 1);
+        game.shapeRenderer.rect(Player.POSITION_X + Player.PLAYER_WIDTH / 2, Player.POSITION_Y,
                 Player.PLAYER_WIDTH / 2, Player.PLAYER_HEIGHT);
     }
 
@@ -152,7 +144,7 @@ public class PlayStateScreen implements Screen {
         if (Gdx.input.isTouched()) {
             touchPosition = new Vector3();
             touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            mCamera.unproject(touchPosition);
+            game.camera.unproject(touchPosition);
             if (touchPosition.y < Player.SHOOTING_POINT_Y) {
                 // Cancelled touch outside of player zone
                 return;
@@ -170,8 +162,8 @@ public class PlayStateScreen implements Screen {
 
 
             Gdx.app.log(TAG, "angle: " + arrowAngle);
-            float velocityX = (float) (ARROW_VELOCITY * Math.cos(Math.toRadians(arrowDirectionDegree))) * Gdx.graphics.getDeltaTime();
-            float velocityY = (float) (ARROW_VELOCITY * Math.sin(Math.toRadians(arrowDirectionDegree))) * Gdx.graphics.getDeltaTime();
+            float velocityX = (float) (arrowVelocity * Math.cos(Math.toRadians(arrowDirectionDegree))) * Gdx.graphics.getDeltaTime();
+            float velocityY = (float) (arrowVelocity * Math.sin(Math.toRadians(arrowDirectionDegree))) * Gdx.graphics.getDeltaTime();
 
             Gdx.app.log(TAG, "veloX: " + velocityX + " , veloY: " + velocityY);
             if (lastArrow == PREPARE_SHOOT) {
