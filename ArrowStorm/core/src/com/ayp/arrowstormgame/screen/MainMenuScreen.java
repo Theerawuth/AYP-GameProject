@@ -5,6 +5,7 @@ import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 /**
@@ -15,17 +16,22 @@ public class MainMenuScreen implements Screen  {
     private static float BTN_START_POS_Y = 504;
     private static float BTN_START_WIDTH = 343;
     private static float BTN_START_HEIGHT = 144;
+    private static float MAIN_MENU_BG_WIDTH = 480;
+    private static float MAIN_MENU_BG_HEIGHT = 800;
 
     private float elapsedTime;
 
     private final ArrowStormGame game;
     private Sprite startImageSprite;
+    private Sprite mainMenuImageSprite;
 
     //TODO Create menu button
 
     public MainMenuScreen(final ArrowStormGame game) {
         this.game = game;
         startImageSprite = AssetsLoader.startImageSprite;
+        mainMenuImageSprite = AssetsLoader.mainMenuImageSprite;
+
     }
 
     @Override
@@ -35,19 +41,19 @@ public class MainMenuScreen implements Screen  {
 
     @Override
     public void render(float delta) {
-        //TODO Check that what menu is selected
-        //Clear Display
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        game.spriteBatch.begin();
-        game.spriteBatch.draw(startImageSprite, BTN_START_POS_X, BTN_START_POS_Y, BTN_START_WIDTH, BTN_START_HEIGHT);
-        game.spriteBatch.end();
 
         elapsedTime += delta;
 
+        game.spriteBatch.setProjectionMatrix(game.camera.combined);
+
+        game.spriteBatch.begin();
+        game.spriteBatch.draw(mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
+        game.spriteBatch.draw(startImageSprite, BTN_START_POS_X, BTN_START_POS_Y, BTN_START_WIDTH, BTN_START_HEIGHT);
+        game.spriteBatch.end();
+
+
         //check touchscreen
-        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
+        if (Gdx.input.isTouched() && elapsedTime > 1.0) {
             //change display to GameScreen Display
             game.setScreen(new SelectStageScreen(game));
             dispose();
@@ -76,6 +82,7 @@ public class MainMenuScreen implements Screen  {
 
     @Override
     public void dispose() {
+
 
     }
 }

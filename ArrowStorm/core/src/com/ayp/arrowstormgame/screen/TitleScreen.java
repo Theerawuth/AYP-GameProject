@@ -18,12 +18,19 @@ import java.util.Iterator;
  * Created by Theerawuth on 9/23/2016.
  */
 public class TitleScreen implements Screen {
+    private static String TAG = "TitleScreen";
     final ArrowStormGame game;
 
     private Sprite introImageSprite;
+    //animation leaf
     private Animation leafAnimation;
     private Array<Rectangle> leafDrops;
-    private TextureRegion currentFrame;
+    private TextureRegion currentFrameLeaf;
+    //animation title
+    private Animation titleAnimation;
+    private Array<Rectangle> titleChanges;
+    private TextureRegion currentFrameTitle;
+
 
     private float elapsedTime;
     long lastDropTime;
@@ -35,10 +42,12 @@ public class TitleScreen implements Screen {
         this.game = game;
         introImageSprite = AssetsLoader.introImageSprite;
         leafAnimation = AssetsLoader.leafAnimation;
-
+        titleAnimation = AssetsLoader.titleAnimation;
+        // create Array leafDrops
         leafDrops = new Array<Rectangle>();
-        spawnLeafDrop();
-
+        // create Array titleChange
+        titleChanges = new Array<Rectangle>();
+        lastDropTime = TimeUtils.nanoTime();
     }
 
     @Override
@@ -46,45 +55,48 @@ public class TitleScreen implements Screen {
 
     }
 
-    private void spawnLeafDrop() {
-        Rectangle leafDrop = new Rectangle();
-        leafDrop.x = MathUtils.random(0, 480-32);
-        leafDrop.y = 800;
-        leafDrop.width = 32;
-        leafDrop.height = 32;
-        leafDrops.add(leafDrop);
-        lastDropTime = TimeUtils.nanoTime();
-    }
-
-
     @Override
     public void render(float delta) {
-        game.camera.update();
 
         game.spriteBatch.setProjectionMatrix(game.camera.combined);
 
         elapsedTime += delta;
 
-        currentFrame = leafAnimation.getKeyFrame(elapsedTime, true);
+        currentFrameLeaf = leafAnimation.getKeyFrame(elapsedTime, true);
+        currentFrameTitle = titleAnimation.getKeyFrame(elapsedTime, true);
+
+        if (!currentFrameTitle.isFlipY())
+            currentFrameTitle.flip(false, true);
 
         game.spriteBatch.begin();
         game.spriteBatch.draw(introImageSprite, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
-        for(Rectangle leafDrop: leafDrops){
-            game.spriteBatch.draw(currentFrame, leafDrop.x, leafDrop.y);
+        for (Rectangle leafDrop : leafDrops) {
+            game.spriteBatch.draw(currentFrameLeaf, leafDrop.x, leafDrop.y);
+        }
+        for (Rectangle titleChange : titleChanges) {
+            game.spriteBatch.draw(currentFrameTitle, titleChange.x, titleChange.y);
         }
         game.spriteBatch.end();
 
+        //check time for set start leaf drop and title change
+        if (TimeUtils.nanoTime() - lastDropTime > 100000000) {
+            spawnLeafDrop();
+            spawnTitleChange();
+        }
+
+
         //set motion leafDrop
-        Iterator<Rectangle> iterator = leafDrops.iterator();
-        while (iterator.hasNext()) {
-            Rectangle leafDrop = iterator.next();
-            leafDrop.y -= 200 * Gdx.graphics.getDeltaTime();
-            if (leafDrop.y + 32 < 0)
-                iterator.remove();
+        Iterator<Rectangle> iteratorLeaf = leafDrops.iterator();
+        while (iteratorLeaf.hasNext()) {
+            Rectangle leafDrop = iteratorLeaf.next();
+            leafDrop.y += 200 * Gdx.graphics.getDeltaTime();
+            if (leafDrop.y > ArrowStormGame.GAME_HEIGHT + leafDrop.width) {
+                iteratorLeaf.remove();
+            }
         }
 
         //check touchscreen
-        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
+        if (Gdx.input.isTouched() && elapsedTime > 1.0) {
             //change display to GameScreen Display
             game.setScreen(new MainMenuScreen(game));
             dispose();
@@ -114,6 +126,21 @@ public class TitleScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    private void spawnLeafDrop() {
+        Rectangle leafDrop = new Rectangle();
+        leafDrop.x = MathUtils.random(0, 480 - 32);
+        leafDrop.y = 0;
+        leafDrops.add(leafDrop);
+        lastDropTime = TimeUtils.nanoTime();
+    }
+
+    private void spawnTitleChange() {
+        Rectangle titleChange = new Rectangle();
+        titleChange.x = 0;
+        titleChange.y = 420;
+        titleChanges.add(titleChange);
     }
 
 }

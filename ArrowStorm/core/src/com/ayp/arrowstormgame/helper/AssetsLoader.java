@@ -12,8 +12,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AssetsLoader {
     // TODO : load all assets here !
-    private static final int FRAME_COLS = 7;
-    private static final int FRAME_ROWS = 1;
+    private static final int FRAME_COLS_LEAF = 7;
+    private static final int FRAME_ROWS_LEAF = 1;
+    private static final int FRAME_COLS_TITLE = 1;
+    private static final int FRAME_ROWS_TITLE = 9;
 
     // PlatStateScreen
     public static Texture arrowImageTexture;
@@ -27,11 +29,17 @@ public class AssetsLoader {
     public static Texture leafImageTexture;
     public static Animation leafAnimation;
     public static TextureRegion[] leafFrames;
-//    public static TextureRegion leafOne, leafTwo, leafThree, leafFour, leafFive, leafSix, leafSeven;
+
+    // TitleScreen // set animation title
+    public static Texture titleImageTexture;
+    public static Animation titleAnimation;
+    public static TextureRegion[] titleFrames;
 
 
     // MainMenuScreen
+    public static Texture mainMenuImageTexture;
     public static Texture startImageTexture;
+    public static Sprite mainMenuImageSprite;
     public static Sprite startImageSprite;
 
     // SelectStageScreen
@@ -48,7 +56,7 @@ public class AssetsLoader {
         arrowImageSprite.flip(false, true);
 
         // TitleScreen
-        introImageTexture = new Texture(Gdx.files.internal("startgame.png"));
+        introImageTexture = new Texture(Gdx.files.internal("intro_background.png"));
         introImageSprite = new Sprite(introImageTexture);
         introImageSprite.flip(false, true);
 
@@ -56,42 +64,42 @@ public class AssetsLoader {
         leafImageTexture = new Texture(Gdx.files.internal("anim/anim_leaf.png"));
         TextureRegion[][] leafs = TextureRegion.split(
                 leafImageTexture,
-                leafImageTexture.getWidth()/FRAME_COLS,
-                leafImageTexture.getHeight()/FRAME_ROWS);
-        leafFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-        int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_COLS; j++) {
-                leafFrames[index++] = leafs[i][j];
+                leafImageTexture.getWidth()/FRAME_COLS_LEAF,
+                leafImageTexture.getHeight()/FRAME_ROWS_LEAF
+        );
+        leafFrames = new TextureRegion[FRAME_COLS_LEAF * FRAME_ROWS_LEAF];
+        int indexLeaf = 0;
+        for (int i = 0; i < FRAME_ROWS_LEAF; i++) {
+            for (int j = 0; j < FRAME_COLS_LEAF; j++) {
+                leafFrames[indexLeaf++] = leafs[i][j];
             }
         }
-        leafAnimation = new Animation(0.05f, leafFrames);
+        leafAnimation = new Animation(0.1f, leafFrames);
 
-
-//        leafOne = new TextureRegion(leafImageTexture, 20, 0, 32, 32);
-//        leafTwo = new TextureRegion(leafImageTexture, 40, 0, 32, 32);
-//        leafThree = new TextureRegion(leafImageTexture, 60, 0, 32, 32);
-//        leafFour = new TextureRegion(leafImageTexture, 80, 0, 32, 32);
-//        leafFive = new TextureRegion(leafImageTexture, 100, 0, 32, 32);
-//        leafSix = new TextureRegion(leafImageTexture, 120, 0, 32, 32);
-//        leafSeven = new TextureRegion(leafImageTexture, 140, 0, 32, 32);
-
-//        TextureRegion[] leafs = {leafOne,
-//                leafTwo,
-//                leafThree,
-//                leafFour,
-//                leafFive,
-//                leafSix,
-//                leafSeven};
-//
-//        leafAnimation = new Animation(0.06f, leafs);
-//        leafAnimation.setPlayMode(Animation.PlayMode.LOOP_RANDOM);
+        // TitleScreen // set animation title
+        titleImageTexture = new Texture(Gdx.files.internal("anim/anim_title.png"));
+        TextureRegion[][] titles = TextureRegion.split(
+                titleImageTexture,
+                titleImageTexture.getWidth()/FRAME_COLS_TITLE,
+                titleImageTexture.getHeight()/FRAME_ROWS_TITLE
+        );
+        titleFrames = new TextureRegion[FRAME_COLS_TITLE * FRAME_ROWS_TITLE];
+        int indexTitle = 0;
+        for (int i = 0; i < FRAME_ROWS_TITLE; i++) {
+            for (int j = 0; j < FRAME_COLS_TITLE; j++) {
+                titleFrames[indexTitle++] = titles[i][j];
+            }
+        }
+        titleAnimation = new Animation(0.2f, titleFrames);
 
 
         // MainMenuScreen
         startImageTexture = new Texture(Gdx.files.internal("start_button.png"));
         startImageSprite = new Sprite(startImageTexture);
         startImageSprite.flip(false, true);
+        mainMenuImageTexture = new Texture(Gdx.files.internal("main_menu_background.png"));
+        mainMenuImageSprite = new Sprite(mainMenuImageTexture);
+        mainMenuImageSprite.flip(false, true);
 
         // SelectStageScreen
         battleImageTexture= new Texture(Gdx.files.internal("battle_button.png"));
