@@ -46,8 +46,19 @@ public class SelectStageScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.spriteBatch.begin();
-        game.spriteBatch.draw(battleImageSprite, BTN_BATTLE_POS_X, BTN_BATTLE_POS_Y, BTN_BATTLE_WIDTH, BTN_BATTLE_HEIGHT);
-        game.spriteBatch.draw(stageImageSprite, BTN_STAGE_POS_X, BTN_STAGE_POS_Y, BTN_STAGE_WIDTH, BTN_STAGE_HEIGHT);
+        game.spriteBatch.draw(
+                battleImageSprite,
+                BTN_BATTLE_POS_X,
+                BTN_BATTLE_POS_Y,
+                BTN_BATTLE_WIDTH,
+                BTN_BATTLE_HEIGHT
+        );
+        game.spriteBatch.draw(
+                stageImageSprite,
+                BTN_STAGE_POS_X,
+                BTN_STAGE_POS_Y, BTN_STAGE_WIDTH,
+                BTN_STAGE_HEIGHT
+        );
         game.spriteBatch.end();
         elapsedTime += delta;
 
