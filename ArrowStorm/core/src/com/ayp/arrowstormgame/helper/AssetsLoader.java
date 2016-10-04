@@ -14,8 +14,7 @@ public class AssetsLoader {
     // TODO : load all assets here !
     private static final int FRAME_COLS_LEAF = 7;
     private static final int FRAME_ROWS_LEAF = 1;
-    private static final int FRAME_COLS_TITLE = 1;
-    private static final int FRAME_ROWS_TITLE = 9;
+
 
     // PlatStateScreen
     public static Texture arrowImageTexture;
@@ -24,23 +23,18 @@ public class AssetsLoader {
     // TitleScreen
     public static Texture introImageTexture;
     public static Sprite introImageSprite;
+    public static Texture touchToStartTexture;
+    public static Sprite touchToStartSprite;
 
     // TitleScreen // set animation leaf
     public static Texture leafImageTexture;
     public static Animation leafAnimation;
     public static TextureRegion[] leafFrames;
 
-    // TitleScreen // set animation title
-    public static Texture titleImageTexture;
-    public static Animation titleAnimation;
-    public static TextureRegion[] titleFrames;
-
-
     // MainMenuScreen
     public static Texture mainMenuImageTexture;
-    public static Texture startImageTexture;
     public static Sprite mainMenuImageSprite;
-    public static Sprite startImageSprite;
+
 
     // SelectStageScreen
     public static Texture battleImageTexture;
@@ -56,9 +50,14 @@ public class AssetsLoader {
         arrowImageSprite.flip(false, true);
 
         // TitleScreen
-        introImageTexture = new Texture(Gdx.files.internal("intro_background.png"));
+        introImageTexture = new Texture(Gdx.files.internal("background/intro_title_background.png"));
         introImageSprite = new Sprite(introImageTexture);
         introImageSprite.flip(false, true);
+
+        touchToStartTexture = new Texture(Gdx.files.internal("start_game_title.png"));
+        touchToStartSprite = new Sprite(touchToStartTexture);
+        touchToStartSprite.flip(false, true);
+
 
         // TitleScreen // set animation leaf
         leafImageTexture = new Texture(Gdx.files.internal("anim/anim_leaf.png"));
@@ -76,36 +75,16 @@ public class AssetsLoader {
         }
         leafAnimation = new Animation(0.1f, leafFrames);
 
-        // TitleScreen // set animation title
-        titleImageTexture = new Texture(Gdx.files.internal("anim/anim_title.png"));
-        TextureRegion[][] titles = TextureRegion.split(
-                titleImageTexture,
-                titleImageTexture.getWidth()/FRAME_COLS_TITLE,
-                titleImageTexture.getHeight()/FRAME_ROWS_TITLE
-        );
-        titleFrames = new TextureRegion[FRAME_COLS_TITLE * FRAME_ROWS_TITLE];
-        int indexTitle = 0;
-        for (int i = 0; i < FRAME_ROWS_TITLE; i++) {
-            for (int j = 0; j < FRAME_COLS_TITLE; j++) {
-                titleFrames[indexTitle++] = titles[i][j];
-            }
-        }
-        titleAnimation = new Animation(0.2f, titleFrames);
-
-
         // MainMenuScreen
-        startImageTexture = new Texture(Gdx.files.internal("start_button.png"));
-        startImageSprite = new Sprite(startImageTexture);
-        startImageSprite.flip(false, true);
-        mainMenuImageTexture = new Texture(Gdx.files.internal("main_menu_background.png"));
+        mainMenuImageTexture = new Texture(Gdx.files.internal("background/main_menu_background.png"));
         mainMenuImageSprite = new Sprite(mainMenuImageTexture);
         mainMenuImageSprite.flip(false, true);
 
         // SelectStageScreen
-        battleImageTexture= new Texture(Gdx.files.internal("battle_button.png"));
+        battleImageTexture= new Texture(Gdx.files.internal("icon/battle_icon.png"));
         battleImageSprite = new Sprite(battleImageTexture);
         battleImageSprite.flip(false, true);
-        stageImageTexture = new Texture(Gdx.files.internal("stage_button.png"));
+        stageImageTexture = new Texture(Gdx.files.internal("icon/stage_icon.png"));
         stageImageSprite = new Sprite(stageImageTexture);
         stageImageSprite.flip(false, true);
 
@@ -117,12 +96,13 @@ public class AssetsLoader {
 
         // TitleScreen
         introImageTexture.dispose();
+        touchToStartTexture.dispose();
 
         //TitleScreen //set animation leaf
         leafImageTexture.dispose();
 
         // MainMenuScreen
-        startImageTexture.dispose();
+        mainMenuImageTexture.dispose();
 
         // SelectStageScreen
         battleImageTexture.dispose();

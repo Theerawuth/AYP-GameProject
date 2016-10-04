@@ -18,35 +18,32 @@ import java.util.Iterator;
  * Created by Theerawuth on 9/23/2016.
  */
 public class TitleScreen implements Screen {
-    private static String TAG = "TitleScreen";
     final ArrowStormGame game;
 
     private Sprite introImageSprite;
+    private Sprite touchToStartSprite;
     //animation leaf
     private Animation leafAnimation;
     private Array<Rectangle> leafDrops;
     private TextureRegion currentFrameLeaf;
-    //animation title
-    private Animation titleAnimation;
-    private Array<Rectangle> titleChanges;
-    private TextureRegion currentFrameTitle;
-
 
     private float elapsedTime;
     long lastDropTime;
 
     private static float INTRO_BG_WIDTH = 480;
     private static float INTRO_BG_HEIGHT = 800;
+    private static float TOUCH_TO_START_WIDTH = 300;
+    private static float TOUCH_TO_START_HEIGHT = 60;
 
     public TitleScreen(final ArrowStormGame game) {
         this.game = game;
         introImageSprite = AssetsLoader.introImageSprite;
+        touchToStartSprite = AssetsLoader.touchToStartSprite;
         leafAnimation = AssetsLoader.leafAnimation;
-        titleAnimation = AssetsLoader.titleAnimation;
+
         // create Array leafDrops
         leafDrops = new Array<Rectangle>();
-        // create Array titleChange
-        titleChanges = new Array<Rectangle>();
+
         lastDropTime = TimeUtils.nanoTime();
     }
 
@@ -63,25 +60,18 @@ public class TitleScreen implements Screen {
         elapsedTime += delta;
 
         currentFrameLeaf = leafAnimation.getKeyFrame(elapsedTime, true);
-        currentFrameTitle = titleAnimation.getKeyFrame(elapsedTime, true);
-
-        if (!currentFrameTitle.isFlipY())
-            currentFrameTitle.flip(false, true);
 
         game.spriteBatch.begin();
         game.spriteBatch.draw(introImageSprite, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
+        game.spriteBatch.draw(touchToStartSprite, 85, 600, TOUCH_TO_START_WIDTH, TOUCH_TO_START_HEIGHT);
         for (Rectangle leafDrop : leafDrops) {
             game.spriteBatch.draw(currentFrameLeaf, leafDrop.x, leafDrop.y);
-        }
-        for (Rectangle titleChange : titleChanges) {
-            game.spriteBatch.draw(currentFrameTitle, titleChange.x, titleChange.y);
         }
         game.spriteBatch.end();
 
         //check time for set start leaf drop and title change
         if (TimeUtils.nanoTime() - lastDropTime > 100000000) {
             spawnLeafDrop();
-            spawnTitleChange();
         }
 
 
@@ -135,12 +125,4 @@ public class TitleScreen implements Screen {
         leafDrops.add(leafDrop);
         lastDropTime = TimeUtils.nanoTime();
     }
-
-    private void spawnTitleChange() {
-        Rectangle titleChange = new Rectangle();
-        titleChange.x = 0;
-        titleChange.y = 420;
-        titleChanges.add(titleChange);
-    }
-
 }

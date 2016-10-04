@@ -12,24 +12,18 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * Created by Theerawuth on 9/23/2016.
  */
 public class MainMenuScreen implements Screen  {
-    private static float BTN_START_POS_X = 71;
-    private static float BTN_START_POS_Y = 504;
-    private static float BTN_START_WIDTH = 343;
-    private static float BTN_START_HEIGHT = 144;
     private static float MAIN_MENU_BG_WIDTH = 480;
     private static float MAIN_MENU_BG_HEIGHT = 800;
 
     private float elapsedTime;
 
     private final ArrowStormGame game;
-    private Sprite startImageSprite;
     private Sprite mainMenuImageSprite;
 
     //TODO Create menu button
 
     public MainMenuScreen(final ArrowStormGame game) {
         this.game = game;
-        startImageSprite = AssetsLoader.startImageSprite;
         mainMenuImageSprite = AssetsLoader.mainMenuImageSprite;
 
     }
@@ -48,9 +42,7 @@ public class MainMenuScreen implements Screen  {
 
         game.spriteBatch.begin();
         game.spriteBatch.draw(mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
-        game.spriteBatch.draw(startImageSprite, BTN_START_POS_X, BTN_START_POS_Y, BTN_START_WIDTH, BTN_START_HEIGHT);
         game.spriteBatch.end();
-
 
         //check touchscreen
         if (Gdx.input.isTouched() && elapsedTime > 1.0) {
