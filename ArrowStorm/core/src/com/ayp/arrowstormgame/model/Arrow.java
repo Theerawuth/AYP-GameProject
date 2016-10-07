@@ -1,6 +1,5 @@
 package com.ayp.arrowstormgame.model;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -19,9 +18,12 @@ public class Arrow {
     private Vector2 velocity;
     private Circle arrowBound;
     private static float CIRCLE_RADIUS_BOUND = 16;
+    private static float BOUND_POINT_FROM_CENTER_TO_HEAD = 16;
     private static float ARROW_VELOCITY = 200;
     private float velocityX;
     private float velocityY;
+    private float arrowBoundDeltaX;
+    private float arrowBoundDeltaY;
     private Vector2 arrowBoundPosition;
 
     public Arrow(float x, float y, float arrowDirectionDegree, float arrowSpriteAngle) {
@@ -30,16 +32,13 @@ public class Arrow {
                 (float) (ARROW_VELOCITY * Math.cos(Math.toRadians(arrowDirectionDegree)));
         velocityY =
                 (float) (ARROW_VELOCITY * Math.sin(Math.toRadians(arrowDirectionDegree)));
+        arrowBoundDeltaX =
+                (float) (BOUND_POINT_FROM_CENTER_TO_HEAD * Math.cos(Math.toRadians(arrowDirectionDegree)));
+        arrowBoundDeltaY =
+                (float) (BOUND_POINT_FROM_CENTER_TO_HEAD * Math.sin(Math.toRadians(arrowDirectionDegree)));
 
-//        float arrowHeadPositionX =
-//                (float) ((ARROW_VELOCITY * Math.cos(Math.toRadians(arrowDirectionDegree)))
-//                        * Gdx.graphics.getDeltaTime();
-//        float arrowHeadPositionY =
-//                (float) (ARROW_VELOCITY * Math.sin(Math.toRadians(arrowDirectionDegree)))
-//                        * Gdx.graphics.getDeltaTime();
-
-//        velocity = new Vector2(velocityX, velocityY);
         arrowBoundPosition = new Vector2(arrowPosition.x, arrowPosition.y + getHeight() / 2);
+        arrowBoundPosition.sub(arrowBoundDeltaX, arrowBoundDeltaY);
         arrowBound = new Circle(arrowBoundPosition, CIRCLE_RADIUS_BOUND);
         this.arrowSpriteAngle = arrowSpriteAngle;
     }

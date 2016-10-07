@@ -17,10 +17,10 @@ public class AssetsLoader {
     private static final int FRAME_COLS_LEAF = 7;
     private static final int FRAME_ROWS_LEAF = 1;
 
-
     // PlatStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
+
     // // Enemy
     public static HashMap<String, Sprite> enemiesSprite;
     public static String BOAR_SPRITE = "Boar";
@@ -56,7 +56,6 @@ public class AssetsLoader {
     public static Sprite monsterImageSprite;
     public static Texture facebookImageTexture;
     public static Sprite facebookImageSprite;
-
 
     public static void load() {
         enemiesSprite = new HashMap<String, Sprite>();
@@ -131,15 +130,12 @@ public class AssetsLoader {
             }
         }
         leafAnimation = new Animation(0.1f, leafFrames);
-
-
     }
 
     private static void disposeAssetsTitleScreen() {
         introImageTexture.dispose();
         touchToStartTexture.dispose();
         leafImageTexture.dispose();
-
     }
 
     private static void loadAssetsMainMenuScreen() {
@@ -147,6 +143,7 @@ public class AssetsLoader {
         mainMenuImageTexture = new Texture(Gdx.files.internal("background/main_menu_background.png"));
         mainMenuImageSprite = new Sprite(mainMenuImageTexture);
         mainMenuImageSprite.flip(false, true);
+
         //MainMenuScreen // set icon
         highScoreImageTexture = new Texture(Gdx.files.internal("icon/high_score_icon.png"));
         highScoreImageSprite = new Sprite(highScoreImageTexture);
