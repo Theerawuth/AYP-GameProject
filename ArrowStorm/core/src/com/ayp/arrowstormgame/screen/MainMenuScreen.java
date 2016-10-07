@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * Created by Theerawuth on 9/23/2016.
  */
 public class MainMenuScreen implements Screen  {
+
     private static float MAIN_MENU_BG_WIDTH = 480;
     private static float MAIN_MENU_BG_HEIGHT = 800;
 
