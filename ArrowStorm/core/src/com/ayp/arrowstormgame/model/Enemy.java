@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame.model;
 
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -8,33 +9,27 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Enemy {
 
+    private Circle enemyBound;
     private Vector2 position;
-    private float width;
-    private float height;
+    private float radius;
 
-    public Enemy(float x, float y, float width, float height) {
+    public Enemy(float x, float y, float radius) {
         position = new Vector2(x, y);
-        this.height = height;
-        this.width = width;
+        this.radius = radius;
+        enemyBound = new Circle(position, radius);
     }
 
     public Vector2 getPosition() {
         return position;
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
-    }
 
     public void move(float delta) {
         position.y += 100 * delta;
+        enemyBound.setPosition(position);
     }
 
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
+    public Circle getEnemyBound() {
+        return enemyBound;
     }
 }

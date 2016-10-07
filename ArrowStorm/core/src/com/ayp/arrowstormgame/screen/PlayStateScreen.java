@@ -12,12 +12,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.async.ThreadUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -36,10 +40,8 @@ public class PlayStateScreen implements Screen {
     private Array<Enemy> enemies;
 
     private int scaleArrowX;
-
     private int scaleArrowY;
-    private float arrowVelocity = 200;
-    private long shootDelay = 500000000;
+    private long shootDelay = 100000000;
     private long lastArrow;
     private long lastTouched;
     private Sprite arrowSprite;
@@ -75,18 +77,21 @@ public class PlayStateScreen implements Screen {
         drawBackground();
         game.shapeRenderer.end();
 
-        game.spriteBatch.begin();
-        drawArrow();
-        drawEnemy();
-        game.spriteBatch.end();
-
+        updateCollision(delta);
         handleTouchEvent();
         updateEnemy(delta);
         updateArrow(delta);
 
+        game.spriteBatch.begin();
+        game.spriteBatch.enableBlending();
+        drawArrow();
+        drawEnemy();
+        game.spriteBatch.disableBlending();
+        game.spriteBatch.end();
+
+
         elapseTime += delta;
-        if (elapseTime > 3.0) {
-            Gdx.app.log(TAG, "Enemy should create at elapseTime: " + elapseTime);
+        if (elapseTime > 0.2f) {
             randomSpawnAnEnemyEveryThreeSecond();
             elapseTime = 0;
         }
@@ -120,30 +125,47 @@ public class PlayStateScreen implements Screen {
 
     private void drawArrow() {
         for (Arrow arrow : arrows) {
-            game.spriteBatch.draw(
-                    arrowSprite,
-                    arrow.getPosition().x - arrow.getWidth() / 2,
-                    arrow.getPosition().y,
+//            game.spriteBatch.draw(
+//                    arrowSprite,
+//                    arrow.getArrowPosition().x - arrow.getWidth() / 2,
+//                    arrow.getArrowPosition().y,
+//                    arrow.getWidth() / 2,
+//                    arrow.getHeight() / 2,
+//                    arrow.getWidth(),
+//                    arrow.getHeight(),
+//                    scaleArrowX,
+//                    scaleArrowY,
+//                    arrow.getArrowSpriteAngle()
+//            );
+            game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            game.shapeRenderer.setColor(0.4f, 0.4f, 0, 1);
+            Circle circle = arrow.getArrowBound();
+            game.shapeRenderer.circle(circle.x, circle.y, circle.radius);
+            game.shapeRenderer.setColor(0.7f, 0.2f, 0.1f, 0.3f);
+            game.shapeRenderer.rect(
+                    arrow.getArrowPosition().x - arrow.getWidth() / 2,
+                    arrow.getArrowPosition().y,
                     arrow.getWidth() / 2,
                     arrow.getHeight() / 2,
                     arrow.getWidth(),
                     arrow.getHeight(),
                     scaleArrowX,
                     scaleArrowY,
-                    arrow.getAngle()
+                    arrow.getArrowSpriteAngle()
             );
-        }
 
+            game.shapeRenderer.end();
+        }
     }
 
     private void updateArrow(float delta) {
         Iterator<Arrow> arrowIterator = arrows.iterator();
         while (arrowIterator.hasNext()) {
             Arrow arrow = arrowIterator.next();
-            arrow.setPosition(arrow.getPosition().sub(arrow.getVelocity()));
-            if (arrow.getPosition().x < 0
-                    || arrow.getPosition().x > ArrowStormGame.GAME_WIDTH
-                    || arrow.getPosition().y < 0) {
+            arrow.move(delta);
+            if (arrow.getArrowPosition().x < 0
+                    || arrow.getArrowPosition().x > ArrowStormGame.GAME_WIDTH
+                    || arrow.getArrowPosition().y < 0) {
                 arrowIterator.remove();
             }
         }
@@ -166,12 +188,11 @@ public class PlayStateScreen implements Screen {
         );
     }
 
-    private void fireArrow(float arrowAngle, float velocityX, float velocityY) {
+    private void fireArrow(float arrowAngle, float arrowDirectionInDegree) {
         Arrow arrow = new Arrow(
                 Player.SHOOTING_POINT_X,
                 Player.SHOOTING_POINT_Y,
-                velocityX,
-                velocityY,
+                arrowDirectionInDegree,
                 arrowAngle
         );
         arrows.add(arrow);
@@ -195,23 +216,12 @@ public class PlayStateScreen implements Screen {
 
             float arrowAngle = angleDegree - 90;
 
-            float arrowDirectionDegree = arrowAngle + 90;
-            Gdx.app.log(TAG, "arrow Dir: " + arrowDirectionDegree);
+            float arrowDirectionAngle = arrowAngle + 90;
 
-
-            Gdx.app.log(TAG, "angle: " + arrowAngle);
-            float velocityX =
-                    (float) (arrowVelocity * Math.cos(Math.toRadians(arrowDirectionDegree)))
-                            * Gdx.graphics.getDeltaTime();
-            float velocityY =
-                    (float) (arrowVelocity * Math.sin(Math.toRadians(arrowDirectionDegree)))
-                            * Gdx.graphics.getDeltaTime();
-
-            Gdx.app.log(TAG, "veloX: " + velocityX + " , veloY: " + velocityY);
             if (lastArrow == PREPARE_SHOOT) {
-                fireArrow(arrowAngle, velocityX, velocityY);
+                fireArrow(arrowAngle, arrowDirectionAngle);
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
-                fireArrow(arrowAngle, velocityX, velocityY);
+                fireArrow(arrowAngle, arrowDirectionAngle);
             }
         } else {
             if (TimeUtils.nanoTime() - lastTouched > shootDelay && TimeUtils.nanoTime() - lastArrow > shootDelay) {
@@ -251,6 +261,13 @@ public class PlayStateScreen implements Screen {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Boar) {
                 game.spriteBatch.draw(enemySprites.get("Boar"), enemy.getPosition().x, enemy.getPosition().y);
+                game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                game.shapeRenderer.setColor(1, 0.4f, 0.4f, 1);
+                Circle circle = enemy.getEnemyBound();
+                game.shapeRenderer.circle(enemy.getPosition().x, enemy.getPosition().y, 10);
+                game.shapeRenderer.setColor(1, 0.4f, 1, 0.3f);
+                game.shapeRenderer.circle(circle.x, circle.y, circle.radius);
+                game.shapeRenderer.end();
             } else if (enemy instanceof Tiger) {
                 game.spriteBatch.draw(enemySprites.get("Tiger"), enemy.getPosition().x, enemy.getPosition().y);
             }
@@ -262,7 +279,7 @@ public class PlayStateScreen implements Screen {
         while (enemyIterator.hasNext()) {
             Enemy enemy = enemyIterator.next();
             enemy.move(delta);
-            if (enemy.getPosition().x - enemy.getWidth() < 0
+            if (enemy.getPosition().x - enemy.getEnemyBound().radius < 0
                     || enemy.getPosition().x > ArrowStormGame.GAME_WIDTH
                     || enemy.getPosition().y > ArrowStormGame.GAME_HEIGHT - Player.PLAYER_HEIGHT) {
                 enemyIterator.remove();
@@ -276,5 +293,57 @@ public class PlayStateScreen implements Screen {
         // 64 now is temp value for enemy width
         float originX = random.nextFloat() * (ArrowStormGame.GAME_WIDTH - 64);
         spawnEnemy(originX, 0, EnemyType.BOAR);
+    }
+
+    private void updateCollision(float delta) {
+        int enemiesSize = enemies.size;
+        int arrowSize = arrows.size;
+        ArrayList<Integer> preparedRemovedArrowIndexes = new ArrayList<Integer>();
+        ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
+        for (int i = 0; i < enemiesSize; i++) {
+            Enemy enemy = enemies.get(i);
+            for (int j = 0; j < arrowSize; j++) {
+                Arrow arrow = arrows.get(j);
+                if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
+                    preparedRemovedEnemyIndexes.add(i);
+                    preparedRemovedArrowIndexes.add(j);
+                }
+            }
+        }
+
+        ArrayList<Integer> removedEnemyIndexes = removeDuplicateIndex(preparedRemovedEnemyIndexes);
+        ArrayList<Integer> removedArrowIndexes = removeDuplicateIndex(preparedRemovedArrowIndexes);
+        int removedEnemyIndexesSize = removedEnemyIndexes.size();
+        int removedArrowIndexesSize = removedArrowIndexes.size();
+
+        for (int i = removedEnemyIndexesSize; i > 0; i--) {
+            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
+        }
+
+        for (int i = removedArrowIndexesSize; i > 0; i--) {
+            arrows.removeIndex(removedArrowIndexes.get(i - 1));
+        }
+
+    }
+
+    private ArrayList<Integer> removeDuplicateIndex(ArrayList<Integer> list) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        HashSet<Integer> set = new HashSet<Integer>();
+        for (Integer item : list) {
+            if (!set.contains(item)){
+                result.add(item);
+                set.add(item);
+            }
+        }
+        return result;
+    }
+
+    private boolean isCollision(Enemy enemy) {
+        Iterator<Arrow> arrowIterator = arrows.iterator();
+        while (arrowIterator.hasNext()) {
+            Arrow arrow = arrowIterator.next();
+            return Intersector.overlaps(enemy.getEnemyBound(), arrow.getArrowBound());
+        }
+        return false;
     }
 }

@@ -1,32 +1,71 @@
 package com.ayp.arrowstormgame.model;
 
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Theerawuth on 9/23/2016.
  */
 public class Arrow {
-    private Vector2 position;
+    private static float accuracy;
+    private static float hit;
+    private static float miss;
+    private Vector2 arrowPosition;
     private float width = 32;
     private float height = 64;
-    private float angle;
+    private float arrowSpriteAngle;
     private Vector2 velocity;
-    private Rectangle boundingRectangle;
+    private Circle arrowBound;
+    private static float CIRCLE_RADIUS_BOUND = 16;
+    private static float ARROW_VELOCITY = 200;
+    private float velocityX;
+    private float velocityY;
+    private Vector2 arrowBoundPosition;
 
-    public Arrow(float x, float y, float velocityX, float velocityY, float angle) {
-        position = new Vector2(x, y);
-        velocity = new Vector2(velocityX, velocityY);
-        boundingRectangle = new Rectangle();
-        this.angle = angle;
+    public Arrow(float x, float y, float arrowDirectionDegree, float arrowSpriteAngle) {
+        arrowPosition = new Vector2(x, y);
+        velocityX =
+                (float) (ARROW_VELOCITY * Math.cos(Math.toRadians(arrowDirectionDegree)));
+        velocityY =
+                (float) (ARROW_VELOCITY * Math.sin(Math.toRadians(arrowDirectionDegree)));
+
+//        float arrowHeadPositionX =
+//                (float) ((ARROW_VELOCITY * Math.cos(Math.toRadians(arrowDirectionDegree)))
+//                        * Gdx.graphics.getDeltaTime();
+//        float arrowHeadPositionY =
+//                (float) (ARROW_VELOCITY * Math.sin(Math.toRadians(arrowDirectionDegree)))
+//                        * Gdx.graphics.getDeltaTime();
+
+//        velocity = new Vector2(velocityX, velocityY);
+        arrowBoundPosition = new Vector2(arrowPosition.x, arrowPosition.y + getHeight() / 2);
+        arrowBound = new Circle(arrowBoundPosition, CIRCLE_RADIUS_BOUND);
+        this.arrowSpriteAngle = arrowSpriteAngle;
     }
 
-    public Vector2 getPosition() {
-        return position;
+    public void move(float delta) {
+        velocity = new Vector2(velocityX * delta, velocityY * delta);
+        setArrowPosition(arrowPosition.sub(velocity));
+        arrowBound.setPosition(arrowPosition);
+        setArrowBoundPosition(arrowBoundPosition.sub(velocity));
+        arrowBound.set(arrowBoundPosition, CIRCLE_RADIUS_BOUND);
     }
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
+    public Vector2 getArrowBoundPosition() {
+        return arrowBoundPosition;
+    }
+
+    public void setArrowBoundPosition(Vector2 arrowBoundPosition) {
+        this.arrowBoundPosition = arrowBoundPosition;
+    }
+
+    public Vector2 getArrowPosition() {
+        return arrowPosition;
+    }
+
+    public void setArrowPosition(Vector2 arrowPosition) {
+        this.arrowPosition = arrowPosition;
     }
 
     public float getWidth() {
@@ -45,12 +84,12 @@ public class Arrow {
         this.height = height;
     }
 
-    public float getAngle() {
-        return angle;
+    public float getArrowSpriteAngle() {
+        return arrowSpriteAngle;
     }
 
-    public void setAngle(float angle) {
-        this.angle = angle;
+    public void setArrowSpriteAngle(float arrowSpriteAngle) {
+        this.arrowSpriteAngle = arrowSpriteAngle;
     }
 
     public Vector2 getVelocity() {
@@ -61,11 +100,39 @@ public class Arrow {
         this.velocity = velocity;
     }
 
-    public Rectangle getBoundingRectangle() {
-        return boundingRectangle;
+    public void setArrowBound(Circle arrowBound) {
+        this.arrowBound = arrowBound;
     }
 
-    public void setBoundingRectangle(Rectangle boundingRectangle) {
-        this.boundingRectangle = boundingRectangle;
+    public Circle getArrowBound() {
+        return arrowBound;
+    }
+
+    public boolean isHit(Enemy enemy) {
+        return Intersector.overlaps(enemy.getEnemyBound(), this.getArrowBound());
+    }
+
+    public static float getAccuracy() {
+        return accuracy;
+    }
+
+    public static void setAccuracy(float accuracy) {
+        Arrow.accuracy = accuracy;
+    }
+
+    public static float getHit() {
+        return hit;
+    }
+
+    public static void setHit(float hit) {
+        Arrow.hit = hit;
+    }
+
+    public static float getMiss() {
+        return miss;
+    }
+
+    public static void setMiss(float miss) {
+        Arrow.miss = miss;
     }
 }
