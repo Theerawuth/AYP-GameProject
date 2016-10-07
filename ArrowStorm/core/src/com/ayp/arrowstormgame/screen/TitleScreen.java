@@ -4,25 +4,47 @@ import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.async.ThreadUtils;
+
+import java.util.Iterator;
 
 /**
  * Created by Theerawuth on 9/23/2016.
  */
 public class TitleScreen implements Screen {
     final ArrowStormGame game;
+
     private Sprite introImageSprite;
+    private Sprite touchToStartSprite;
+    //animation leaf
+    private Animation leafAnimation;
+    private Array<Rectangle> leafDrops;
+    private TextureRegion currentFrameLeaf;
+
     private float elapsedTime;
+    long lastDropTime;
 
     private static float INTRO_BG_WIDTH = 480;
     private static float INTRO_BG_HEIGHT = 800;
+    private static float TOUCH_TO_START_WIDTH = 300;
+    private static float TOUCH_TO_START_HEIGHT = 60;
 
     public TitleScreen(final ArrowStormGame game) {
         this.game = game;
         introImageSprite = AssetsLoader.introImageSprite;
+        touchToStartSprite = AssetsLoader.touchToStartSprite;
+        leafAnimation = AssetsLoader.leafAnimation;
+
+        // create Array leafDrops
+        leafDrops = new Array<Rectangle>();
+
+        lastDropTime = TimeUtils.nanoTime();
     }
 
     @Override
@@ -33,14 +55,38 @@ public class TitleScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        game.spriteBatch.begin();
-        game.spriteBatch.draw(introImageSprite, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
-        game.spriteBatch.end();
+        game.spriteBatch.setProjectionMatrix(game.camera.combined);
 
         elapsedTime += delta;
 
+        currentFrameLeaf = leafAnimation.getKeyFrame(elapsedTime, true);
+
+        game.spriteBatch.begin();
+        game.spriteBatch.draw(introImageSprite, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
+        game.spriteBatch.draw(touchToStartSprite, 85, 600, TOUCH_TO_START_WIDTH, TOUCH_TO_START_HEIGHT);
+        for (Rectangle leafDrop : leafDrops) {
+            game.spriteBatch.draw(currentFrameLeaf, leafDrop.x, leafDrop.y);
+        }
+        game.spriteBatch.end();
+
+        //check time for set start leaf drop and title change
+        if (TimeUtils.nanoTime() - lastDropTime > 100000000) {
+            spawnLeafDrop();
+        }
+
+
+        //set motion leafDrop
+        Iterator<Rectangle> iteratorLeaf = leafDrops.iterator();
+        while (iteratorLeaf.hasNext()) {
+            Rectangle leafDrop = iteratorLeaf.next();
+            leafDrop.y += 200 * Gdx.graphics.getDeltaTime();
+            if (leafDrop.y > ArrowStormGame.GAME_HEIGHT + leafDrop.width) {
+                iteratorLeaf.remove();
+            }
+        }
+
         //check touchscreen
-        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
+        if (Gdx.input.isTouched() && elapsedTime > 1.0) {
             //change display to GameScreen Display
             game.setScreen(new MainMenuScreen(game));
             dispose();
@@ -72,4 +118,11 @@ public class TitleScreen implements Screen {
 
     }
 
+    private void spawnLeafDrop() {
+        Rectangle leafDrop = new Rectangle();
+        leafDrop.x = MathUtils.random(0, 480 - 32);
+        leafDrop.y = 0;
+        leafDrops.add(leafDrop);
+        lastDropTime = TimeUtils.nanoTime();
+    }
 }
