@@ -34,13 +34,17 @@ public class AssetsLoader {
     // MainMenuScreen
     public static Texture mainMenuImageTexture;
     public static Sprite mainMenuImageSprite;
-
-
-    // SelectStageScreen
+    // MainMenuScreen // set icon
+    public static Texture highScoreImageTexture;
+    public static Sprite highScoreImageSprite;
+    public static Texture upGradeImageTexture;
+    public static Sprite upGradeImageSprite;
     public static Texture battleImageTexture;
-    public static Texture stageImageTexture;
     public static Sprite battleImageSprite;
-    public static Sprite stageImageSprite;
+    public static Texture monsterImageTexture;
+    public static Sprite monsterImageSprite;
+    public static Texture facebookImageTexture;
+    public static Sprite facebookImageSprite;
 
 
     public static void load() {
@@ -63,8 +67,8 @@ public class AssetsLoader {
         leafImageTexture = new Texture(Gdx.files.internal("anim/anim_leaf.png"));
         TextureRegion[][] leafs = TextureRegion.split(
                 leafImageTexture,
-                leafImageTexture.getWidth()/FRAME_COLS_LEAF,
-                leafImageTexture.getHeight()/FRAME_ROWS_LEAF
+                leafImageTexture.getWidth() / FRAME_COLS_LEAF,
+                leafImageTexture.getHeight() / FRAME_ROWS_LEAF
         );
         leafFrames = new TextureRegion[FRAME_COLS_LEAF * FRAME_ROWS_LEAF];
         int indexLeaf = 0;
@@ -79,16 +83,28 @@ public class AssetsLoader {
         mainMenuImageTexture = new Texture(Gdx.files.internal("background/main_menu_background.png"));
         mainMenuImageSprite = new Sprite(mainMenuImageTexture);
         mainMenuImageSprite.flip(false, true);
+        //MainMenuScreen // set icon
+        highScoreImageTexture = new Texture(Gdx.files.internal("icon/high_score_icon.png"));
+        highScoreImageSprite = new Sprite(highScoreImageTexture);
+        highScoreImageSprite.flip(false, true);
 
-        // SelectStageScreen
-        battleImageTexture= new Texture(Gdx.files.internal("icon/battle_icon.png"));
+        upGradeImageTexture = new Texture(Gdx.files.internal("icon/upgrade_icon.png"));
+        upGradeImageSprite = new Sprite(upGradeImageTexture);
+        upGradeImageSprite.flip(false, true);
+
+        battleImageTexture = new Texture(Gdx.files.internal("icon/battle_icon.png"));
         battleImageSprite = new Sprite(battleImageTexture);
         battleImageSprite.flip(false, true);
-        stageImageTexture = new Texture(Gdx.files.internal("icon/stage_icon.png"));
-        stageImageSprite = new Sprite(stageImageTexture);
-        stageImageSprite.flip(false, true);
 
+        monsterImageTexture = new Texture(Gdx.files.internal("icon/monster_icon.png"));
+        monsterImageSprite = new Sprite(monsterImageTexture);
+        monsterImageSprite.flip(false, true);
+
+        facebookImageTexture = new Texture(Gdx.files.internal("icon/facebook_icon.png"));
+        facebookImageSprite = new Sprite(facebookImageTexture);
+        facebookImageSprite.flip(false, true);
     }
+
 
     public static void dispose() {
         // PlatStateScreen
@@ -97,15 +113,15 @@ public class AssetsLoader {
         // TitleScreen
         introImageTexture.dispose();
         touchToStartTexture.dispose();
-
-        //TitleScreen //set animation leaf
         leafImageTexture.dispose();
 
         // MainMenuScreen
         mainMenuImageTexture.dispose();
-
-        // SelectStageScreen
+        highScoreImageTexture.dispose();
+        upGradeImageTexture.dispose();
         battleImageTexture.dispose();
-        stageImageTexture.dispose();
+        monsterImageTexture.dispose();
+        facebookImageTexture.dispose();
+
     }
 }

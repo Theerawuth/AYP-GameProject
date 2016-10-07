@@ -11,27 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * Created by Theerawuth on 9/23/2016.
  */
 public class SelectStageScreen implements Screen {
-    private static final float BTN_STAGE_POS_X = 72;
-    private static final float BTN_STAGE_POS_Y = 72;
-    private static final float BTN_STAGE_WIDTH = 342;
-    private static final float BTN_STAGE_HEIGHT = 162;
-
-    private static final float BTN_BATTLE_POS_X = 342;
-    private static final float BTN_BATTLE_POS_Y = 630;
-    private static final float BTN_BATTLE_WIDTH = 100;
-    private static final float BTN_BATTLE_HEIGHT = 100;
 
     private final ArrowStormGame game;
-    private Sprite battleImageSprite;
-    private Sprite stageImageSprite;
 
     private float elapsedTime;
 
     public SelectStageScreen(final ArrowStormGame game) {
         this.game = game;
-
-        battleImageSprite = AssetsLoader.battleImageSprite;
-        stageImageSprite = AssetsLoader.stageImageSprite;
     }
 
     @Override
@@ -46,8 +32,6 @@ public class SelectStageScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.spriteBatch.begin();
-        game.spriteBatch.draw(battleImageSprite, BTN_BATTLE_POS_X, BTN_BATTLE_POS_Y, BTN_BATTLE_WIDTH, BTN_BATTLE_HEIGHT);
-        game.spriteBatch.draw(stageImageSprite, BTN_STAGE_POS_X, BTN_STAGE_POS_Y, BTN_STAGE_WIDTH, BTN_STAGE_HEIGHT);
         game.spriteBatch.end();
         elapsedTime += delta;
 
