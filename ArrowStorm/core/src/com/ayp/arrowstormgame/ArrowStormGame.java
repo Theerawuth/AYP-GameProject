@@ -1,7 +1,6 @@
 package com.ayp.arrowstormgame;
 
 import com.ayp.arrowstormgame.helper.AssetsLoader;
-import com.ayp.arrowstormgame.screen.PlayStateScreen;
 import com.ayp.arrowstormgame.screen.TitleScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;

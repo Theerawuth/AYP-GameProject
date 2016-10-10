@@ -5,17 +5,11 @@ import com.ayp.arrowstormgame.game_manager.GamePlayManager;
 import com.ayp.arrowstormgame.game_manager.GamePlayRenderer;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
-import com.ayp.arrowstormgame.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * Created by Theerawuth on 9/23/2016.

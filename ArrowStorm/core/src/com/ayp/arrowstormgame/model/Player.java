@@ -1,8 +1,6 @@
 package com.ayp.arrowstormgame.model;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Theerawuth on 9/23/2016.

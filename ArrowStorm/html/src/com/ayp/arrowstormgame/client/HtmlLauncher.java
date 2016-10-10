@@ -1,9 +1,9 @@
 package com.ayp.arrowstormgame.client;
 
+import com.ayp.arrowstormgame.ArrowStormGame;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.ayp.arrowstormgame.ArrowStormGame;
 
 public class HtmlLauncher extends GwtApplication {
 

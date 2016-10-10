@@ -8,13 +8,11 @@ import com.ayp.arrowstormgame.model.Player;
 import com.ayp.arrowstormgame.model.enemiespack.Boar;
 import com.ayp.arrowstormgame.model.enemiespack.Tiger;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
@@ -27,7 +25,7 @@ public class GamePlayManager {
     private final ArrowStormGame game;
     private long lastArrow;
     private long lastTouched;
-    private long shootDelay = 600000000;
+    private long shootDelay = 100000000;
     private static int PREPARE_SHOOT = -1;
     private Vector3 touchPosition;
 
@@ -69,15 +67,20 @@ public class GamePlayManager {
     }
 
     public void updateArrow(float delta, Array<Arrow> arrows) {
-        Iterator<Arrow> arrowIterator = arrows.iterator();
-        while (arrowIterator.hasNext()) {
-            Arrow arrow = arrowIterator.next();
+        ArrayList<Integer> preparedRemovedArrowIndexes = new ArrayList<Integer>();
+        for (int i = 0; i < arrows.size; i++) {
+            Arrow arrow = arrows.get(i);
             arrow.move(delta);
             if (arrow.getArrowPosition().x < 0
                     || arrow.getArrowPosition().x > game.GAME_WIDTH
                     || arrow.getArrowPosition().y < 0) {
-                arrowIterator.remove();
+                preparedRemovedArrowIndexes.add(i);
             }
+        }
+        ArrayList<Integer> removedArrowIndexes = removeDuplicateIndex(preparedRemovedArrowIndexes);
+        int removedArrowIndexesSize = removedArrowIndexes.size();
+        for (int i = removedArrowIndexesSize; i > 0; i--) {
+            arrows.removeIndex(removedArrowIndexes.get(i - 1));
         }
     }
 
@@ -93,26 +96,31 @@ public class GamePlayManager {
     }
 
     public void updateEnemy(float delta, Array<Enemy> enemies) {
-        Iterator<Enemy> enemyIterator = enemies.iterator();
-        while (enemyIterator.hasNext()) {
-            Enemy enemy = enemyIterator.next();
+        ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
+        for (int i = 0; i < enemies.size; i++) {
+            Enemy enemy = enemies.get(i);
             enemy.move(delta);
             if (enemy.getPosition().x - enemy.getEnemyBound().radius < 0
                     || enemy.getPosition().x > game.GAME_WIDTH
                     || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT) {
-                enemyIterator.remove();
+                preparedRemovedEnemyIndexes.add(i);
             }
+        }
+        ArrayList<Integer> removedEnemyIndexes = removeDuplicateIndex(preparedRemovedEnemyIndexes);
+        int removedEnemyIndexesSize = removedEnemyIndexes.size();
+        for (int i = removedEnemyIndexesSize; i > 0; i--) {
+            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
         }
     }
 
     public void updateCollision(float delta, Array<Enemy> enemies, Array<Arrow> arrows) {
         int enemiesSize = enemies.size;
-        int arrowSize = arrows.size;
+        int arrowsSize = arrows.size;
         ArrayList<Integer> preparedRemovedArrowIndexes = new ArrayList<Integer>();
         ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
         for (int i = 0; i < enemiesSize; i++) {
             Enemy enemy = enemies.get(i);
-            for (int j = 0; j < arrowSize; j++) {
+            for (int j = 0; j < arrowsSize; j++) {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
                     preparedRemovedEnemyIndexes.add(i);
@@ -134,7 +142,6 @@ public class GamePlayManager {
             arrows.removeIndex(removedArrowIndexes.get(i - 1));
         }
     }
-
 
     public void randomSpawnAnWithFixedTime(Array<Enemy> enemies) {
         Random random = new Random();
