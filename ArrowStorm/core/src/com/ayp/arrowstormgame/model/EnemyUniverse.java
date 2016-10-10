@@ -5,8 +5,8 @@ package com.ayp.arrowstormgame.model;
  */
 
 public class EnemyUniverse {
-    public static enum EnemyType {
+    public enum EnemyType {
         BOAR,
-        TIGER;
+        TIGER
     }
 }

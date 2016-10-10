@@ -13,9 +13,7 @@ public class ArrowStormGame extends Game {
     public static final float GAME_HEIGHT = 800;
     public SpriteBatch spriteBatch;
     public OrthographicCamera camera;
-
     public ShapeRenderer shapeRenderer;
-
 
     @Override
     public void create() {

@@ -89,6 +89,7 @@ public class AssetsLoader {
         boarTexture = new Texture(Gdx.files.internal("enemies_pack/Boar.png"));
         boarSprite = new Sprite(boarTexture);
         boarSprite.flip(false, true);
+        boarSprite.setOrigin(boarSprite.getWidth() / 2, boarSprite.getHeight() / 2);
 
         tigerTexture = new Texture(Gdx.files.internal("enemies_pack/Tiger.png"));
         tigerSprite = new Sprite(tigerTexture);
@@ -175,6 +176,5 @@ public class AssetsLoader {
         battleImageTexture.dispose();
         monsterImageTexture.dispose();
         facebookImageTexture.dispose();
-
     }
 }

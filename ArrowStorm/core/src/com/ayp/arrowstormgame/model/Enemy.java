@@ -11,22 +11,25 @@ public abstract class Enemy {
 
     private Circle enemyBound;
     private Vector2 position;
-    private float radius;
+    private Vector2 boundPosition;
 
     public Enemy(float x, float y, float radius) {
         position = new Vector2(x, y);
-        this.radius = radius;
-        enemyBound = new Circle(position, radius);
+        // to set origin point of bound at center of sprite when it has been drawn
+        boundPosition = new Vector2(x + radius, y + radius);
+        enemyBound = new Circle(boundPosition, radius);
     }
 
     public Vector2 getPosition() {
         return position;
     }
 
-
     public void move(float delta) {
+        // Moving of square sprite
         position.y += 100 * delta;
-        enemyBound.setPosition(position);
+        // Moving of circle bounding
+        boundPosition.y += 100 * delta;
+        enemyBound.setPosition(boundPosition);
     }
 
     public Circle getEnemyBound() {

@@ -14,4 +14,5 @@ public class Player {
     public static final float POSITION_Y = ArrowStormGame.GAME_HEIGHT * 3 / 4;
     public static final float PLAYER_WIDTH = ArrowStormGame.GAME_WIDTH;
     public static final float PLAYER_HEIGHT = ArrowStormGame.GAME_HEIGHT / 4;
+    public static float ATTACK_SPEED = 600000000;
 }
