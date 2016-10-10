@@ -2,11 +2,22 @@ package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.model.Arrow;
+import com.ayp.arrowstormgame.model.Enemy;
+import com.ayp.arrowstormgame.model.EnemyUniverse;
 import com.ayp.arrowstormgame.model.Player;
+import com.ayp.arrowstormgame.model.enemiespack.Boar;
+import com.ayp.arrowstormgame.model.enemiespack.Tiger;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
+import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
 
 /**
  * Created by Tanaphon on 10/10/2016.
@@ -57,6 +68,19 @@ public class GamePlayManager {
         }
     }
 
+    public void updateArrow(float delta, Array<Arrow> arrows) {
+        Iterator<Arrow> arrowIterator = arrows.iterator();
+        while (arrowIterator.hasNext()) {
+            Arrow arrow = arrowIterator.next();
+            arrow.move(delta);
+            if (arrow.getArrowPosition().x < 0
+                    || arrow.getArrowPosition().x > game.GAME_WIDTH
+                    || arrow.getArrowPosition().y < 0) {
+                arrowIterator.remove();
+            }
+        }
+    }
+
     private void shootArrow(float arrowAngle, float arrowDirectionInDegree, Array<Arrow> arrows) {
         Arrow arrow = new Arrow(
                 Player.SHOOTING_POINT_X,
@@ -66,5 +90,88 @@ public class GamePlayManager {
         );
         arrows.add(arrow);
         lastArrow = TimeUtils.nanoTime();
+    }
+
+    public void updateEnemy(float delta, Array<Enemy> enemies) {
+        Iterator<Enemy> enemyIterator = enemies.iterator();
+        while (enemyIterator.hasNext()) {
+            Enemy enemy = enemyIterator.next();
+            enemy.move(delta);
+            if (enemy.getPosition().x - enemy.getEnemyBound().radius < 0
+                    || enemy.getPosition().x > game.GAME_WIDTH
+                    || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT) {
+                enemyIterator.remove();
+            }
+        }
+    }
+
+    public void updateCollision(float delta, Array<Enemy> enemies, Array<Arrow> arrows) {
+        int enemiesSize = enemies.size;
+        int arrowSize = arrows.size;
+        ArrayList<Integer> preparedRemovedArrowIndexes = new ArrayList<Integer>();
+        ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
+        for (int i = 0; i < enemiesSize; i++) {
+            Enemy enemy = enemies.get(i);
+            for (int j = 0; j < arrowSize; j++) {
+                Arrow arrow = arrows.get(j);
+                if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
+                    preparedRemovedEnemyIndexes.add(i);
+                    preparedRemovedArrowIndexes.add(j);
+                }
+            }
+        }
+
+        ArrayList<Integer> removedEnemyIndexes = removeDuplicateIndex(preparedRemovedEnemyIndexes);
+        ArrayList<Integer> removedArrowIndexes = removeDuplicateIndex(preparedRemovedArrowIndexes);
+        int removedEnemyIndexesSize = removedEnemyIndexes.size();
+        int removedArrowIndexesSize = removedArrowIndexes.size();
+
+        for (int i = removedEnemyIndexesSize; i > 0; i--) {
+            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
+        }
+
+        for (int i = removedArrowIndexesSize; i > 0; i--) {
+            arrows.removeIndex(removedArrowIndexes.get(i - 1));
+        }
+    }
+
+
+    public void randomSpawnAnWithFixedTime(Array<Enemy> enemies) {
+        Random random = new Random();
+        // 64 now is temp value for enemy width
+        float originX = random.nextFloat() * (game.GAME_WIDTH - 64);
+
+        if (originX > game.GAME_WIDTH / 2) {
+            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.BOAR, enemies);
+        } else {
+            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.TIGER, enemies);
+        }
+    }
+
+    // Spawn an enemy.
+    public void spawnEnemy(float originX, float originY, EnemyUniverse.EnemyType enemyType, Array<Enemy> enemies) {
+        spawnByType(originX, originY, enemyType, enemies);
+    }
+
+    // Spawn enemies.
+    public void spawnEnemy(float originX, float originY, EnemyUniverse.EnemyType enemyType, int number,
+                           float deltaX, float deltaY, long spawnDelay, Array<Enemy> enemies) {
+        spawnByType(originX, originY, enemyType, enemies);
+    }
+
+
+    public void spawnByType(float originX, float originY, EnemyUniverse.EnemyType enemyType, Array<Enemy> enemies) {
+        switch (enemyType) {
+            case BOAR:
+                Enemy enemyBoar = new Boar(originX, originY);
+                enemies.add(enemyBoar);
+                break;
+            case TIGER:
+                Enemy enemyTiger = new Tiger(originX, originY);
+                enemies.add(enemyTiger);
+                return;
+            default:
+                break;
+        }
     }
 }
