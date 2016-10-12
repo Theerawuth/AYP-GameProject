@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
@@ -122,7 +121,6 @@ public class PlayStateScreen implements Screen {
     public void dispose() {
 
     }
-
     private void drawArrow() {
         for (Arrow arrow : arrows) {
 //            game.spriteBatch.draw(

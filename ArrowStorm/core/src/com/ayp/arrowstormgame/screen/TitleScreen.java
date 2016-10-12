@@ -2,8 +2,10 @@ package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.helper.MusicManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,6 +24,8 @@ public class TitleScreen implements Screen {
 
     private Sprite introImageSprite;
     private Sprite touchToStartSprite;
+    private Music introMusic;
+    private MusicManager musicManager;
     //animation leaf
     private Animation leafAnimation;
     private Array<Rectangle> leafDrops;
@@ -40,6 +44,7 @@ public class TitleScreen implements Screen {
         introImageSprite = AssetsLoader.introImageSprite;
         touchToStartSprite = AssetsLoader.touchToStartSprite;
         leafAnimation = AssetsLoader.leafAnimation;
+        introMusic = AssetsLoader.introMusic;
 
         // create Array leafDrops
         leafDrops = new Array<Rectangle>();
@@ -49,7 +54,8 @@ public class TitleScreen implements Screen {
 
     @Override
     public void show() {
-
+        musicManager = new MusicManager(introMusic);
+        musicManager.backgroundMusicPlay();
     }
 
     @Override
@@ -74,7 +80,6 @@ public class TitleScreen implements Screen {
             spawnLeafDrop();
         }
 
-
         //set motion leafDrop
         Iterator<Rectangle> iteratorLeaf = leafDrops.iterator();
         while (iteratorLeaf.hasNext()) {
@@ -87,6 +92,7 @@ public class TitleScreen implements Screen {
 
         //check touchscreen
         if (Gdx.input.isTouched() && elapsedTime > 1.0) {
+            introMusic.stop();
             //change display to GameScreen Display
             game.setScreen(new MainMenuScreen(game));
             dispose();
