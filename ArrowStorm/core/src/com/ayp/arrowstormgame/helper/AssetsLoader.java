@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame.helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -29,12 +30,12 @@ public class AssetsLoader {
     public static String TIGER_SPRITE = "Tiger";
     public static Texture tigerTexture;
     public static Sprite tigerSprite;
-
     // TitleScreen
     public static Texture introImageTexture;
     public static Sprite introImageSprite;
     public static Texture touchToStartTexture;
     public static Sprite touchToStartSprite;
+    public static Music introMusic;
 
     // TitleScreen // set animation leaf
     public static Texture leafImageTexture;
@@ -44,6 +45,7 @@ public class AssetsLoader {
     // MainMenuScreen
     public static Texture mainMenuImageTexture;
     public static Sprite mainMenuImageSprite;
+    public static Music mainMenuMusic;
 
     // MainMenuScreen // set icon
     public static Texture highScoreImageTexture;
@@ -56,6 +58,10 @@ public class AssetsLoader {
     public static Sprite monsterImageSprite;
     public static Texture facebookImageTexture;
     public static Sprite facebookImageSprite;
+    public static Texture openMusicTexture;
+    public static Sprite openMusicSprite;
+    public static Texture closeMusicTexture;
+    public static Sprite closeMusicSprite;
 
     public static void load() {
         enemiesSprite = new HashMap<String, Sprite>();
@@ -116,6 +122,8 @@ public class AssetsLoader {
         touchToStartSprite = new Sprite(touchToStartTexture);
         touchToStartSprite.flip(false, true);
 
+        introMusic = Gdx.audio.newMusic(Gdx.files.internal("music/intro_bg_music.mp3"));
+
         // TitleScreen // set animation leaf
         leafImageTexture = new Texture(Gdx.files.internal("anim/anim_leaf.png"));
         TextureRegion[][] leafs = TextureRegion.split(
@@ -137,9 +145,12 @@ public class AssetsLoader {
         introImageTexture.dispose();
         touchToStartTexture.dispose();
         leafImageTexture.dispose();
+        introMusic.dispose();
     }
 
     private static void loadAssetsMainMenuScreen() {
+        mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/main_menu_bg_music.mp3"));
+
         // MainMenuScreen
         mainMenuImageTexture = new Texture(Gdx.files.internal("background/main_menu_background.png"));
         mainMenuImageSprite = new Sprite(mainMenuImageTexture);
@@ -166,6 +177,13 @@ public class AssetsLoader {
         facebookImageSprite = new Sprite(facebookImageTexture);
         facebookImageSprite.flip(false, true);
 
+        openMusicTexture = new Texture(Gdx.files.internal("icon/open_music_icon.png"));
+        openMusicSprite = new Sprite(openMusicTexture);
+        openMusicSprite.flip(false, true);
+
+        closeMusicTexture = new Texture(Gdx.files.internal("icon/close_music_icon.png"));
+        closeMusicSprite = new Sprite(closeMusicTexture);
+        closeMusicSprite.flip(false, true);
     }
 
     private static void disposeAssetsMainMenuScreen() {
@@ -176,5 +194,6 @@ public class AssetsLoader {
         battleImageTexture.dispose();
         monsterImageTexture.dispose();
         facebookImageTexture.dispose();
+        mainMenuMusic.dispose();
     }
 }

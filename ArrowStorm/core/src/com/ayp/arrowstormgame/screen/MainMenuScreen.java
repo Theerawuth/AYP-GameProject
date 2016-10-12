@@ -2,15 +2,17 @@ package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.helper.MusicManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by Theerawuth on 9/23/2016.
  */
-public class MainMenuScreen implements Screen  {
+public class MainMenuScreen implements Screen {
     private static final String TAG = "MainMenuScreen";
 
     private static final float HIGH_SCORE_POS_X = 0;
@@ -23,12 +25,17 @@ public class MainMenuScreen implements Screen  {
     private static final float MONSTER_POS_Y = 704;
     private static final float FACEBOOK_POS_X = 384;
     private static final float FACEBOOK_POS_Y = 704;
-
+    private static final float OPEN_MUSIC_POS_X = 400;
+    private static final float OPEN_MUSIC_POS_Y = 20;
+    private static final float CLOSE_MUSIC_POS_X = 400;
+    private static final float CLOSE_MUSIC_POS_Y = 20;
 
     private static float MAIN_MENU_BG_WIDTH = 480;
     private static float MAIN_MENU_BG_HEIGHT = 800;
     private static float ICON_WIDTH = 96;
     private static float ICON_HEIGHT = 96;
+    private static final float MUSIC_ICON_WIDTH = 64;
+    private static final float MUSIC_ICON_HEIGHT = 64;
 
     private float elapsedTime;
 
@@ -39,8 +46,13 @@ public class MainMenuScreen implements Screen  {
     private Sprite battleImageSprite;
     private Sprite monsterImageSprite;
     private Sprite facebookImageSprite;
+    private Sprite openMusicSprite;
+    private Sprite closeMusicSprite;
     private Vector3 touchButton;
+    private Music mainMenuMusic;
 
+    private MusicManager musicManager;
+    boolean isClick;
 
     //TODO Create menu button
 
@@ -52,12 +64,21 @@ public class MainMenuScreen implements Screen  {
         battleImageSprite = AssetsLoader.battleImageSprite;
         monsterImageSprite = AssetsLoader.monsterImageSprite;
         facebookImageSprite = AssetsLoader.facebookImageSprite;
+        openMusicSprite = AssetsLoader.openMusicSprite;
+        closeMusicSprite = AssetsLoader.closeMusicSprite;
+        mainMenuMusic = AssetsLoader.mainMenuMusic;
+        elapsedTime = 0;
+        isClick = false;
     }
 
     @Override
     public void show() {
+        Gdx.app.log("MusicManager", "show method");
+        musicManager = new MusicManager(mainMenuMusic);
+        musicManager.backgroundMusicPlay();
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -101,6 +122,7 @@ public class MainMenuScreen implements Screen  {
         game.spriteBatch.draw(battleImageSprite, BATTLE_POS_X, BATTLE_POS_Y, ICON_WIDTH, ICON_HEIGHT);
         game.spriteBatch.draw(monsterImageSprite, MONSTER_POS_X, MONSTER_POS_Y, ICON_WIDTH, ICON_HEIGHT);
         game.spriteBatch.draw(facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT);
+        game.spriteBatch.draw(closeMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y, MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
     }
 
     private void handleTouchEvent() {
@@ -108,15 +130,32 @@ public class MainMenuScreen implements Screen  {
         float y = Gdx.input.getY();
         touchButton = new Vector3(x, y, 0);
         battleImageSprite.setPosition(BATTLE_POS_X, BATTLE_POS_Y);
+        openMusicSprite.setPosition(OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y);
+        closeMusicSprite.setPosition(CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y);
         game.camera.unproject(touchButton);
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
+            elapsedTime = 0;
             Gdx.app.log(TAG, "x: " + touchButton.x + ", y: " + touchButton.y);
             Gdx.app.log(TAG, "x: " + battleImageSprite.getX() + ", y: " + battleImageSprite.getY());
             if (touchButton.x > battleImageSprite.getX()
                     && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
                     && touchButton.y > battleImageSprite.getY()
                     && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
+                Gdx.app.log("MusicManager", "Click set screen");
                 game.setScreen(new PlayStateScreen(game));
+            }
+            if (touchButton.x > openMusicSprite.getX()
+                    && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
+                    && touchButton.y > openMusicSprite.getY()
+                    && touchButton.y < (openMusicSprite.getY() + openMusicSprite.getHeight())) {
+//                game.spriteBatch.draw(openMusicSprite, OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y, MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
+            }
+            if (touchButton.x > closeMusicSprite.getX()
+                    && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
+                    && touchButton.y > closeMusicSprite.getY()
+                    && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
+                Gdx.app.log("MusicManager", "Click On/Off Button");
+                musicManager.setSwitchSound();
             }
         }
     }
