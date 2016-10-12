@@ -56,6 +56,7 @@ public class PlayStateScreen implements Screen {
         game.spriteBatch.enableBlending();
         gamePlayRenderer.drawArrow(arrows);
         gamePlayRenderer.drawEnemy(enemies);
+        gamePlayRenderer.drawScore(gamePlayManager);
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();
 

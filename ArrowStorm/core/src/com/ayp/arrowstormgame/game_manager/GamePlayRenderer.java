@@ -7,6 +7,7 @@ import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
 import com.ayp.arrowstormgame.model.enemiespack.Boar;
 import com.ayp.arrowstormgame.model.enemiespack.Tiger;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
@@ -22,12 +23,16 @@ public class GamePlayRenderer {
     private Sprite arrowSprite;
     private HashMap<String, Sprite> enemySprites;
     private static final int NORMAL_SCALE_ARROW = 1;
+    private BitmapFont font;
+    private String score;
+    private GamePlayManager gamePlayManager;
 
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
         arrowSprite = AssetsLoader.arrowImageSprite;
         enemySprites = AssetsLoader.enemiesSprite;
+        font = AssetsLoader.font;
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -72,6 +77,11 @@ public class GamePlayRenderer {
                 Player.PLAYER_WIDTH / 2,
                 Player.PLAYER_HEIGHT
         );
+    }
+
+    public void drawScore(GamePlayManager gamePlayManager) {
+        score = gamePlayManager.getScore();
+        font.draw(game.spriteBatch, score, game.GAME_WIDTH /2, game.GAME_HEIGHT / 8);
     }
 
 }
