@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -21,6 +22,7 @@ public class AssetsLoader {
     // PlatStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
+    public static BitmapFont font;
 
     // // Enemy
     public static HashMap<String, Sprite> enemiesSprite;
@@ -103,6 +105,9 @@ public class AssetsLoader {
 
         enemiesSprite.put(BOAR_SPRITE, boarSprite);
         enemiesSprite.put(TIGER_SPRITE, tigerSprite);
+
+        font = new BitmapFont();
+        font.getData().setScale(1.5f, -1.5f);
     }
 
     private static void disposeAssetsPlayStateScreen() {
@@ -110,6 +115,7 @@ public class AssetsLoader {
         boarTexture.dispose();
         tigerTexture.dispose();
         enemiesSprite.clear();
+        font.dispose();
     }
 
     private static void loadAssetsTitleScreen() {

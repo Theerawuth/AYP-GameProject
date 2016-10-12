@@ -28,6 +28,7 @@ public class GamePlayManager {
     private long shootDelay = 100000000;
     private static int PREPARE_SHOOT = -1;
     private Vector3 touchPosition;
+    private int score = 0;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
@@ -125,6 +126,7 @@ public class GamePlayManager {
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
                     preparedRemovedEnemyIndexes.add(i);
                     preparedRemovedArrowIndexes.add(j);
+                    score++;
                 }
             }
         }
@@ -181,4 +183,9 @@ public class GamePlayManager {
                 break;
         }
     }
+
+    public String getScore() {
+        return Integer.toString(score);
+    }
+
 }
