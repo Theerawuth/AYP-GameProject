@@ -32,6 +32,9 @@
 - Enemy Attack Damage
   - Maximum AD: 45
   - Minimum AD: 2
+- Enemy Movement Speed
+  - Maximum MS: 240
+  - Minimum MS: 80
 - Boss 1 Attack Damage: 20
 - Boss 1 Attack Damage: 40
 - Boss 1 Attack Damage: 70
