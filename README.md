@@ -26,6 +26,10 @@
 - Attack damage skill level 0 - 20
 
 ### Enemy level 1 - 40
+- Attribute weight
+  - ATK: 0.4
+  - MS: 0.4
+  - HP: 0.2
 - Enemy HP Range
   - Maximum HP: 245
   - Minimum HP: 8
