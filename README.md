@@ -12,6 +12,10 @@
 - [ ] Game timeline
 
 ## Game info.
+- Player HP Range
+  - Maximim HP: 120 (level 1 - 19 Max HP increase 5 ,level 20 Max HP increase 20)
+  - Minimum HP: 5
+  - HP skill level 0 - 20  
 - Player Attack Speed Range
   - Maximum attack speed: 1.12
   - Minumum attack speed: 0.33
