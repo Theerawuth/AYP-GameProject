@@ -21,7 +21,7 @@
   - Minumum attack speed: 0.33
   - Attack speed skill level 0 - 20
 - Player Attack Damage Range
-  - Maximum attack damage: 50
+  - Maximum attack damage: 100
   - Minimum attack damage: 10
 - Attack damage skill level 0 - 20
 
