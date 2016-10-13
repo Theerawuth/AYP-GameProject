@@ -116,13 +116,31 @@ public class MainMenuScreen implements Screen {
     }
 
     private void drawIcon() {
-        game.spriteBatch.draw(mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
-        game.spriteBatch.draw(highScoreImageSprite, HIGH_SCORE_POS_X, HIGH_SCORE_POS_Y, ICON_WIDTH, ICON_HEIGHT);
-        game.spriteBatch.draw(upGradeImageSprite, UPGRADE_POS_X, UPGRADE_POS_Y, ICON_WIDTH, ICON_HEIGHT);
-        game.spriteBatch.draw(battleImageSprite, BATTLE_POS_X, BATTLE_POS_Y, ICON_WIDTH, ICON_HEIGHT);
-        game.spriteBatch.draw(monsterImageSprite, MONSTER_POS_X, MONSTER_POS_Y, ICON_WIDTH, ICON_HEIGHT);
-        game.spriteBatch.draw(facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT);
-        game.spriteBatch.draw(closeMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y, MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
+        game.spriteBatch.draw(
+                mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT
+        );
+        game.spriteBatch.draw(
+                highScoreImageSprite, HIGH_SCORE_POS_X, HIGH_SCORE_POS_Y, ICON_WIDTH, ICON_HEIGHT
+        );
+        game.spriteBatch.draw(
+                upGradeImageSprite, UPGRADE_POS_X, UPGRADE_POS_Y, ICON_WIDTH, ICON_HEIGHT
+        );
+        game.spriteBatch.draw(
+                battleImageSprite, BATTLE_POS_X, BATTLE_POS_Y, ICON_WIDTH, ICON_HEIGHT
+        );
+        game.spriteBatch.draw(
+                monsterImageSprite, MONSTER_POS_X, MONSTER_POS_Y, ICON_WIDTH, ICON_HEIGHT
+        );
+        game.spriteBatch.draw(
+                facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT
+        );
+        game.spriteBatch.draw(
+                closeMusicSprite,
+                CLOSE_MUSIC_POS_X,
+                CLOSE_MUSIC_POS_Y,
+                MUSIC_ICON_WIDTH,
+                MUSIC_ICON_HEIGHT
+        );
     }
 
     private void handleTouchEvent() {
@@ -148,7 +166,6 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
                     && touchButton.y > openMusicSprite.getY()
                     && touchButton.y < (openMusicSprite.getY() + openMusicSprite.getHeight())) {
-//                game.spriteBatch.draw(openMusicSprite, OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y, MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
             }
             if (touchButton.x > closeMusicSprite.getX()
                     && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())

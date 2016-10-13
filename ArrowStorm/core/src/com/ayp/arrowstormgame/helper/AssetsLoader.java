@@ -124,7 +124,8 @@ public class AssetsLoader {
 
     private static void loadAssetsTitleScreen() {
         // TitleScreen
-        introImageTexture = new Texture(Gdx.files.internal("background/intro_title_background.png"));
+        introImageTexture =
+                new Texture(Gdx.files.internal("background/intro_title_background.png"));
         introImageSprite = new Sprite(introImageTexture);
         introImageSprite.flip(false, true);
 
@@ -162,7 +163,8 @@ public class AssetsLoader {
         mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/main_menu_bg_music.mp3"));
 
         // MainMenuScreen
-        mainMenuImageTexture = new Texture(Gdx.files.internal("background/main_menu_background.png"));
+        mainMenuImageTexture =
+                new Texture(Gdx.files.internal("background/main_menu_background.png"));
         mainMenuImageSprite = new Sprite(mainMenuImageTexture);
         mainMenuImageSprite.flip(false, true);
 

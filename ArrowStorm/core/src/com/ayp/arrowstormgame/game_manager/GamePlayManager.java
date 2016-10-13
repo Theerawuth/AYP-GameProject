@@ -25,16 +25,18 @@ public class GamePlayManager {
     private final ArrowStormGame game;
     private long lastArrow;
     private long lastTouched;
-    private long shootDelay = 100000000;
+    private long shootDelay;
     private static int PREPARE_SHOOT = -1;
     private Vector3 touchPosition;
     private int score = 0;
+    private Player player;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
+        player = new Player();
         lastArrow = PREPARE_SHOOT;
+        shootDelay = player.ATTACK_SPEED;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
-
     }
 
     public void handleTouchEvent(Array<Arrow> arrows) {
@@ -60,7 +62,8 @@ public class GamePlayManager {
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             }
         } else {
-            if (TimeUtils.nanoTime() - lastTouched > shootDelay && TimeUtils.nanoTime() - lastArrow > shootDelay) {
+            if (TimeUtils.nanoTime() - lastTouched > shootDelay
+                    && TimeUtils.nanoTime() - lastArrow > shootDelay) {
                 lastArrow = PREPARE_SHOOT;
                 lastTouched = TimeUtils.nanoTime();
             }
@@ -158,18 +161,36 @@ public class GamePlayManager {
     }
 
     // Spawn an enemy.
-    public void spawnEnemy(float originX, float originY, EnemyUniverse.EnemyType enemyType, Array<Enemy> enemies) {
+    public void spawnEnemy(
+            float originX,
+            float originY,
+            EnemyUniverse.EnemyType enemyType,
+            Array<Enemy> enemies
+    ) {
         spawnByType(originX, originY, enemyType, enemies);
     }
 
     // Spawn enemies.
-    public void spawnEnemy(float originX, float originY, EnemyUniverse.EnemyType enemyType, int number,
-                           float deltaX, float deltaY, long spawnDelay, Array<Enemy> enemies) {
+    public void spawnEnemy(
+            float originX,
+            float originY,
+            EnemyUniverse.EnemyType enemyType,
+            int number,
+            float deltaX,
+            float deltaY,
+            long spawnDelay,
+            Array<Enemy> enemies
+    ) {
         spawnByType(originX, originY, enemyType, enemies);
     }
 
 
-    public void spawnByType(float originX, float originY, EnemyUniverse.EnemyType enemyType, Array<Enemy> enemies) {
+    public void spawnByType(
+            float originX,
+            float originY,
+            EnemyUniverse.EnemyType enemyType,
+            Array<Enemy> enemies
+    ) {
         switch (enemyType) {
             case BOAR:
                 Enemy enemyBoar = new Boar(originX, originY);

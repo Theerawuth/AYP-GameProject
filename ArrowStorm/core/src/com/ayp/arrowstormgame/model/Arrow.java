@@ -19,7 +19,7 @@ public class Arrow {
     private Circle arrowBound;
     private static float CIRCLE_RADIUS_BOUND = 16;
     private static float BOUND_POINT_FROM_CENTER_TO_HEAD = 16;
-    private static float ARROW_VELOCITY = 100;
+    private static float ARROW_VELOCITY = 420;
     private float velocityX;
     private float velocityY;
     private float arrowBoundDeltaX;
@@ -33,9 +33,11 @@ public class Arrow {
         velocityY =
                 (float) (ARROW_VELOCITY * Math.sin(Math.toRadians(arrowDirectionDegree)));
         arrowBoundDeltaX =
-                (float) (BOUND_POINT_FROM_CENTER_TO_HEAD * Math.cos(Math.toRadians(arrowDirectionDegree)));
+                (float) (BOUND_POINT_FROM_CENTER_TO_HEAD
+                        * Math.cos(Math.toRadians(arrowDirectionDegree)));
         arrowBoundDeltaY =
-                (float) (BOUND_POINT_FROM_CENTER_TO_HEAD * Math.sin(Math.toRadians(arrowDirectionDegree)));
+                (float) (BOUND_POINT_FROM_CENTER_TO_HEAD
+                        * Math.sin(Math.toRadians(arrowDirectionDegree)));
 
         arrowBoundPosition = new Vector2(arrowPosition.x, arrowPosition.y + getHeight() / 2);
         arrowBoundPosition.sub(arrowBoundDeltaX, arrowBoundDeltaY);
