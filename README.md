@@ -15,4 +15,4 @@
 - Player Attack Speed Range
   - Maximum attack speed: 1.12
   - Minumum attack speed: 0.33
-  - Attack speed level 1 - 20
+  - Attack speed level 0 - 20
