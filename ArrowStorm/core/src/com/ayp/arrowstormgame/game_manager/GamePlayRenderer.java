@@ -8,6 +8,7 @@ import com.ayp.arrowstormgame.model.Player;
 import com.ayp.arrowstormgame.model.enemiespack.Boar;
 import com.ayp.arrowstormgame.model.enemiespack.Tiger;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 
@@ -24,15 +25,17 @@ public class GamePlayRenderer {
     private HashMap<String, Sprite> enemySprites;
     private static final int NORMAL_SCALE_ARROW = 1;
     private BitmapFont font;
+    private BitmapFont shadow;
     private String score;
-    private GamePlayManager gamePlayManager;
-
+    private GlyphLayout glyphLayout;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
         arrowSprite = AssetsLoader.arrowImageSprite;
         enemySprites = AssetsLoader.enemiesSprite;
         font = AssetsLoader.font;
+        shadow = AssetsLoader.shadow;
+        glyphLayout = new GlyphLayout();
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -55,9 +58,17 @@ public class GamePlayRenderer {
     public void drawEnemy(Array<Enemy> enemies) {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Boar) {
-                game.spriteBatch.draw(enemySprites.get("Boar"), enemy.getPosition().x, enemy.getPosition().y);
+                game.spriteBatch.draw(
+                        enemySprites.get("Boar"),
+                        enemy.getPosition().x,
+                        enemy.getPosition().y
+                );
             } else if (enemy instanceof Tiger) {
-                game.spriteBatch.draw(enemySprites.get("Tiger"), enemy.getPosition().x, enemy.getPosition().y);
+                game.spriteBatch.draw(
+                        enemySprites.get("Tiger"),
+                        enemy.getPosition().x,
+                        enemy.getPosition().y
+                );
             }
         }
     }
@@ -81,7 +92,17 @@ public class GamePlayRenderer {
 
     public void drawScore(GamePlayManager gamePlayManager) {
         score = gamePlayManager.getScore();
-        font.draw(game.spriteBatch, score, game.GAME_WIDTH /2, game.GAME_HEIGHT / 8);
+        glyphLayout.setText(font, score);
+        shadow.draw(
+                game.spriteBatch,
+                score, ((game.GAME_WIDTH / 2) + 2) + glyphLayout.height / 2,
+                (game.GAME_HEIGHT / 10) + 2
+        );
+        font.draw(
+                game.spriteBatch,
+                score,
+                (game.GAME_WIDTH / 2) + glyphLayout.height / 2,
+                game.GAME_HEIGHT / 10
+        );
     }
-
 }

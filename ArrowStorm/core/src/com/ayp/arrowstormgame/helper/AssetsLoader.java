@@ -15,14 +15,14 @@ import java.util.HashMap;
  */
 
 public class AssetsLoader {
-    // TODO : load all assets here !
     private static final int FRAME_COLS_LEAF = 7;
     private static final int FRAME_ROWS_LEAF = 1;
 
-    // PlatStateScreen
+    // PlayStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
     public static BitmapFont font;
+    public static BitmapFont shadow;
 
     // // Enemy
     public static HashMap<String, Sprite> enemiesSprite;
@@ -32,6 +32,7 @@ public class AssetsLoader {
     public static String TIGER_SPRITE = "Tiger";
     public static Texture tigerTexture;
     public static Sprite tigerSprite;
+
     // TitleScreen
     public static Texture introImageTexture;
     public static Sprite introImageSprite;
@@ -106,8 +107,11 @@ public class AssetsLoader {
         enemiesSprite.put(BOAR_SPRITE, boarSprite);
         enemiesSprite.put(TIGER_SPRITE, tigerSprite);
 
-        font = new BitmapFont();
-        font.getData().setScale(1.5f, -1.5f);
+        font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        font.getData().setScale(0.4f, -0.4f);
+
+        shadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        shadow.getData().setScale(0.4f, -0.4f);
     }
 
     private static void disposeAssetsPlayStateScreen() {
