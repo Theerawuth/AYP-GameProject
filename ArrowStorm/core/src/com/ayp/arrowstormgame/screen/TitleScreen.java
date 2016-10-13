@@ -24,8 +24,8 @@ public class TitleScreen implements Screen {
 
     private Sprite introImageSprite;
     private Sprite touchToStartSprite;
-    private Music introMusic;
-    private MusicManager musicManager;
+    private Music introBackgroundMusic;
+    private MusicManager manageTitleMusicBackground;
     //animation leaf
     private Animation leafAnimation;
     private Array<Rectangle> leafDrops;
@@ -44,7 +44,7 @@ public class TitleScreen implements Screen {
         introImageSprite = AssetsLoader.introImageSprite;
         touchToStartSprite = AssetsLoader.touchToStartSprite;
         leafAnimation = AssetsLoader.leafAnimation;
-        introMusic = AssetsLoader.introMusic;
+        introBackgroundMusic = AssetsLoader.introBackgroundMusic;
 
         // create Array leafDrops
         leafDrops = new Array<Rectangle>();
@@ -54,8 +54,10 @@ public class TitleScreen implements Screen {
 
     @Override
     public void show() {
-        musicManager = new MusicManager(introMusic);
-        musicManager.backgroundMusicPlay();
+        Gdx.app.log("MusicManager", "Start sound in title screen");
+        manageTitleMusicBackground = new MusicManager(introBackgroundMusic);
+        manageTitleMusicBackground.backgroundMusicPlay();
+
     }
 
     @Override
@@ -92,9 +94,10 @@ public class TitleScreen implements Screen {
 
         //check touchscreen
         if (Gdx.input.isTouched() && elapsedTime > 1.0) {
-            introMusic.stop();
+            introBackgroundMusic.stop();
             //change display to GameScreen Display
             game.setScreen(new MainMenuScreen(game));
+            manageTitleMusicBackground.backgroundMusicStop();
             dispose();
         }
     }

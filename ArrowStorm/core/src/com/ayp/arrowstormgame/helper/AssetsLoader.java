@@ -18,9 +18,14 @@ public class AssetsLoader {
     private static final int FRAME_COLS_LEAF = 7;
     private static final int FRAME_ROWS_LEAF = 1;
 
-    // PlatStateScreen
+    // PlayStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
+    public static Music playStateBackgroundMusic;
+    public static Music bossEnemyMusic;
+    public static Music gameOverMusic;
+    public static Music monsterDeadMusic;
+    public static Music shootingMusic;
 
     // // Enemy
     public static HashMap<String, Sprite> enemiesSprite;
@@ -30,12 +35,13 @@ public class AssetsLoader {
     public static String TIGER_SPRITE = "Tiger";
     public static Texture tigerTexture;
     public static Sprite tigerSprite;
+
     // TitleScreen
     public static Texture introImageTexture;
     public static Sprite introImageSprite;
     public static Texture touchToStartTexture;
     public static Sprite touchToStartSprite;
-    public static Music introMusic;
+    public static Music introBackgroundMusic;
 
     // TitleScreen // set animation leaf
     public static Texture leafImageTexture;
@@ -45,7 +51,8 @@ public class AssetsLoader {
     // MainMenuScreen
     public static Texture mainMenuImageTexture;
     public static Sprite mainMenuImageSprite;
-    public static Music mainMenuMusic;
+    public static Music mainMenuBackgroundMusic;
+    public static Music toBattleMusic;
 
     // MainMenuScreen // set icon
     public static Texture highScoreImageTexture;
@@ -91,6 +98,12 @@ public class AssetsLoader {
         arrowImageSprite = new Sprite(arrowImageTexture);
         arrowImageSprite.flip(false, true);
 
+        playStateBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/play_state_bg_sound.mp3"));
+        monsterDeadMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/monster_dead_sound.mp3"));
+        shootingMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/shooting_sound.mp3"));
+        bossEnemyMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/boss_enemy_sound.mp3"));
+        gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/game_over_sound.mp3"));
+
         // Enemies
         boarTexture = new Texture(Gdx.files.internal("enemies_pack/Boar.png"));
         boarSprite = new Sprite(boarTexture);
@@ -110,6 +123,11 @@ public class AssetsLoader {
         boarTexture.dispose();
         tigerTexture.dispose();
         enemiesSprite.clear();
+        monsterDeadMusic.dispose();
+        bossEnemyMusic.dispose();
+        gameOverMusic.dispose();
+        shootingMusic.dispose();
+        playStateBackgroundMusic.dispose();
     }
 
     private static void loadAssetsTitleScreen() {
@@ -122,7 +140,7 @@ public class AssetsLoader {
         touchToStartSprite = new Sprite(touchToStartTexture);
         touchToStartSprite.flip(false, true);
 
-        introMusic = Gdx.audio.newMusic(Gdx.files.internal("music/intro_bg_music.mp3"));
+        introBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/intro_game_bg_sound.mp3"));
 
         // TitleScreen // set animation leaf
         leafImageTexture = new Texture(Gdx.files.internal("anim/anim_leaf.png"));
@@ -145,16 +163,18 @@ public class AssetsLoader {
         introImageTexture.dispose();
         touchToStartTexture.dispose();
         leafImageTexture.dispose();
-        introMusic.dispose();
+        introBackgroundMusic.dispose();
     }
 
     private static void loadAssetsMainMenuScreen() {
-        mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/main_menu_bg_music.mp3"));
 
         // MainMenuScreen
         mainMenuImageTexture = new Texture(Gdx.files.internal("background/main_menu_background.png"));
         mainMenuImageSprite = new Sprite(mainMenuImageTexture);
         mainMenuImageSprite.flip(false, true);
+
+        mainMenuBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/main_menu_bg_sound.mp3"));
+        toBattleMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/to_battle_sound.mp3"));
 
         //MainMenuScreen // set icon
         highScoreImageTexture = new Texture(Gdx.files.internal("icon/high_score_icon.png"));
@@ -194,6 +214,6 @@ public class AssetsLoader {
         battleImageTexture.dispose();
         monsterImageTexture.dispose();
         facebookImageTexture.dispose();
-        mainMenuMusic.dispose();
+        mainMenuBackgroundMusic.dispose();
     }
 }

@@ -49,9 +49,11 @@ public class MainMenuScreen implements Screen {
     private Sprite openMusicSprite;
     private Sprite closeMusicSprite;
     private Vector3 touchButton;
-    private Music mainMenuMusic;
+    private Music mainMenuBackgroundMusic;
+    private Music toBattleMusic;
 
-    private MusicManager musicManager;
+    private MusicManager manageMusicMainBackground;
+    private MusicManager manageMusicToBattle;
     boolean isClick;
 
     //TODO Create menu button
@@ -66,17 +68,17 @@ public class MainMenuScreen implements Screen {
         facebookImageSprite = AssetsLoader.facebookImageSprite;
         openMusicSprite = AssetsLoader.openMusicSprite;
         closeMusicSprite = AssetsLoader.closeMusicSprite;
-        mainMenuMusic = AssetsLoader.mainMenuMusic;
+        mainMenuBackgroundMusic = AssetsLoader.mainMenuBackgroundMusic;
+        toBattleMusic = AssetsLoader.toBattleMusic;
         elapsedTime = 0;
         isClick = false;
     }
 
     @Override
     public void show() {
-        Gdx.app.log("MusicManager", "show method");
-        musicManager = new MusicManager(mainMenuMusic);
-        musicManager.backgroundMusicPlay();
-
+        Gdx.app.log("MusicManager", "Start sound in main menu screen");
+        manageMusicMainBackground = new MusicManager(mainMenuBackgroundMusic);
+        manageMusicMainBackground.backgroundMusicPlay();
     }
 
 
@@ -141,7 +143,10 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
                     && touchButton.y > battleImageSprite.getY()
                     && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
-                Gdx.app.log("MusicManager", "Click set screen");
+                Gdx.app.log("MusicManager", "Click to PlayStateScreen");
+                manageMusicToBattle = new MusicManager(toBattleMusic);
+                manageMusicToBattle.backgroundMusicPlay();
+                manageMusicMainBackground.backgroundMusicStop();
                 game.setScreen(new PlayStateScreen(game));
             }
             if (touchButton.x > openMusicSprite.getX()
@@ -154,8 +159,8 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
                     && touchButton.y > closeMusicSprite.getY()
                     && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
-                Gdx.app.log("MusicManager", "Click On/Off Button");
-                musicManager.setSwitchSound();
+                Gdx.app.log("MusicManager", "Click On/Off Sound");
+                manageMusicMainBackground.setSwitchSound();
             }
         }
     }
