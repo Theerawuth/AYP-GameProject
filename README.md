@@ -19,8 +19,15 @@
 - Player Attack Damage Range
   - Maximum attack damage: 50
   - Minimum attack damage: 10
-  - Attack damage skill level 0 - 20
-- Monster HP Range
+- Attack damage skill level 0 - 20
+
+### Enemy level 1 - 40
+- Enemy HP Range
   - Maximum HP: 245
   - Minimum HP: 8
-  - Monster level 1 - 40
+- Enemy Attack Damage
+  - Maximum AD: 45
+  - Minimum AD: 2
+- Boss 1 Attack Damage: 20
+- Boss 1 Attack Damage: 40
+- Boss 1 Attack Damage: 70
