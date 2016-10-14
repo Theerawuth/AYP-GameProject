@@ -7,8 +7,14 @@ import com.ayp.arrowstormgame.model.Enemy;
  */
 
 public class Tiger extends Enemy {
-    private static float TIGER_BOUND_RADIUS = 64;
+    // 0.4 * 1.1 = 0.44
+    private static final float factorAttackDamage = 1.1f;
+    // 0.4 * 1.4 = 0.42
+    private static final float factorMovementSpeed = 1.4f;
+    // 0.2 * 0.7 = 0.14
+    private static final float factorHp = 0.7f;
+
     public Tiger(float x, float y) {
-        super(x, y, TIGER_BOUND_RADIUS);
+        super(x, y);
     }
 }

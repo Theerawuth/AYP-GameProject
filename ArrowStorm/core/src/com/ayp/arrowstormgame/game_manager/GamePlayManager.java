@@ -35,7 +35,7 @@ public class GamePlayManager {
         this.game = game;
         player = new Player();
         lastArrow = PREPARE_SHOOT;
-        shootDelay = player.ATTACK_SPEED;
+        shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
     }
 

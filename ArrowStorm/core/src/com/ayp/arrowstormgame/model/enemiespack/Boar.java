@@ -7,11 +7,15 @@ import com.ayp.arrowstormgame.model.Enemy;
  */
 
 public class Boar extends Enemy {
-    private int hp = 100; // sample property of this enemy
-    private static float BOAR_BOUND_RADIUS = 32;
+    // 0.4 * 0.5 = 0.2
+    private static final float factorAttackDamage = 0.5f;
+    // 0.4 * 0.5 = 0.2
+    private static final float factorMovementSpeed = 0.5f;
+    // 0.2 * 2.0 = 0.4
+    private static final float factorHp = 2.0f;
 
     public Boar(float x, float y) {
-        super(x, y, BOAR_BOUND_RADIUS);
+        super(x, y);
     }
 
 }

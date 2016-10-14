@@ -1,5 +1,6 @@
 package com.ayp.arrowstormgame.helper;
 
+import com.ayp.arrowstormgame.model.Enemy;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -98,7 +99,6 @@ public class AssetsLoader {
         boarTexture = new Texture(Gdx.files.internal("enemies_pack/Boar.png"));
         boarSprite = new Sprite(boarTexture);
         boarSprite.flip(false, true);
-        boarSprite.setOrigin(boarSprite.getWidth() / 2, boarSprite.getHeight() / 2);
 
         tigerTexture = new Texture(Gdx.files.internal("enemies_pack/Tiger.png"));
         tigerSprite = new Sprite(tigerTexture);
