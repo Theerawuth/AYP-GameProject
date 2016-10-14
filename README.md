@@ -21,17 +21,24 @@
   - Minumum attack speed: 0.33
   - Attack speed skill level 0 - 20
 - Player Attack Damage Range
-  - Maximum attack damage: 50
+  - Maximum attack damage: 100
   - Minimum attack damage: 10
 - Attack damage skill level 0 - 20
 
 ### Enemy level 1 - 40
+- Attribute weight
+  - ATK: 0.4
+  - MS: 0.4
+  - HP: 0.2
 - Enemy HP Range
   - Maximum HP: 245
   - Minimum HP: 8
 - Enemy Attack Damage
   - Maximum AD: 45
   - Minimum AD: 2
+- Enemy Movement Speed
+  - Maximum MS: 240
+  - Minimum MS: 80
 - Boss 1 Attack Damage: 20
 - Boss 1 Attack Damage: 40
 - Boss 1 Attack Damage: 70
