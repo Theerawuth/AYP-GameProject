@@ -39,6 +39,15 @@
 - Enemy Movement Speed
   - Maximum MS: 240
   - Minimum MS: 80
-- Boss 1 Attack Damage: 20
-- Boss 1 Attack Damage: 40
-- Boss 1 Attack Damage: 70
+- Boss 1
+  - Attack Damage: 20
+  - Health Point: 800
+  - Movement Speed: 120
+- Boss 2
+  - Attack Damage: 40
+  - Health Point: 1800
+  - Movement Speed: 100
+- Boss 3
+  - Attack Damage:70
+  - Health Point: 4000
+  - Movement Speed: 90
