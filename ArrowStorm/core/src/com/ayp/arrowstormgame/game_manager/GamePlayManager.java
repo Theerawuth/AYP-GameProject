@@ -32,7 +32,7 @@ public class GamePlayManager {
     private Vector3 touchPosition;
     private int score = 0;
     private Player player;
-    private float currentEnemyLevel;
+    private int currentEnemyLevel;
     private EnemyLevelManager enemyLevelManager;
 
     public GamePlayManager(final ArrowStormGame game) {
@@ -44,6 +44,7 @@ public class GamePlayManager {
         lastTouched = TimeUtils.nanoTime() - shootDelay;
         currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
     }
+
 
     public void handleTouchEvent(Array<Arrow> arrows) {
         if (Gdx.input.isTouched()) {
@@ -133,11 +134,9 @@ public class GamePlayManager {
             for (int j = 0; j < arrowsSize; j++) {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
-                    Gdx.app.log(TAG, "enemy is hit");
                     // enemy is hit
                     preparedRemovedEnemyIndexes.add(i);
                     preparedRemovedArrowIndexes.add(j);
-
                 }
             }
         }
@@ -149,8 +148,14 @@ public class GamePlayManager {
 
         for (int i = removedEnemyIndexesSize; i > 0; i--) {
             // enemy is hit
-
-//            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
+            Gdx.app.log(TAG, "enemy tpye: " + enemies.get(i - 1).getType());
+            Gdx.app.log(TAG, "enemy hp: " + enemies.get(i - 1).getHealthPoint()
+                    + " take " + player.attackDamage);
+            enemies.get(i - 1).takeDamage(player.attackDamage);
+            Gdx.app.log(TAG, "enemy hp remaining: " + enemies.get(i - 1).getHealthPoint());
+            if (enemies.get(i - 1).isDied()) {
+                enemies.removeIndex(removedEnemyIndexes.get(i - 1));
+            }
         }
 
         for (int i = removedArrowIndexesSize; i > 0; i--) {
@@ -189,11 +194,11 @@ public class GamePlayManager {
     ) {
         switch (enemyType) {
             case BOAR:
-                Enemy enemyBoar = new Boar(originX, originY);
+                Enemy enemyBoar = new Boar(originX, originY, currentEnemyLevel);
                 enemies.add(enemyBoar);
                 break;
             case TIGER:
-                Enemy enemyTiger = new Tiger(originX, originY);
+                Enemy enemyTiger = new Tiger(originX, originY, currentEnemyLevel);
                 enemies.add(enemyTiger);
                 return;
             default:
@@ -205,4 +210,8 @@ public class GamePlayManager {
         return Integer.toString(score);
     }
 
+    public void updateGamePlayByDeltaTimeFromRender(float delta) {
+        enemyLevelManager.updateEnemyLevelByTime(delta);
+        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
+    }
 }

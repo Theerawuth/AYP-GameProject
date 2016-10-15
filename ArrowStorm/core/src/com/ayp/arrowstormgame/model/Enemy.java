@@ -1,6 +1,9 @@
 package com.ayp.arrowstormgame.model;
 
 
+import com.ayp.arrowstormgame.model.enemiespack.Boar;
+import com.ayp.arrowstormgame.model.enemiespack.Tiger;
+import com.ayp.arrowstormgame.model.enemiespack.Wolf;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -35,6 +38,8 @@ public abstract class Enemy {
     private Vector2 position;
     private Vector2 boundPosition;
 
+    private String type;
+
     public Enemy(
             float x,
             float y,
@@ -56,6 +61,25 @@ public abstract class Enemy {
 
         healthPoint = BASE_HEALTH_POINT + (level * (healthPointRange / MAX_LEVEL));
         healthPoint *= factorHealthPoint;
+    }
+
+    public boolean isDied() {
+        return healthPoint <= 0;
+    }
+
+    public void takeDamage(int damage) {
+        healthPoint -= damage;
+    }
+
+    public String getType() {
+        if (this instanceof Boar) {
+            type = Boar.TYPE;
+        } else if (this instanceof Tiger) {
+            type = Tiger.TYPE;
+        } else if (this instanceof Wolf) {
+            type = Wolf.TYPE;
+        }
+        return type;
     }
 
     public float getAttackDamage() {

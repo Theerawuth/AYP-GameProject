@@ -14,6 +14,8 @@ public class Tiger extends Enemy {
     // 0.2 * 0.7 = 0.14
     private static final float factorHp = 0.7f;
 
+    public static final String TYPE = "Tiger";
+
     public Tiger(float x, float y, int level) {
         super(x, y, factorAttackDamage, factorMovementSpeed, factorHp, level);
     }
