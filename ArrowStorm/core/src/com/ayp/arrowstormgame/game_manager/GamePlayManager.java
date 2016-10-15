@@ -28,18 +28,21 @@ public class GamePlayManager {
     private long lastArrow;
     private long lastTouched;
     private long shootDelay;
-    private static int PREPARE_SHOOT = -1;
+    private static final int PREPARE_SHOOT = -1;
     private Vector3 touchPosition;
     private int score = 0;
     private Player player;
-
+    private float currentEnemyLevel;
+    private EnemyLevelManager enemyLevelManager;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
         player = new Player();
+        enemyLevelManager = new EnemyLevelManager();
         lastArrow = PREPARE_SHOOT;
         shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
+        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
     }
 
     public void handleTouchEvent(Array<Arrow> arrows) {
@@ -146,7 +149,7 @@ public class GamePlayManager {
 
         for (int i = removedEnemyIndexesSize; i > 0; i--) {
             // enemy is hit
-            
+
 //            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
         }
 
@@ -177,21 +180,6 @@ public class GamePlayManager {
     ) {
         spawnByType(originX, originY, enemyType, enemies);
     }
-
-    // Spawn enemies.
-    public void spawnEnemy(
-            float originX,
-            float originY,
-            EnemyUniverse.EnemyType enemyType,
-            int number,
-            float deltaX,
-            float deltaY,
-            long spawnDelay,
-            Array<Enemy> enemies
-    ) {
-        spawnByType(originX, originY, enemyType, enemies);
-    }
-
 
     public void spawnByType(
             float originX,

@@ -30,7 +30,6 @@ public abstract class Enemy {
     private static final int MAXIMUM_HEALTH_POINT = 245;
     private int healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
 
-    private int level = 1;
     private static final int MAX_LEVEL = 20;
     private Circle enemyBound;
     private Vector2 position;
@@ -41,7 +40,8 @@ public abstract class Enemy {
             float y,
             float factorAttackDamage,
             float factorMovementSpeed,
-            float factorHealthPoint
+            float factorHealthPoint,
+            int level
     ) {
         position = new Vector2(x, y);
         // to set origin point of bound at center of sprite when it has been drawn
