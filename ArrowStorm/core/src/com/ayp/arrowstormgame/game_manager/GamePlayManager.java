@@ -22,6 +22,8 @@ import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
  */
 
 public class GamePlayManager {
+    private static final String TAG = "GamePlayManager";
+
     private final ArrowStormGame game;
     private long lastArrow;
     private long lastTouched;
@@ -30,6 +32,7 @@ public class GamePlayManager {
     private Vector3 touchPosition;
     private int score = 0;
     private Player player;
+
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
@@ -127,9 +130,11 @@ public class GamePlayManager {
             for (int j = 0; j < arrowsSize; j++) {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
+                    Gdx.app.log(TAG, "enemy is hit");
+                    // enemy is hit
                     preparedRemovedEnemyIndexes.add(i);
                     preparedRemovedArrowIndexes.add(j);
-                    score++;
+
                 }
             }
         }
@@ -140,10 +145,13 @@ public class GamePlayManager {
         int removedArrowIndexesSize = removedArrowIndexes.size();
 
         for (int i = removedEnemyIndexesSize; i > 0; i--) {
-            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
+            // enemy is hit
+            
+//            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
         }
 
         for (int i = removedArrowIndexesSize; i > 0; i--) {
+            // remove hit arrow
             arrows.removeIndex(removedArrowIndexes.get(i - 1));
         }
     }
