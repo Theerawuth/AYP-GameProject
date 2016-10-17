@@ -15,6 +15,11 @@ import java.util.HashMap;
  */
 
 public class AssetsLoader {
+    private static final int WIDTH_PLAYER = 96;
+    private static final int HEIGHT_PLAYER = 96;
+    private static final int PLAY_STATE_BG_WIDTH = 480;
+    private static final int PLAY_STATE_BG_HEIGHT = 800;
+
     private static final int FRAME_COLS_LEAF = 7;
     private static final int FRAME_ROWS_LEAF = 1;
     private static final int FRAME_COLS_BUG = 8;
@@ -46,6 +51,7 @@ public class AssetsLoader {
     private static final float FONT_SCALE_X = 0.6f;
     private static final float FONT_SCALE_Y = -0.6f;
 
+
     // PlayStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
@@ -56,6 +62,19 @@ public class AssetsLoader {
     public static Music gameOverMusic;
     public static Music monsterDeadMusic;
     public static Music shootingMusic;
+    //Background
+    public static Texture playStateImageTexture;
+    public static TextureRegion playStateBackgroundOne, playStateBackgroundTwo, playStateBackgroundThree;
+    //Icon
+    public static Texture pauseTexture;
+    public static Texture quitTexture;
+    public static Sprite quitSprite;
+    public static Texture resumeTexture;
+    public static Sprite resumeSprite;
+    //Player
+    public static Texture playerTexture;
+    public static TextureRegion playerStandBy, playerShooting;
+    public static Animation playerAnimation;
 
     // // Enemy
     public static HashMap<String, Sprite> enemiesSprite;
@@ -149,6 +168,45 @@ public class AssetsLoader {
         arrowImageTexture = new Texture(Gdx.files.internal("Arrows.png"));
         arrowImageSprite = new Sprite(arrowImageTexture);
         arrowImageSprite.flip(false, true);
+        //PlayState background
+        playStateImageTexture = new Texture(Gdx.files.internal("background/play_state_background.png"));
+        playStateBackgroundOne = new TextureRegion(playStateImageTexture,
+                0,
+                0,
+                PLAY_STATE_BG_WIDTH,
+                PLAY_STATE_BG_HEIGHT);
+        playStateBackgroundOne.flip(false, true);
+        playStateBackgroundTwo = new TextureRegion(playStateImageTexture,
+                480,
+                0,
+                PLAY_STATE_BG_WIDTH,
+                PLAY_STATE_BG_HEIGHT);
+        playStateBackgroundTwo.flip(false, true);
+        playStateBackgroundThree = new TextureRegion(playStateImageTexture,
+                920,
+                0,
+                PLAY_STATE_BG_WIDTH,
+                PLAY_STATE_BG_HEIGHT);
+        playStateBackgroundThree.flip(false, true);
+        //Icon
+        pauseTexture = new Texture(Gdx.files.internal("Icon/pause_icon.png"));
+        quitTexture = new Texture(Gdx.files.internal("Icon/quit_icon.png"));
+        quitSprite = new Sprite(quitTexture);
+        quitSprite.flip(false, true);
+        resumeTexture = new Texture(Gdx.files.internal("Icon/resume_icon.png"));
+        resumeSprite = new Sprite(resumeTexture);
+        resumeSprite.flip(false, true);
+        //Player
+        playerTexture = new Texture(Gdx.files.internal("anim/anim_player.png"));
+        playerStandBy = new TextureRegion(playerTexture, 0, 0, WIDTH_PLAYER, HEIGHT_PLAYER);
+        playerStandBy.flip(false, true);
+        playerShooting = new TextureRegion(playerTexture, 96, 0, WIDTH_PLAYER, HEIGHT_PLAYER);
+        playerShooting.flip(false, true);
+        //Player Animation
+        TextureRegion[] players = {playerStandBy, playerShooting};
+        playerAnimation = new Animation(0.5f, players);
+        playerAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
 
         // Enemies
         boarTexture = new Texture(Gdx.files.internal("enemies_pack/Boar.png"));
