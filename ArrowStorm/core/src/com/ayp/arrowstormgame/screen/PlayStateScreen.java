@@ -23,6 +23,8 @@ public class PlayStateScreen implements Screen {
     private Array<Arrow> arrows;
     private Array<Enemy> enemies;
 
+    private float runtime;
+
     private float elapseTime;
 
 
@@ -33,6 +35,7 @@ public class PlayStateScreen implements Screen {
         arrows = new Array<Arrow>();
         enemies = new Array<Enemy>();
         elapseTime = 0;
+        runtime = 0;
     }
 
     @Override
@@ -42,6 +45,7 @@ public class PlayStateScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        runtime += delta;
         Gdx.gl.glClearColor(0, 0, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -55,7 +59,7 @@ public class PlayStateScreen implements Screen {
         game.spriteBatch.begin();
         game.spriteBatch.enableBlending();
         gamePlayRenderer.drawArrow(arrows);
-        gamePlayRenderer.drawEnemy(enemies);
+        gamePlayRenderer.drawEnemy(enemies, runtime);
         gamePlayRenderer.drawScore(gamePlayManager);
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();

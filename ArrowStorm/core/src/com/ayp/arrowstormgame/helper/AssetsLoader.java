@@ -59,10 +59,10 @@ public class AssetsLoader {
 
     // // Enemy
     public static HashMap<String, Sprite> enemiesSprite;
-    public static String BOAR_SPRITE = "Boar";
+    public static String BOAR_SPRITE = "Bug";
     public static Texture boarTexture;
     public static Sprite boarSprite;
-    public static String TIGER_SPRITE = "Tiger";
+    public static String TIGER_SPRITE = "Worm";
     public static Texture tigerTexture;
     public static Sprite tigerSprite;
 
@@ -150,15 +150,6 @@ public class AssetsLoader {
         arrowImageSprite = new Sprite(arrowImageTexture);
         arrowImageSprite.flip(false, true);
 
-        // Enemies
-        boarTexture = new Texture(Gdx.files.internal("enemies_pack/Boar.png"));
-        boarSprite = new Sprite(boarTexture);
-        boarSprite.flip(false, true);
-
-        tigerTexture = new Texture(Gdx.files.internal("enemies_pack/Tiger.png"));
-        tigerSprite = new Sprite(tigerTexture);
-        tigerSprite.flip(false, true);
-
         playStateBackgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/play_state_bg_sound.mp3"));
         monsterDeadMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/monster_dead_sound.mp3"));
         shootingMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/shooting_sound.mp3"));
@@ -172,7 +163,7 @@ public class AssetsLoader {
                 enemyBugFrames,
                 FRAME_COLS_BUG,
                 FRAME_ROWS_BUG,
-                0.25f
+                0.1f
         );
         bossGoldenBugAnimation = AnimationUtils.newAnimation(
                 ENEMY_BOSS_GOLDEN_BUG_IMAGE_FILE_PATH,
@@ -180,7 +171,7 @@ public class AssetsLoader {
                 bossGoldenBugFrames,
                 FRAME_COLS_BOSS_GOLDEN_BUG,
                 FRAME_ROWS_BOSS_GOLDEN_BUG,
-                0.25f
+                0.1f
         );
         // Enemy Stage Two
         enemyWormAnimation = AnimationUtils.newAnimation(
@@ -189,7 +180,7 @@ public class AssetsLoader {
                 enemyWormFrames,
                 FRAME_COLS_WORM,
                 FRAME_ROWS_WORM,
-                0.25f
+                0.1f
         );
         bossScorpionAnimation = AnimationUtils.newAnimation(
                 ENEMY_BOSS_SCORPION_FILE_PATH,
@@ -197,7 +188,7 @@ public class AssetsLoader {
                 bossScorpionFrames,
                 FRAME_COLS_BOSS_SCORPION,
                 FRAME_ROWS_BOSS_SCORPION,
-                0.25f
+                0.1f
         );
         // Enemy Last Stage
         enemyGuardianAnimation = AnimationUtils.newAnimation(
@@ -206,7 +197,7 @@ public class AssetsLoader {
                 enemyGuardianFrames,
                 FRAME_COLS_GUARDIAN,
                 FRAME_ROWS_GUARDIAN,
-                0.25f
+                0.1f
         );
         bossKrakenAnimation = AnimationUtils.newAnimation(
                 ENEMY_BOSS_KRAKEN_FILE_PATH,
@@ -214,7 +205,7 @@ public class AssetsLoader {
                 bossKrakenFrames,
                 FRAME_COLS_BOSS_KRAKEN,
                 FRAME_ROWS_BOSS_KRAKEN,
-                0.25f
+                0.1f
         );
 
         enemiesSprite.put(BOAR_SPRITE, boarSprite);

@@ -6,7 +6,8 @@ package com.ayp.arrowstormgame.model;
 
 public class EnemyUniverse {
     public enum EnemyType {
-        BOAR,
-        TIGER
+        BUG,
+        WORM,
+        GUARDIAN
     }
 }
