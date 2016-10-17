@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
@@ -113,7 +114,7 @@ public class GamePlayManager {
             enemy.move(delta);
             if (enemy.getPosition().x - enemy.getEnemyBound().radius < 0
                     || enemy.getPosition().x > game.GAME_WIDTH
-                    || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT) {
+                    || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT - Enemy.ENEMY_HEIGHT) {
                 preparedRemovedEnemyIndexes.add(i);
             }
         }
@@ -125,42 +126,23 @@ public class GamePlayManager {
     }
 
     public void updateCollision(float delta, Array<Enemy> enemies, Array<Arrow> arrows) {
-        int enemiesSize = enemies.size;
-        int arrowsSize = arrows.size;
-        ArrayList<Integer> preparedRemovedArrowIndexes = new ArrayList<Integer>();
-        ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
-        for (int i = 0; i < enemiesSize; i++) {
+        for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
-            for (int j = 0; j < arrowsSize; j++) {
+            for (int j = 0; j < arrows.size; j++) {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
                     // enemy is hit
-                    preparedRemovedEnemyIndexes.add(i);
-                    preparedRemovedArrowIndexes.add(j);
+                    enemies.get(i).takeDamage(player.attackDamage);
+                    Gdx.app.log(TAG, "enemy hp remaining: " + enemies.get(i).getHealthPoint());
+                    arrows.removeIndex(j);
+                    break;
                 }
             }
-        }
-
-        ArrayList<Integer> removedEnemyIndexes = removeDuplicateIndex(preparedRemovedEnemyIndexes);
-        ArrayList<Integer> removedArrowIndexes = removeDuplicateIndex(preparedRemovedArrowIndexes);
-        int removedEnemyIndexesSize = removedEnemyIndexes.size();
-        int removedArrowIndexesSize = removedArrowIndexes.size();
-
-        for (int i = removedEnemyIndexesSize; i > 0; i--) {
-            // enemy is hit
-            Gdx.app.log(TAG, "enemy tpye: " + enemies.get(i - 1).getType());
-            Gdx.app.log(TAG, "enemy hp: " + enemies.get(i - 1).getHealthPoint()
-                    + " take " + player.attackDamage);
-            enemies.get(i - 1).takeDamage(player.attackDamage);
-            Gdx.app.log(TAG, "enemy hp remaining: " + enemies.get(i - 1).getHealthPoint());
-            if (enemies.get(i - 1).isDied()) {
-                enemies.removeIndex(removedEnemyIndexes.get(i - 1));
+            if (enemies.get(i).isDied()) {
+                score += enemies.get(i).getScore();
+                enemies.removeIndex(i);
+                break;
             }
-        }
-
-        for (int i = removedArrowIndexesSize; i > 0; i--) {
-            // remove hit arrow
-            arrows.removeIndex(removedArrowIndexes.get(i - 1));
         }
     }
 

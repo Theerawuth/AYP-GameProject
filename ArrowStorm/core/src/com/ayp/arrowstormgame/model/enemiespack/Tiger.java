@@ -16,6 +16,8 @@ public class Tiger extends Enemy {
 
     public static final String TYPE = "Tiger";
 
+    public static int TIGER_SCORE = 5;
+
     public Tiger(float x, float y, int level) {
         super(x, y, factorAttackDamage, factorMovementSpeed, factorHp, level);
     }

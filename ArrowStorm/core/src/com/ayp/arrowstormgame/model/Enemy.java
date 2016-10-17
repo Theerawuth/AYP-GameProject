@@ -13,7 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Enemy {
 
-    public static final float ENEMY_SIZE = 64;
+    public static final float ENEMY_WIDTH = 64;
+    public static final float ENEMY_HEIGHT = 64;
     private static final float RADIUS = 32;
     private float attackDamage;
     private float movementSpeed;
@@ -39,6 +40,8 @@ public abstract class Enemy {
     private Vector2 boundPosition;
 
     private String type;
+
+    private int score;
 
     public Enemy(
             float x,
@@ -69,6 +72,17 @@ public abstract class Enemy {
 
     public void takeDamage(int damage) {
         healthPoint -= damage;
+    }
+
+    public int getScore(){
+        if (this instanceof Boar) {
+            score = Boar.BOAR_SCORE;
+        } else if (this instanceof Tiger) {
+            score = Tiger.TIGER_SCORE;
+        } else if (this instanceof Wolf) {
+//            type = Wolf.TYPE;
+        }
+        return score;
     }
 
     public String getType() {

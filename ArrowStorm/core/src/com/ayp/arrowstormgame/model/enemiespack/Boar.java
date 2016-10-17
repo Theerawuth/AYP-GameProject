@@ -16,6 +16,8 @@ public class Boar extends Enemy {
 
     public static final String TYPE = "Boar";
 
+    public static int BOAR_SCORE = 3;
+
     public Boar(float x, float y, int level) {
         super(x, y, factorAttackDamage, factorMovementSpeed, factorHp, level);
     }
