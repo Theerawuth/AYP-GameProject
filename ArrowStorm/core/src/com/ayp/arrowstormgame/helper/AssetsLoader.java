@@ -222,6 +222,10 @@ public class AssetsLoader {
         playStateBackgroundMusic.dispose();
         enemyBugTexture.dispose();
         bossGoldenBugTexture.dispose();
+        enemyWormTexture.dispose();
+        bossScorpionTexture.dispose();
+        enemyGuardianTexture.dispose();
+        bossKrakenTexture.dispose();
     }
 
     private static void loadAssetsTitleScreen() {
