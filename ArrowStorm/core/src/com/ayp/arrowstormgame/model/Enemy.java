@@ -1,6 +1,9 @@
 package com.ayp.arrowstormgame.model;
 
 
+import com.ayp.arrowstormgame.model.enemiespack.Boar;
+import com.ayp.arrowstormgame.model.enemiespack.Tiger;
+import com.ayp.arrowstormgame.model.enemiespack.Wolf;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,7 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class Enemy {
 
-    public static final float ENEMY_SIZE = 64;
+    public static final float ENEMY_WIDTH = 64;
+    public static final float ENEMY_HEIGHT = 64;
     private static final float RADIUS = 32;
     private float attackDamage;
     private float movementSpeed;
@@ -30,18 +34,22 @@ public abstract class Enemy {
     private static final int MAXIMUM_HEALTH_POINT = 245;
     private int healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
 
-    private int level = 1;
     private static final int MAX_LEVEL = 20;
     private Circle enemyBound;
     private Vector2 position;
     private Vector2 boundPosition;
+
+    private String type;
+
+    private int score;
 
     public Enemy(
             float x,
             float y,
             float factorAttackDamage,
             float factorMovementSpeed,
-            float factorHealthPoint
+            float factorHealthPoint,
+            int level
     ) {
         position = new Vector2(x, y);
         // to set origin point of bound at center of sprite when it has been drawn
@@ -56,6 +64,36 @@ public abstract class Enemy {
 
         healthPoint = BASE_HEALTH_POINT + (level * (healthPointRange / MAX_LEVEL));
         healthPoint *= factorHealthPoint;
+    }
+
+    public boolean isDied() {
+        return healthPoint <= 0;
+    }
+
+    public void takeDamage(int damage) {
+        healthPoint -= damage;
+    }
+
+    public int getScore(){
+        if (this instanceof Boar) {
+            score = Boar.BOAR_SCORE;
+        } else if (this instanceof Tiger) {
+            score = Tiger.TIGER_SCORE;
+        } else if (this instanceof Wolf) {
+//            type = Wolf.TYPE;
+        }
+        return score;
+    }
+
+    public String getType() {
+        if (this instanceof Boar) {
+            type = Boar.TYPE;
+        } else if (this instanceof Tiger) {
+            type = Tiger.TYPE;
+        } else if (this instanceof Wolf) {
+            type = Wolf.TYPE;
+        }
+        return type;
     }
 
     public float getAttackDamage() {

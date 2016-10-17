@@ -51,7 +51,7 @@ public class PlayStateScreen implements Screen {
         gamePlayManager.handleTouchEvent(arrows);
         gamePlayManager.updateEnemy(delta, enemies);
         gamePlayManager.updateArrow(delta, arrows);
-
+        gamePlayManager.updateGamePlayByDeltaTimeFromRender(delta);
         game.spriteBatch.begin();
         game.spriteBatch.enableBlending();
         gamePlayRenderer.drawArrow(arrows);
@@ -61,7 +61,7 @@ public class PlayStateScreen implements Screen {
         game.spriteBatch.end();
 
         elapseTime += delta;
-        if (elapseTime > 0.9f) {
+        if (elapseTime > 2) {
             gamePlayManager.randomSpawnAnWithFixedTime(enemies);
             elapseTime = 0;
         }

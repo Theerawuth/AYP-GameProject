@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
@@ -22,22 +23,29 @@ import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
  */
 
 public class GamePlayManager {
+    private static final String TAG = "GamePlayManager";
+
     private final ArrowStormGame game;
     private long lastArrow;
     private long lastTouched;
     private long shootDelay;
-    private static int PREPARE_SHOOT = -1;
+    private static final int PREPARE_SHOOT = -1;
     private Vector3 touchPosition;
     private int score = 0;
     private Player player;
+    private int currentEnemyLevel;
+    private EnemyLevelManager enemyLevelManager;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
         player = new Player();
+        enemyLevelManager = new EnemyLevelManager();
         lastArrow = PREPARE_SHOOT;
         shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
+        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
     }
+
 
     public void handleTouchEvent(Array<Arrow> arrows) {
         if (Gdx.input.isTouched()) {
@@ -106,7 +114,7 @@ public class GamePlayManager {
             enemy.move(delta);
             if (enemy.getPosition().x - enemy.getEnemyBound().radius < 0
                     || enemy.getPosition().x > game.GAME_WIDTH
-                    || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT) {
+                    || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT - Enemy.ENEMY_HEIGHT) {
                 preparedRemovedEnemyIndexes.add(i);
             }
         }
@@ -118,33 +126,23 @@ public class GamePlayManager {
     }
 
     public void updateCollision(float delta, Array<Enemy> enemies, Array<Arrow> arrows) {
-        int enemiesSize = enemies.size;
-        int arrowsSize = arrows.size;
-        ArrayList<Integer> preparedRemovedArrowIndexes = new ArrayList<Integer>();
-        ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
-        for (int i = 0; i < enemiesSize; i++) {
+        for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
-            for (int j = 0; j < arrowsSize; j++) {
+            for (int j = 0; j < arrows.size; j++) {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
-                    preparedRemovedEnemyIndexes.add(i);
-                    preparedRemovedArrowIndexes.add(j);
-                    score++;
+                    // enemy is hit
+                    enemies.get(i).takeDamage(player.attackDamage);
+                    Gdx.app.log(TAG, "enemy hp remaining: " + enemies.get(i).getHealthPoint());
+                    arrows.removeIndex(j);
+                    break;
                 }
             }
-        }
-
-        ArrayList<Integer> removedEnemyIndexes = removeDuplicateIndex(preparedRemovedEnemyIndexes);
-        ArrayList<Integer> removedArrowIndexes = removeDuplicateIndex(preparedRemovedArrowIndexes);
-        int removedEnemyIndexesSize = removedEnemyIndexes.size();
-        int removedArrowIndexesSize = removedArrowIndexes.size();
-
-        for (int i = removedEnemyIndexesSize; i > 0; i--) {
-            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
-        }
-
-        for (int i = removedArrowIndexesSize; i > 0; i--) {
-            arrows.removeIndex(removedArrowIndexes.get(i - 1));
+            if (enemies.get(i).isDied()) {
+                score += enemies.get(i).getScore();
+                enemies.removeIndex(i);
+                break;
+            }
         }
     }
 
@@ -170,21 +168,6 @@ public class GamePlayManager {
         spawnByType(originX, originY, enemyType, enemies);
     }
 
-    // Spawn enemies.
-    public void spawnEnemy(
-            float originX,
-            float originY,
-            EnemyUniverse.EnemyType enemyType,
-            int number,
-            float deltaX,
-            float deltaY,
-            long spawnDelay,
-            Array<Enemy> enemies
-    ) {
-        spawnByType(originX, originY, enemyType, enemies);
-    }
-
-
     public void spawnByType(
             float originX,
             float originY,
@@ -193,11 +176,11 @@ public class GamePlayManager {
     ) {
         switch (enemyType) {
             case BOAR:
-                Enemy enemyBoar = new Boar(originX, originY);
+                Enemy enemyBoar = new Boar(originX, originY, currentEnemyLevel);
                 enemies.add(enemyBoar);
                 break;
             case TIGER:
-                Enemy enemyTiger = new Tiger(originX, originY);
+                Enemy enemyTiger = new Tiger(originX, originY, currentEnemyLevel);
                 enemies.add(enemyTiger);
                 return;
             default:
@@ -209,4 +192,8 @@ public class GamePlayManager {
         return Integer.toString(score);
     }
 
+    public void updateGamePlayByDeltaTimeFromRender(float delta) {
+        enemyLevelManager.updateEnemyLevelByTime(delta);
+        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
+    }
 }

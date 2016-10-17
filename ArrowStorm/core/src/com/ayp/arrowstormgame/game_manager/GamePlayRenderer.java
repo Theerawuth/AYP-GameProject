@@ -62,16 +62,16 @@ public class GamePlayRenderer {
                         enemySprites.get("Boar"),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
-                        Enemy.ENEMY_SIZE,
-                        Enemy.ENEMY_SIZE
+                        Enemy.ENEMY_WIDTH,
+                        Enemy.ENEMY_HEIGHT
                 );
             } else if (enemy instanceof Tiger) {
                 game.spriteBatch.draw(
                         enemySprites.get("Tiger"),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
-                        Enemy.ENEMY_SIZE,
-                        Enemy.ENEMY_SIZE
+                        Enemy.ENEMY_WIDTH,
+                        Enemy.ENEMY_HEIGHT
                 );
             }
         }

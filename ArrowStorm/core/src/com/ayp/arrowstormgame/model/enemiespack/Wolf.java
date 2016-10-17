@@ -14,7 +14,9 @@ public class Wolf extends Enemy {
     // 0.2 * 1.2 = 0.24
     private static final float factorHealthPoint = 1.2f;
 
-    public Wolf(float x, float y) {
-        super(x, y, factorAttackDamage, factorMovementSpeed, factorHealthPoint);
+    public static final String TYPE = "Wolf";
+
+    public Wolf(float x, float y, int level) {
+        super(x, y, factorAttackDamage, factorMovementSpeed, factorHealthPoint, level);
     }
 }

@@ -1,6 +1,5 @@
 package com.ayp.arrowstormgame.helper;
 
-import com.ayp.arrowstormgame.model.Enemy;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -44,6 +43,8 @@ public class AssetsLoader {
     private static final String ENEMY_BOSS_KRAKEN_FILE_PATH
             = "enemies_pack/enemy_boss_kraken.png";
 
+    private static final float FONT_SCALE_X = 0.6f;
+    private static final float FONT_SCALE_Y = -0.6f;
 
     // PlayStateScreen
     public static Texture arrowImageTexture;
@@ -221,11 +222,10 @@ public class AssetsLoader {
 
 
         font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
-        font.getData().setScale(0.4f, -0.4f);
+        font.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
 
         shadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
-        shadow.getData().setScale(0.4f, -0.4f);
-
+        shadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
     }
 
     private static void disposeAssetsPlayStateScreen() {

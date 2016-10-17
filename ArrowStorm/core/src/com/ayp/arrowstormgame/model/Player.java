@@ -17,12 +17,12 @@ public class Player {
     // minimum attack speed is 1.12 second
     private static final long MINIMUM_ATTACK_SPEED = 1120000000;
     private long attackSpeedRange = MAXIMUM_ATTACK_SPEED - MINIMUM_ATTACK_SPEED;
-    // base attack speed is 1.12 second
+    // base attack speed is 1.12 seconda
     public static long BASE_ATTACK_SPEED = 1120000000;
     // attack speed will be set when create new instance player
     public static long attackSpeed;
     // level of attack speed skill 0 - 20
-    private int attackSpeedSkillLevel = 0;
+    private int attackSpeedSkillLevel = 20;
 
     private static final int MAXIMUM_HEALTH_POINT = 120;
     private static final int MINIMUM_HEALTH_POINT = 5;
@@ -35,7 +35,7 @@ public class Player {
     private static final int MINIMUM_ATTACK_DAMAGE = 10;
     private static int BASE_ATTACK_DAMAGE = 10;
     private int attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
-    private int attackDamageSkillLevel = 0;
+    private int attackDamageSkillLevel = 20;
     public static int attackDamage;
     private static final int MAX_LEVEL_SKILL = 20;
 
