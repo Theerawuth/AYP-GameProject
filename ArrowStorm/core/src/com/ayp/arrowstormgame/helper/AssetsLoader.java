@@ -239,12 +239,12 @@ public class AssetsLoader {
         gameOverMusic.dispose();
         shootingMusic.dispose();
         playStateBackgroundMusic.dispose();
-        enemyBugTexture.dispose();
-        bossGoldenBugTexture.dispose();
-        enemyWormTexture.dispose();
-        bossScorpionTexture.dispose();
-        enemyGuardianTexture.dispose();
-        bossKrakenTexture.dispose();
+//        enemyBugTexture.dispose();
+//        bossGoldenBugTexture.dispose();
+//        enemyWormTexture.dispose();
+//        bossScorpionTexture.dispose();
+//        enemyGuardianTexture.dispose();
+//        bossKrakenTexture.dispose();
     }
 
     private static void loadAssetsTitleScreen() {
