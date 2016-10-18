@@ -19,20 +19,20 @@ public abstract class Enemy {
     private float attackDamage;
     private float movementSpeed;
     private float healthPoint;
-    private static final int BASE_ATTACK_DAMAGE = 2;
-    private static final int MINIMUM_ATTACK_DAMAGE = 2;
-    private static final int MAXIMUM_ATTACK_DAMAGE = 45;
-    private int attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
+    private static final float BASE_ATTACK_DAMAGE = 2;
+    private static final float MINIMUM_ATTACK_DAMAGE = 2;
+    private static final float MAXIMUM_ATTACK_DAMAGE = 45;
+    private float attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
 
-    private static final int BASE_MOVEMENT_SPEED = 60;
-    private static final int MINIMUM_MOVEMENT_SPEED = 60;
-    private static final int MAXIMUM_MOVEMENT_SPEED = 175;
-    private int movementSpeedRange = MAXIMUM_MOVEMENT_SPEED - MINIMUM_MOVEMENT_SPEED;
+    private static final float BASE_MOVEMENT_SPEED = 60;
+    private static final float MINIMUM_MOVEMENT_SPEED = 60;
+    private static final float MAXIMUM_MOVEMENT_SPEED = 175;
+    private float movementSpeedRange = MAXIMUM_MOVEMENT_SPEED - MINIMUM_MOVEMENT_SPEED;
 
-    private static final int BASE_HEALTH_POINT = 8;
-    private static final int MINIMUM_HEALTH_POINT = 8;
-    private static final int MAXIMUM_HEALTH_POINT = 245;
-    private int healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
+    private static final float BASE_HEALTH_POINT = 8;
+    private static final float MINIMUM_HEALTH_POINT = 8;
+    private static final float MAXIMUM_HEALTH_POINT = 245;
+    private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
 
     private static final int MAX_LEVEL = 20;
     private Circle enemyBound;
