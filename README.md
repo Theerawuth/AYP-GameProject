@@ -81,10 +81,10 @@
   - Maximum HP: 245
   - Minimum HP: 8
 - Enemy Attack Damage
-  - Maximum AD: 45
+  - Maximum AD: 37
   - Minimum AD: 2
 - Enemy Movement Speed
-  - Maximum MS: 175
+  - Maximum MS: 130
   - Minimum MS: 60
 - Boss 1
   - Attack Damage: 20
