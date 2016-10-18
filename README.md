@@ -3,13 +3,13 @@
 * Collaborators
  * TANAPHON AUANHINKONG
  * THEERAWUTH PATTARAPONGKIT
-
+ 
 - [x] Title screen animation
 - [x] Collision check
 - [x] Score
 - [x] Backgroung music
 - [ ] Connect google email
-- [ ] Game timeline
+- [X] Game timeline
 
 ## Game info.
 - Score
@@ -32,23 +32,51 @@
   - Minimum attack damage: 10
 - Attack damage skill level 0 - 20
 
-### Enemy level 1 - 40
+### Enemy Level 1 - 40
+### Enemy types
+  __FACTOR__
+  - Bug
+    - *Factor Attack Damage: 0.5*
+    - *Factor Movement Speed: 0.5*
+    - *Factor Health Point: 2.0f;*
+  - Worm
+    - *Factor Attack Damage: 1.1*
+    - *Factor Movement Speed: 1.4*
+    - *Factor Health Point: 0.7*
+  - Guardian
+    - *Factor Attack Damage: 1.1*
+    - *Factor Movement Speed: 0.8*
+    - *Factor Health Point: 1.2*
+    
+- Enemy Timeline
+  - At the start of the game
+    - Enemy appear in stage
+      - Bug
+  - Boss 1 (Golden Bug) will spawn at 3 minutes
+    - Enemy appear in stage
+      - Bug
+      - Worm
+  - Boss 2 (Scorpion) will spawn at 6 minutes
+    - Enemy appear in stage
+      - Bug
+      - Worm
+      - Guardian
+  - Boss 3 (Kraken) will spawn at 10 minutes
 - Attribute weight
-  - Monster Class 1
+  - Enemy Class 1
     - ATK: 0.4
     - MS: 0.4
     - HP: 0.2
-    sum of (factor * weight) = 1
-  - Monster Class 2 (After Boss 1)
+  - Enemy Class 2 (After Boss 1 die)
     - ATK: 0.4
     - MS: 0.4
     - HP: 0.2
-    sum of (factor * weight) = 1.3
-  - Monster Class 3 (After Boss 2)
+    - Enemy HP multiply by 1.3
+  - Enemy Class 3 (After Boss 2 die)
     - ATK: 0.4
     - MS: 0.4
     - HP: 0.2
-    sum of (factor * weight) = 1.6
+    - Enemy HP multiply by 1.6
 - Enemy HP Range
   - Maximum HP: 245
   - Minimum HP: 8
