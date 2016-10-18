@@ -5,8 +5,11 @@ import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
-import com.ayp.arrowstormgame.model.enemiespack.Boar;
-import com.ayp.arrowstormgame.model.enemiespack.Tiger;
+import com.ayp.arrowstormgame.model.enemiespack.Bug;
+import com.ayp.arrowstormgame.model.enemiespack.Guardian;
+import com.ayp.arrowstormgame.model.enemiespack.Worm;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -28,6 +31,9 @@ public class GamePlayRenderer {
     private BitmapFont shadow;
     private String score;
     private GlyphLayout glyphLayout;
+    private Animation enemyBugAnimation;
+    private Animation enemyWormAnimation;
+    private Animation enemyGuardianAnimation;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
@@ -36,6 +42,9 @@ public class GamePlayRenderer {
         font = AssetsLoader.font;
         shadow = AssetsLoader.shadow;
         glyphLayout = new GlyphLayout();
+        enemyBugAnimation = AssetsLoader.enemyBugAnimation;
+        enemyWormAnimation = AssetsLoader.enemyWormAnimation;
+        enemyGuardianAnimation = AssetsLoader.enemyGuardianAnimation;
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -55,19 +64,27 @@ public class GamePlayRenderer {
         }
     }
 
-    public void drawEnemy(Array<Enemy> enemies) {
+    public void drawEnemy(Array<Enemy> enemies, float runtime) {
         for (Enemy enemy : enemies) {
-            if (enemy instanceof Boar) {
+            if (enemy instanceof Bug) {
                 game.spriteBatch.draw(
-                        enemySprites.get("Boar"),
+                        enemyBugAnimation.getKeyFrame(runtime, true),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
                         Enemy.ENEMY_WIDTH,
                         Enemy.ENEMY_HEIGHT
                 );
-            } else if (enemy instanceof Tiger) {
+            } else if (enemy instanceof Worm) {
                 game.spriteBatch.draw(
-                        enemySprites.get("Tiger"),
+                        enemyWormAnimation.getKeyFrame(runtime, true),
+                        enemy.getPosition().x,
+                        enemy.getPosition().y,
+                        Enemy.ENEMY_WIDTH,
+                        Enemy.ENEMY_HEIGHT
+                );
+            } else if (enemy instanceof Guardian) {
+                game.spriteBatch.draw(
+                        enemyGuardianAnimation.getKeyFrame(runtime, true),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
                         Enemy.ENEMY_WIDTH,

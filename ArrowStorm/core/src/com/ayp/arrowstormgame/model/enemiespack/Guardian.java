@@ -6,7 +6,7 @@ import com.ayp.arrowstormgame.model.Enemy;
  * Created by Tanaphon on 10/13/2016.
  */
 
-public class Wolf extends Enemy {
+public class Guardian extends Enemy {
     // 0.4 * 1.1 = 0.44
     private static final float factorAttackDamage = 1.1f;
     // 0.4 * 0.8 = 0.32
@@ -14,9 +14,9 @@ public class Wolf extends Enemy {
     // 0.2 * 1.2 = 0.24
     private static final float factorHealthPoint = 1.2f;
 
-    public static final String TYPE = "Wolf";
+    public static final String TYPE = "Guardian";
 
-    public Wolf(float x, float y, int level) {
+    public Guardian(float x, float y, int level) {
         super(x, y, factorAttackDamage, factorMovementSpeed, factorHealthPoint, level);
     }
 }

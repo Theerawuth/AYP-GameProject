@@ -5,15 +5,15 @@ import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.EnemyUniverse;
 import com.ayp.arrowstormgame.model.Player;
-import com.ayp.arrowstormgame.model.enemiespack.Boar;
-import com.ayp.arrowstormgame.model.enemiespack.Tiger;
+import com.ayp.arrowstormgame.model.enemiespack.Bug;
+import com.ayp.arrowstormgame.model.enemiespack.Guardian;
+import com.ayp.arrowstormgame.model.enemiespack.Worm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
@@ -128,6 +128,7 @@ public class GamePlayManager {
     public void updateCollision(float delta, Array<Enemy> enemies, Array<Arrow> arrows) {
         for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
+
             for (int j = 0; j < arrows.size; j++) {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
@@ -150,15 +151,17 @@ public class GamePlayManager {
         Random random = new Random();
         // 64 now is temp value for enemy width
         float originX = random.nextFloat() * (game.GAME_WIDTH - 64);
-
-        if (originX > game.GAME_WIDTH / 2) {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.BOAR, enemies);
+        if (originX < game.GAME_WIDTH / 3) {
+            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.BUG, enemies);
+        } else if (originX >= game.GAME_WIDTH / 3 && originX < (game.GAME_WIDTH * 2) / 3) {
+            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.WORM, enemies);
         } else {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.TIGER, enemies);
+            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.GUARDIAN, enemies);
         }
     }
 
     // Spawn an enemy.
+
     public void spawnEnemy(
             float originX,
             float originY,
@@ -175,14 +178,17 @@ public class GamePlayManager {
             Array<Enemy> enemies
     ) {
         switch (enemyType) {
-            case BOAR:
-                Enemy enemyBoar = new Boar(originX, originY, currentEnemyLevel);
-                enemies.add(enemyBoar);
+            case BUG:
+                Enemy enemyBug = new Bug(originX, originY, currentEnemyLevel);
+                enemies.add(enemyBug);
                 break;
-            case TIGER:
-                Enemy enemyTiger = new Tiger(originX, originY, currentEnemyLevel);
-                enemies.add(enemyTiger);
+            case WORM:
+                Enemy enemyWorm = new Worm(originX, originY, currentEnemyLevel);
+                enemies.add(enemyWorm);
                 return;
+            case GUARDIAN:
+                Enemy enemyGuardian = new Guardian(originX, originY, currentEnemyLevel);
+                enemies.add(enemyGuardian);
             default:
                 break;
         }

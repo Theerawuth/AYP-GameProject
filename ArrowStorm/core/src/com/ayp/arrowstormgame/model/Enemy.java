@@ -1,9 +1,9 @@
 package com.ayp.arrowstormgame.model;
 
 
-import com.ayp.arrowstormgame.model.enemiespack.Boar;
-import com.ayp.arrowstormgame.model.enemiespack.Tiger;
-import com.ayp.arrowstormgame.model.enemiespack.Wolf;
+import com.ayp.arrowstormgame.model.enemiespack.Bug;
+import com.ayp.arrowstormgame.model.enemiespack.Guardian;
+import com.ayp.arrowstormgame.model.enemiespack.Worm;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -75,23 +75,23 @@ public abstract class Enemy {
     }
 
     public int getScore(){
-        if (this instanceof Boar) {
-            score = Boar.BOAR_SCORE;
-        } else if (this instanceof Tiger) {
-            score = Tiger.TIGER_SCORE;
-        } else if (this instanceof Wolf) {
-//            type = Wolf.TYPE;
+        if (this instanceof Bug) {
+            score = Bug.BOAR_SCORE;
+        } else if (this instanceof Worm) {
+            score = Worm.TIGER_SCORE;
+        } else if (this instanceof Guardian) {
+//            type = Guardian.TYPE;
         }
         return score;
     }
 
     public String getType() {
-        if (this instanceof Boar) {
-            type = Boar.TYPE;
-        } else if (this instanceof Tiger) {
-            type = Tiger.TYPE;
-        } else if (this instanceof Wolf) {
-            type = Wolf.TYPE;
+        if (this instanceof Bug) {
+            type = Bug.TYPE;
+        } else if (this instanceof Worm) {
+            type = Worm.TYPE;
+        } else if (this instanceof Guardian) {
+            type = Guardian.TYPE;
         }
         return type;
     }
