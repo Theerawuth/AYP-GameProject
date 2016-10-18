@@ -21,12 +21,12 @@ public abstract class Enemy {
     private float healthPoint;
     private static final float BASE_ATTACK_DAMAGE = 2;
     private static final float MINIMUM_ATTACK_DAMAGE = 2;
-    private static final float MAXIMUM_ATTACK_DAMAGE = 45;
+    private static final float MAXIMUM_ATTACK_DAMAGE = 37;
     private float attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
 
     private static final float BASE_MOVEMENT_SPEED = 60;
     private static final float MINIMUM_MOVEMENT_SPEED = 60;
-    private static final float MAXIMUM_MOVEMENT_SPEED = 175;
+    private static final float MAXIMUM_MOVEMENT_SPEED = 130;
     private float movementSpeedRange = MAXIMUM_MOVEMENT_SPEED - MINIMUM_MOVEMENT_SPEED;
 
     private static final float BASE_HEALTH_POINT = 8;
