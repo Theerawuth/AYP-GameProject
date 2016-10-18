@@ -12,6 +12,7 @@
 - [X] Game timeline
 
 ## Game info.
+- Enemy spawn every 0.9 - 3.2 seconds
 - Score
   - Score is eaual to current level of monster
 - Gold
@@ -25,7 +26,7 @@
   - HP skill level 0 - 20  
 - Player Attack Speed Range
   - Maximum attack speed: 1.12
-  - Minumum attack speed: 0.33
+  - Minumum attack speed: 0.22
   - Attack speed skill level 0 - 20
 - Player Attack Damage Range
   - Maximum attack damage: 100
@@ -81,11 +82,11 @@
   - Maximum HP: 245
   - Minimum HP: 8
 - Enemy Attack Damage
-  - Maximum AD: 45
+  - Maximum AD: 37
   - Minimum AD: 2
 - Enemy Movement Speed
-  - Maximum MS: 240
-  - Minimum MS: 80
+  - Maximum MS: 130
+  - Minimum MS: 60
 - Boss 1
   - Attack Damage: 20
   - Health Point: 800
