@@ -24,9 +24,9 @@ public abstract class Enemy {
     private static final int MAXIMUM_ATTACK_DAMAGE = 45;
     private int attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
 
-    private static final int BASE_MOVEMENT_SPEED = 80;
-    private static final int MINIMUM_MOVEMENT_SPEED = 80;
-    private static final int MAXIMUM_MOVEMENT_SPEED = 240;
+    private static final int BASE_MOVEMENT_SPEED = 60;
+    private static final int MINIMUM_MOVEMENT_SPEED = 60;
+    private static final int MAXIMUM_MOVEMENT_SPEED = 175;
     private int movementSpeedRange = MAXIMUM_MOVEMENT_SPEED - MINIMUM_MOVEMENT_SPEED;
 
     private static final int BASE_HEALTH_POINT = 8;
@@ -114,9 +114,9 @@ public abstract class Enemy {
 
     public void move(float delta) {
         // Moving of square sprite
-        position.y += 100 * delta;
+        position.y += movementSpeed * delta;
         // Moving of circle bounding
-        boundPosition.y += 100 * delta;
+        boundPosition.y += movementSpeed * delta;
         enemyBound.setPosition(boundPosition);
     }
 
