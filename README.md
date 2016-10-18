@@ -84,8 +84,8 @@
   - Maximum AD: 45
   - Minimum AD: 2
 - Enemy Movement Speed
-  - Maximum MS: 240
-  - Minimum MS: 80
+  - Maximum MS: 175
+  - Minimum MS: 60
 - Boss 1
   - Attack Damage: 20
   - Health Point: 800
