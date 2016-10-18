@@ -19,7 +19,7 @@ public class Arrow {
     private Circle arrowBound;
     private static float CIRCLE_RADIUS_BOUND = 16;
     private static float BOUND_POINT_FROM_CENTER_TO_HEAD = 16;
-    private static float ARROW_VELOCITY = 420;
+    private static float ARROW_VELOCITY = 522;
     private float velocityX;
     private float velocityY;
     private float arrowBoundDeltaX;

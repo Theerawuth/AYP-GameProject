@@ -13,7 +13,7 @@ public class Player {
     public static final float PLAYER_WIDTH = ArrowStormGame.GAME_WIDTH;
     public static final float PLAYER_HEIGHT = ArrowStormGame.GAME_HEIGHT / 4;
     // maximum attack speed is 0.33 second
-    private static final long MAXIMUM_ATTACK_SPEED = 330000000;
+    private static final long MAXIMUM_ATTACK_SPEED = 220000000;
     // minimum attack speed is 1.12 second
     private static final long MINIMUM_ATTACK_SPEED = 1120000000;
     private long attackSpeedRange = MAXIMUM_ATTACK_SPEED - MINIMUM_ATTACK_SPEED;
