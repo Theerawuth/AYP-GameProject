@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame.model;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.badlogic.gdx.Gdx;
 
 /**
  * Created by Theerawuth on 9/23/2016.
@@ -17,26 +18,26 @@ public class Player {
     // minimum attack speed is 1.12 second
     private static final long MINIMUM_ATTACK_SPEED = 1120000000;
     private long attackSpeedRange = MAXIMUM_ATTACK_SPEED - MINIMUM_ATTACK_SPEED;
-    // base attack speed is 1.12 seconda
+    // base attack speed is 1.12 second
     public static long BASE_ATTACK_SPEED = 1120000000;
     // attack speed will be set when create new instance player
     public static long attackSpeed;
     // level of attack speed skill 0 - 20
     private int attackSpeedSkillLevel = 20;
 
-    private static final int MAXIMUM_HEALTH_POINT = 120;
-    private static final int MINIMUM_HEALTH_POINT = 5;
-    private static int BASE_HEALTH_POINT = 5;
-    private int healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
-    private int healthPointSkillLevel = 0;
-    public static int healthPoint;
+    private static final float MAXIMUM_HEALTH_POINT = 120;
+    private static final float MINIMUM_HEALTH_POINT = 5;
+    private static float BASE_HEALTH_POINT = 5;
+    private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
+    private int healthPointSkillLevel = 20;
+    public static float healthPoint;
 
-    private static final int MAXIMUM_ATTACK_DAMAGE = 100;
-    private static final int MINIMUM_ATTACK_DAMAGE = 10;
-    private static int BASE_ATTACK_DAMAGE = 10;
-    private int attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
+    private static final float MAXIMUM_ATTACK_DAMAGE = 100;
+    private static final float MINIMUM_ATTACK_DAMAGE = 10;
+    private static float BASE_ATTACK_DAMAGE = 10;
+    private float attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
     private int attackDamageSkillLevel = 20;
-    public static int attackDamage;
+    public static float attackDamage;
     private static final int MAX_LEVEL_SKILL = 20;
 
     public Player() {
@@ -49,5 +50,6 @@ public class Player {
         attackDamage =
                 BASE_ATTACK_DAMAGE
                         + (attackDamageSkillLevel * ((attackDamageRange) / MAX_LEVEL_SKILL));
+        Gdx.app.log("Player", "attackSpeed: " + attackSpeed + ", healthPoint: " + healthPoint + ", attackDamage: " + attackDamage);
     }
 }

@@ -70,7 +70,7 @@ public abstract class Enemy {
         return healthPoint <= 0;
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(float damage) {
         healthPoint -= damage;
     }
 
