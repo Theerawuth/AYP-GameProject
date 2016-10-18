@@ -67,6 +67,7 @@ public class AssetsLoader {
     public static TextureRegion playStateBackgroundOne, playStateBackgroundTwo, playStateBackgroundThree;
     //Icon
     public static Texture pauseTexture;
+    public static Sprite pauseSprite;
     public static Texture quitTexture;
     public static Sprite quitSprite;
     public static Texture resumeTexture;
@@ -141,6 +142,16 @@ public class AssetsLoader {
     public static Texture closeMusicTexture;
     public static Sprite closeMusicSprite;
 
+    //MonsterInfoScreen
+    public static Texture monsterInfoImageTexture;
+    public static Sprite monsterInfoImageSprite;
+    public static Texture headerTexture;
+    public static Sprite headerSprite;
+    public static Texture backIconTexture;
+    public static Sprite backIconSprite;
+    public static Texture forwardIconTexture;
+    public static Sprite forwardIconSprite;
+
     public static void load() {
         enemiesSprite = new HashMap<String, Sprite>();
         // PlayStateScreen
@@ -151,6 +162,9 @@ public class AssetsLoader {
 
         // MainMenuScreen
         loadAssetsMainMenuScreen();
+
+        //MonsterInfoScreen
+        loadAssetsMonsterInfoScreen();
     }
 
     public static void dispose() {
@@ -162,6 +176,9 @@ public class AssetsLoader {
 
         // MainMenuScreen
         disposeAssetsMainMenuScreen();
+
+        //MonsterInfoScreen
+        disposeAssetsMonsterInfoScreen();
     }
 
     private static void loadAssetsPlayStateScreen() {
@@ -189,11 +206,13 @@ public class AssetsLoader {
                 PLAY_STATE_BG_HEIGHT);
         playStateBackgroundThree.flip(false, true);
         //Icon
-        pauseTexture = new Texture(Gdx.files.internal("Icon/pause_icon.png"));
-        quitTexture = new Texture(Gdx.files.internal("Icon/quit_icon.png"));
+        pauseTexture = new Texture(Gdx.files.internal("icon/pause_icon.png"));
+        pauseSprite = new Sprite(pauseTexture);
+        pauseSprite.flip(false, true);
+        quitTexture = new Texture(Gdx.files.internal("icon/quit_icon.png"));
         quitSprite = new Sprite(quitTexture);
         quitSprite.flip(false, true);
-        resumeTexture = new Texture(Gdx.files.internal("Icon/resume_icon.png"));
+        resumeTexture = new Texture(Gdx.files.internal("icon/resume_icon.png"));
         resumeSprite = new Sprite(resumeTexture);
         resumeSprite.flip(false, true);
         //Player
@@ -386,6 +405,26 @@ public class AssetsLoader {
         monsterImageTexture.dispose();
         facebookImageTexture.dispose();
         mainMenuBackgroundMusic.dispose();
+    }
+
+    private static void loadAssetsMonsterInfoScreen() {
+        monsterInfoImageTexture = new Texture(Gdx.files.internal("background/monster_info_background.png"));
+        monsterInfoImageSprite = new Sprite(monsterInfoImageTexture);
+        monsterInfoImageSprite.flip(false, true);
+        headerTexture = new Texture(Gdx.files.internal("header_text_monster_info.png"));
+        headerSprite = new Sprite(headerTexture);
+        headerSprite.flip(false, true);
+        backIconTexture = new Texture(Gdx.files.internal("icon/back_icon.png"));
+        backIconSprite = new Sprite(backIconTexture);
+        forwardIconTexture = new Texture(Gdx.files.internal("icon/forward_icon.png"));
+        forwardIconSprite = new Sprite(forwardIconTexture);
+    }
+
+    private static void disposeAssetsMonsterInfoScreen() {
+        monsterInfoImageTexture.dispose();
+        headerTexture.dispose();
+        backIconTexture.dispose();
+        forwardIconTexture.dispose();
     }
 
 }
