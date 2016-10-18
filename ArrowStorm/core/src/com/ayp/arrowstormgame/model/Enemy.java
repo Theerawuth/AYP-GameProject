@@ -100,10 +100,6 @@ public abstract class Enemy {
         return attackDamage;
     }
 
-    public float getMovementSpeed() {
-        return movementSpeed;
-    }
-
     public float getHealthPoint() {
         return healthPoint;
     }
