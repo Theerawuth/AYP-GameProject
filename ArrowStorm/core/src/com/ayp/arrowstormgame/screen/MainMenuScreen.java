@@ -4,6 +4,7 @@ import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.MusicManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -56,6 +57,8 @@ public class MainMenuScreen implements Screen {
     private MusicManager manageMusicToBattle;
     boolean isClick;
 
+    private Preferences musicPref;
+
     //TODO Create menu button
 
     public MainMenuScreen(final ArrowStormGame game) {
@@ -72,6 +75,7 @@ public class MainMenuScreen implements Screen {
         toBattleMusic = AssetsLoader.toBattleMusic;
         elapsedTime = 0;
         isClick = false;
+        musicPref = Gdx.app.getPreferences("MyPreference");
     }
 
     @Override
@@ -87,6 +91,7 @@ public class MainMenuScreen implements Screen {
         elapsedTime += delta;
         game.spriteBatch.setProjectionMatrix(game.camera.combined);
         game.spriteBatch.begin();
+        drawBackground();
         drawIcon();
         game.spriteBatch.end();
         handleTouchEvent();
@@ -117,10 +122,14 @@ public class MainMenuScreen implements Screen {
 
     }
 
-    private void drawIcon() {
+    private void drawBackground() {
         game.spriteBatch.draw(
                 mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT
         );
+    }
+
+
+    private void drawIcon() {
         game.spriteBatch.draw(
                 highScoreImageSprite, HIGH_SCORE_POS_X, HIGH_SCORE_POS_Y, ICON_WIDTH, ICON_HEIGHT
         );
@@ -136,13 +145,23 @@ public class MainMenuScreen implements Screen {
         game.spriteBatch.draw(
                 facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT
         );
-        game.spriteBatch.draw(
-                closeMusicSprite,
-                CLOSE_MUSIC_POS_X,
-                CLOSE_MUSIC_POS_Y,
-                MUSIC_ICON_WIDTH,
-                MUSIC_ICON_HEIGHT
-        );
+        if (musicPref.getBoolean("soundOn")) {
+            game.spriteBatch.draw(
+                    closeMusicSprite,
+                    CLOSE_MUSIC_POS_X,
+                    CLOSE_MUSIC_POS_Y,
+                    MUSIC_ICON_WIDTH,
+                    MUSIC_ICON_HEIGHT
+            );
+        } else {
+            game.spriteBatch.draw(
+                    openMusicSprite,
+                    CLOSE_MUSIC_POS_X,
+                    CLOSE_MUSIC_POS_Y,
+                    MUSIC_ICON_WIDTH,
+                    MUSIC_ICON_HEIGHT
+            );
+        }
     }
 
     private void handleTouchEvent() {
@@ -150,23 +169,28 @@ public class MainMenuScreen implements Screen {
         float y = Gdx.input.getY();
         touchButton = new Vector3(x, y, 0);
         battleImageSprite.setPosition(BATTLE_POS_X, BATTLE_POS_Y);
+        monsterImageSprite.setPosition(MONSTER_POS_X, MONSTER_POS_Y);
         openMusicSprite.setPosition(OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y);
         closeMusicSprite.setPosition(CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y);
         game.camera.unproject(touchButton);
-        if (Gdx.input.isTouched() && elapsedTime > 2.0) {
+        if (Gdx.input.isTouched() && elapsedTime > 0.5) {
             elapsedTime = 0;
-            Gdx.app.log(TAG, "x: " + touchButton.x + ", y: " + touchButton.y);
-            Gdx.app.log(TAG, "x: " + battleImageSprite.getX() + ", y: " + battleImageSprite.getY());
             if (touchButton.x > battleImageSprite.getX()
                     && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
                     && touchButton.y > battleImageSprite.getY()
                     && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
-                Gdx.app.log("MusicManager", "Click to PlayStateScreen");
                 manageMusicToBattle = new MusicManager(toBattleMusic);
                 manageMusicToBattle.backgroundMusicPlay();
                 manageMusicMainBackground.backgroundMusicStop();
                 game.setScreen(new PlayStateScreen(game));
             }
+            if (touchButton.x > monsterImageSprite.getX()
+                    && touchButton.x < (monsterImageSprite.getX() + monsterImageSprite.getWidth())
+                    && touchButton.y > monsterImageSprite.getY()
+                    && touchButton.y < (monsterImageSprite.getY() + monsterImageSprite.getHeight())) {
+                game.setScreen(new MonsterInfoScreen(game));
+            }
+
             if (touchButton.x > openMusicSprite.getX()
                     && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
                     && touchButton.y > openMusicSprite.getY()
@@ -178,6 +202,7 @@ public class MainMenuScreen implements Screen {
                     && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
                 Gdx.app.log("MusicManager", "Click On/Off Sound");
                 manageMusicMainBackground.setSwitchSound();
+
             }
         }
     }
