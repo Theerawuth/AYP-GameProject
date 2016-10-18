@@ -58,13 +58,6 @@ public class AssetsLoader {
     public static Music shootingMusic;
 
     // // Enemy
-    public static HashMap<String, Sprite> enemiesSprite;
-    public static String BOAR_SPRITE = "Bug";
-    public static Texture boarTexture;
-    public static Sprite boarSprite;
-    public static String TIGER_SPRITE = "Worm";
-    public static Texture tigerTexture;
-    public static Sprite tigerSprite;
 
     // // Enemy animation in stage one  
     public static Texture enemyBugTexture;
@@ -123,7 +116,6 @@ public class AssetsLoader {
     public static Sprite closeMusicSprite;
 
     public static void load() {
-        enemiesSprite = new HashMap<String, Sprite>();
         // PlayStateScreen
         loadAssetsPlayStateScreen();
 
@@ -208,10 +200,6 @@ public class AssetsLoader {
                 0.1f
         );
 
-        enemiesSprite.put(BOAR_SPRITE, boarSprite);
-        enemiesSprite.put(TIGER_SPRITE, tigerSprite);
-
-
         font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         font.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
 
@@ -221,9 +209,6 @@ public class AssetsLoader {
 
     private static void disposeAssetsPlayStateScreen() {
         arrowImageTexture.dispose();
-        boarTexture.dispose();
-        tigerTexture.dispose();
-        enemiesSprite.clear();
         font.dispose();
         monsterDeadMusic.dispose();
         bossEnemyMusic.dispose();

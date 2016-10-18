@@ -38,7 +38,6 @@ public class GamePlayRenderer {
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
         arrowSprite = AssetsLoader.arrowImageSprite;
-        enemySprites = AssetsLoader.enemiesSprite;
         font = AssetsLoader.font;
         shadow = AssetsLoader.shadow;
         glyphLayout = new GlyphLayout();
