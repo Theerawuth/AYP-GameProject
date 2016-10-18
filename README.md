@@ -12,6 +12,7 @@
 - [X] Game timeline
 
 ## Game info.
+- Enemy spawn every 0.9 - 3.2 seconds
 - Score
   - Score is eaual to current level of monster
 - Gold
