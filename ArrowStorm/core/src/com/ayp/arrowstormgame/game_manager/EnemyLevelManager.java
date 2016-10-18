@@ -16,13 +16,15 @@ public class EnemyLevelManager {
     }
 
     /**
-     * Enemy level will increase by 1 every 15 seconds
+     * Enemy level will increase by 1 every 12 seconds
+     *
      * @param delta game time in 1 frame rendered
      */
     public void updateEnemyLevelByTime(float delta) {
-        if (currentEnemyLevel <= 40 && gameTimer >= 15) {
+        if (currentEnemyLevel < 40 && gameTimer >= 12) {
             currentEnemyLevel++;
             gameTimer = 0;
+            Gdx.app.log("updateEnemyLevelByTime", "currentEnemyLevel" + currentEnemyLevel);
         }
         gameTimer += delta;
     }

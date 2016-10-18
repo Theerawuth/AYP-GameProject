@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.game_manager.EnemyLevelManager;
 import com.ayp.arrowstormgame.game_manager.GamePlayManager;
 import com.ayp.arrowstormgame.game_manager.GamePlayRenderer;
 import com.ayp.arrowstormgame.model.Arrow;
@@ -19,22 +20,21 @@ public class PlayStateScreen implements Screen {
     final private ArrowStormGame game;
     private GamePlayRenderer gamePlayRenderer;
     private GamePlayManager gamePlayManager;
+    private EnemyLevelManager enemyLevelManager;
 
     private Array<Arrow> arrows;
     private Array<Enemy> enemies;
 
     private float runtime;
 
-    private float elapseTime;
-
 
     public PlayStateScreen(final ArrowStormGame game) {
         this.game = game;
         gamePlayRenderer = new GamePlayRenderer(game);
         gamePlayManager = new GamePlayManager(game);
+        enemyLevelManager = gamePlayManager.getEnemyLevelManager();
         arrows = new Array<Arrow>();
         enemies = new Array<Enemy>();
-        elapseTime = 0;
         runtime = 0;
     }
 
@@ -48,14 +48,16 @@ public class PlayStateScreen implements Screen {
         runtime += delta;
         Gdx.gl.glClearColor(0, 0, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        gamePlayRenderer.drawBackground();
-        game.shapeRenderer.end();
         gamePlayManager.updateCollision(delta, enemies, arrows);
         gamePlayManager.handleTouchEvent(arrows);
         gamePlayManager.updateEnemy(delta, enemies);
         gamePlayManager.updateArrow(delta, arrows);
-        gamePlayManager.updateGamePlayByDeltaTimeFromRender(delta);
+        enemyLevelManager.updateEnemyLevelByTime(delta);
+
+        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        gamePlayRenderer.drawBackground();
+        game.shapeRenderer.end();
+
         game.spriteBatch.begin();
         game.spriteBatch.enableBlending();
         gamePlayRenderer.drawArrow(arrows);
@@ -64,11 +66,8 @@ public class PlayStateScreen implements Screen {
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();
 
-        elapseTime += delta;
-        if (elapseTime > 2) {
-            gamePlayManager.randomSpawnAnWithFixedTime(enemies);
-            elapseTime = 0;
-        }
+        gamePlayManager.update();
+        gamePlayManager.spawnEnemy(delta, enemies);
     }
 
     @Override

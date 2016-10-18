@@ -25,7 +25,6 @@ public class GamePlayRenderer {
 
     final private ArrowStormGame game;
     private Sprite arrowSprite;
-    private HashMap<String, Sprite> enemySprites;
     private static final int NORMAL_SCALE_ARROW = 1;
     private BitmapFont font;
     private BitmapFont shadow;

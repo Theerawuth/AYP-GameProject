@@ -3,18 +3,13 @@ package com.ayp.arrowstormgame.game_manager;
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
-import com.ayp.arrowstormgame.model.EnemyUniverse;
 import com.ayp.arrowstormgame.model.Player;
-import com.ayp.arrowstormgame.model.enemiespack.Bug;
-import com.ayp.arrowstormgame.model.enemiespack.Guardian;
-import com.ayp.arrowstormgame.model.enemiespack.Worm;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
 
@@ -33,17 +28,37 @@ public class GamePlayManager {
     private Vector3 touchPosition;
     private int score = 0;
     private Player player;
-    private int currentEnemyLevel;
+    private EnemySpawnManager enemySpawnManager;
     private EnemyLevelManager enemyLevelManager;
+    int stage;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
         player = new Player();
         enemyLevelManager = new EnemyLevelManager();
+        enemySpawnManager = new EnemySpawnManager(enemyLevelManager);
         lastArrow = PREPARE_SHOOT;
         shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
-        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
+        stage = 1;
+    }
+
+    public EnemyLevelManager getEnemyLevelManager() {
+        return enemyLevelManager;
+    }
+
+    public void update() {
+        if (enemyLevelManager.getCurrentEnemyLevel() > 15
+                && enemyLevelManager.getCurrentEnemyLevel() <= 30) {
+            stage = 2;
+        } else if (enemyLevelManager.getCurrentEnemyLevel() > 30
+                && enemyLevelManager.getCurrentEnemyLevel() <= 40) {
+            stage = 3;
+        }
+    }
+
+    public void spawnEnemy(float delta, Array<Enemy> enemies) {
+        enemySpawnManager.spawnUnderStage(delta, stage, enemies);
     }
 
 
@@ -112,9 +127,8 @@ public class GamePlayManager {
         for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
             enemy.move(delta);
-            if (enemy.getPosition().x - enemy.getEnemyBound().radius < 0
-                    || enemy.getPosition().x > game.GAME_WIDTH
-                    || enemy.getPosition().y > game.GAME_HEIGHT - Player.PLAYER_HEIGHT - Enemy.ENEMY_HEIGHT) {
+            if (enemy.getPosition().y
+                    > game.GAME_HEIGHT - Player.PLAYER_HEIGHT - Enemy.ENEMY_HEIGHT) {
                 preparedRemovedEnemyIndexes.add(i);
             }
         }
@@ -147,59 +161,8 @@ public class GamePlayManager {
         }
     }
 
-    public void randomSpawnAnWithFixedTime(Array<Enemy> enemies) {
-        Random random = new Random();
-        // 64 now is temp value for enemy width
-        float originX = random.nextFloat() * (game.GAME_WIDTH - 64);
-        if (originX < game.GAME_WIDTH / 3) {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.BUG, enemies);
-        } else if (originX >= game.GAME_WIDTH / 3 && originX < (game.GAME_WIDTH * 2) / 3) {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.WORM, enemies);
-        } else {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.GUARDIAN, enemies);
-        }
-    }
-
-    // Spawn an enemy.
-
-    public void spawnEnemy(
-            float originX,
-            float originY,
-            EnemyUniverse.EnemyType enemyType,
-            Array<Enemy> enemies
-    ) {
-        spawnByType(originX, originY, enemyType, enemies);
-    }
-
-    public void spawnByType(
-            float originX,
-            float originY,
-            EnemyUniverse.EnemyType enemyType,
-            Array<Enemy> enemies
-    ) {
-        switch (enemyType) {
-            case BUG:
-                Enemy enemyBug = new Bug(originX, originY, currentEnemyLevel);
-                enemies.add(enemyBug);
-                break;
-            case WORM:
-                Enemy enemyWorm = new Worm(originX, originY, currentEnemyLevel);
-                enemies.add(enemyWorm);
-                return;
-            case GUARDIAN:
-                Enemy enemyGuardian = new Guardian(originX, originY, currentEnemyLevel);
-                enemies.add(enemyGuardian);
-            default:
-                break;
-        }
-    }
-
     public String getScore() {
         return Integer.toString(score);
     }
 
-    public void updateGamePlayByDeltaTimeFromRender(float delta) {
-        enemyLevelManager.updateEnemyLevelByTime(delta);
-        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
-    }
 }

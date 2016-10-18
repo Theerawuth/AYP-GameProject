@@ -1,6 +1,5 @@
 package com.ayp.arrowstormgame.model;
 
-
 import com.ayp.arrowstormgame.model.enemiespack.Bug;
 import com.ayp.arrowstormgame.model.enemiespack.Guardian;
 import com.ayp.arrowstormgame.model.enemiespack.Worm;
@@ -24,9 +23,9 @@ public abstract class Enemy {
     private static final float MAXIMUM_ATTACK_DAMAGE = 37;
     private float attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
 
-    private static final float BASE_MOVEMENT_SPEED = 60;
-    private static final float MINIMUM_MOVEMENT_SPEED = 60;
-    private static final float MAXIMUM_MOVEMENT_SPEED = 130;
+    private static final float BASE_MOVEMENT_SPEED = 70;
+    private static final float MINIMUM_MOVEMENT_SPEED = 70;
+    private static final float MAXIMUM_MOVEMENT_SPEED = 95;
     private float movementSpeedRange = MAXIMUM_MOVEMENT_SPEED - MINIMUM_MOVEMENT_SPEED;
 
     private static final float BASE_HEALTH_POINT = 8;
@@ -40,7 +39,6 @@ public abstract class Enemy {
     private Vector2 boundPosition;
 
     private String type;
-
     private int score;
 
     public Enemy(
@@ -74,7 +72,7 @@ public abstract class Enemy {
         healthPoint -= damage;
     }
 
-    public int getScore(){
+    public int getScore() {
         if (this instanceof Bug) {
             score = Bug.BOAR_SCORE;
         } else if (this instanceof Worm) {
