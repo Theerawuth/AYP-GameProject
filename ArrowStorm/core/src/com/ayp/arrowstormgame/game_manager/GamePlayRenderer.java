@@ -31,9 +31,7 @@ public class GamePlayRenderer {
     private BitmapFont shadow;
     private String score;
     private GlyphLayout glyphLayout;
-    private Animation enemyBugAnimation;
-    private Animation enemyWormAnimation;
-    private Animation enemyGuardianAnimation;
+    private HashMap<String, Animation> enemyAnimationMap;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
@@ -41,9 +39,7 @@ public class GamePlayRenderer {
         font = AssetsLoader.font;
         shadow = AssetsLoader.shadow;
         glyphLayout = new GlyphLayout();
-        enemyBugAnimation = AssetsLoader.enemyBugAnimation;
-        enemyWormAnimation = AssetsLoader.enemyWormAnimation;
-        enemyGuardianAnimation = AssetsLoader.enemyGuardianAnimation;
+        enemyAnimationMap = AssetsLoader.enemyAnimationMap;
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -67,7 +63,9 @@ public class GamePlayRenderer {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Bug) {
                 game.spriteBatch.draw(
-                        enemyBugAnimation.getKeyFrame(runtime, true),
+                        enemyAnimationMap
+                                .get(AssetsLoader.BUG_ANIMATION)
+                                .getKeyFrame(runtime, true),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
                         Enemy.ENEMY_WIDTH,
@@ -75,7 +73,9 @@ public class GamePlayRenderer {
                 );
             } else if (enemy instanceof Worm) {
                 game.spriteBatch.draw(
-                        enemyWormAnimation.getKeyFrame(runtime, true),
+                        enemyAnimationMap
+                                .get(AssetsLoader.WORM_ANIMATION)
+                                .getKeyFrame(runtime, true),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
                         Enemy.ENEMY_WIDTH,
@@ -83,7 +83,9 @@ public class GamePlayRenderer {
                 );
             } else if (enemy instanceof Guardian) {
                 game.spriteBatch.draw(
-                        enemyGuardianAnimation.getKeyFrame(runtime, true),
+                        enemyAnimationMap
+                                .get(AssetsLoader.GUARDIAN_ANIMATION)
+                                .getKeyFrame(runtime, true),
                         enemy.getPosition().x,
                         enemy.getPosition().y,
                         Enemy.ENEMY_WIDTH,

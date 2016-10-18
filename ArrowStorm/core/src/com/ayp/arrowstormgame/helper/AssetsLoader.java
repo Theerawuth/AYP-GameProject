@@ -211,6 +211,7 @@ public class AssetsLoader {
         );
 
         // put enemies and bosses animation to map
+        enemyAnimationMap = new HashMap<String, Animation>();
         enemyAnimationMap.put(BUG_ANIMATION, enemyBugAnimation);
         enemyAnimationMap.put(WORM_ANIMATION, enemyWormAnimation);
         enemyAnimationMap.put(GUARDIAN_ANIMATION, enemyGuardianAnimation);
@@ -233,12 +234,12 @@ public class AssetsLoader {
         gameOverMusic.dispose();
         shootingMusic.dispose();
         playStateBackgroundMusic.dispose();
-//        enemyBugTexture.dispose();
-//        bossGoldenBugTexture.dispose();
-//        enemyWormTexture.dispose();
-//        bossScorpionTexture.dispose();
-//        enemyGuardianTexture.dispose();
-//        bossKrakenTexture.dispose();
+        enemyBugTexture.dispose();
+        bossGoldenBugTexture.dispose();
+        enemyWormTexture.dispose();
+        bossScorpionTexture.dispose();
+        enemyGuardianTexture.dispose();
+        bossKrakenTexture.dispose();
     }
 
     private static void loadAssetsTitleScreen() {
