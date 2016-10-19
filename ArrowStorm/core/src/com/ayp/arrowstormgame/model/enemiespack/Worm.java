@@ -16,8 +16,6 @@ public class Worm extends Enemy {
 
     public static final String TYPE = "Worm";
 
-    public static int TIGER_SCORE = 5;
-
     public Worm(float x, float y, int level) {
         super(x, y, factorAttackDamage, factorMovementSpeed, factorHp, level);
     }

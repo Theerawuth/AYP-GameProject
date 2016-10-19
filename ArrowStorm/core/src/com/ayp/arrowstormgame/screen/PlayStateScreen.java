@@ -55,11 +55,13 @@ public class PlayStateScreen implements Screen {
         enemyLevelManager.updateEnemyLevelByTime(delta);
 
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        gamePlayRenderer.drawBackground();
+        gamePlayRenderer.drawBackgroundPlayer();
         game.shapeRenderer.end();
 
         game.spriteBatch.begin();
+        gamePlayRenderer.drawBackground();
         game.spriteBatch.enableBlending();
+        gamePlayRenderer.drawPlayer(runtime);
         gamePlayRenderer.drawArrow(arrows);
         gamePlayRenderer.drawEnemy(enemies, runtime);
         gamePlayRenderer.drawScore(gamePlayManager);

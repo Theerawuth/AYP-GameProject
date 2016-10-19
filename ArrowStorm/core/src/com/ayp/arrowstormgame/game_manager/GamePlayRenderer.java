@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
@@ -31,6 +33,12 @@ public class GamePlayRenderer {
     private String score;
     private GlyphLayout glyphLayout;
     private HashMap<String, Animation> enemyAnimationMap;
+    private TextureRegion backgroundStageOne;
+    private TextureRegion backgroundStageTwo;
+    private TextureRegion backgroundStageThree;
+    private Animation playerAnimation;
+    private TextureRegion playerStandBy;
+    private Vector3 touchPosition;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
@@ -39,6 +47,12 @@ public class GamePlayRenderer {
         shadow = AssetsLoader.shadow;
         glyphLayout = new GlyphLayout();
         enemyAnimationMap = AssetsLoader.enemyAnimationMap;
+        backgroundStageOne = AssetsLoader.playStateBackgroundOne;
+        backgroundStageTwo = AssetsLoader.playStateBackgroundTwo;
+        backgroundStageThree = AssetsLoader.playStateBackgroundThree;
+        playerAnimation = AssetsLoader.playerAnimation;
+        playerAnimation.setFrameDuration(Player.attackSpeed / 2000000000f);
+        playerStandBy = AssetsLoader.playerStandBy;
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -94,7 +108,7 @@ public class GamePlayRenderer {
         }
     }
 
-    public void drawBackground() {
+    public void drawBackgroundPlayer() {
         game.shapeRenderer.setColor(1, 0, 0, 1);
         game.shapeRenderer.rect(
                 Player.POSITION_X,
@@ -125,5 +139,46 @@ public class GamePlayRenderer {
                 (game.GAME_WIDTH / 2) + glyphLayout.height / 2,
                 game.GAME_HEIGHT / 10
         );
+    }
+
+    public void drawBackground() {
+        game.spriteBatch.draw(backgroundStageOne, 0, 0);
+    }
+
+    public void drawPlayer(float runtime) {
+        if (Gdx.input.isTouched()) {
+//            touchPosition = new Vector3();
+//            touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//            game.camera.unproject(touchPosition);
+//            if (touchPosition.y < Player.SHOOTING_POINT_Y) {
+//                // Cancelled touch outside of player zone
+//                return;
+//            }
+            game.spriteBatch.draw(
+                    playerAnimation.getKeyFrame(runtime, true),
+                    Player.SHOOTING_POINT_X - 48,
+                    Player.POSITION_Y,
+                    Player.PLAYER_WIDTH / 2,
+                    Player.PLAYER_HEIGHT / 2,
+                    Player.PLAYER_WIDTH,
+                    Player.PLAYER_HEIGHT,
+                    Player.SCALE_X,
+                    Player.SCALE_Y,
+                    Player.angle
+            );
+        } else {
+            game.spriteBatch.draw(
+                    playerStandBy,
+                    Player.SHOOTING_POINT_X - 48,
+                    Player.POSITION_Y,
+                    Player.PLAYER_WIDTH / 2,
+                    Player.PLAYER_HEIGHT / 2,
+                    Player.PLAYER_WIDTH,
+                    Player.PLAYER_HEIGHT,
+                    Player.SCALE_X,
+                    Player.SCALE_Y,
+                    Player.angle
+            );
+        }
     }
 }

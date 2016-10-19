@@ -16,8 +16,6 @@ public class Bug extends Enemy {
 
     public static final String TYPE = "Bug";
 
-    public static int BOAR_SCORE = 3;
-
     public Bug(float x, float y, int level) {
         super(x, y, factorAttackDamage, factorMovementSpeed, factorHp, level);
     }

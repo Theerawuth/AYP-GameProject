@@ -40,6 +40,7 @@ public abstract class Enemy {
 
     private String type;
     private int score;
+    private int gold;
 
     public Enemy(
             float x,
@@ -53,6 +54,9 @@ public abstract class Enemy {
         // to set origin point of bound at center of sprite when it has been drawn
         boundPosition = new Vector2(x + RADIUS, y + RADIUS);
         enemyBound = new Circle(boundPosition, RADIUS);
+
+        score = level + 1;
+        gold = (level + 1) * 2;
 
         attackDamage = BASE_ATTACK_DAMAGE + (level * (attackDamageRange / MAX_LEVEL));
         attackDamage *= factorAttackDamage;
@@ -73,13 +77,6 @@ public abstract class Enemy {
     }
 
     public int getScore() {
-        if (this instanceof Bug) {
-            score = Bug.BOAR_SCORE;
-        } else if (this instanceof Worm) {
-            score = Worm.TIGER_SCORE;
-        } else if (this instanceof Guardian) {
-//            type = Guardian.TYPE;
-        }
         return score;
     }
 

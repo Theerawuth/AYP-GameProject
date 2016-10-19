@@ -23,7 +23,6 @@ public class ArrowStormGame extends Game {
         spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);
-//        setScreen(new TitleScreen(this));
         setScreen(new TitleScreen(this));
     }
 

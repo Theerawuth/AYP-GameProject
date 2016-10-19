@@ -9,10 +9,12 @@ import com.badlogic.gdx.Gdx;
 public class Player {
     public static final float SHOOTING_POINT_X = ArrowStormGame.GAME_WIDTH / 2;
     public static final float SHOOTING_POINT_Y = ArrowStormGame.GAME_HEIGHT * 3 / 4;
+    public static final float SCALE_X = 1f;
+    public static final float SCALE_Y = 1f;
     public static final float POSITION_X = 0;
     public static final float POSITION_Y = ArrowStormGame.GAME_HEIGHT * 3 / 4;
-    public static final float PLAYER_WIDTH = ArrowStormGame.GAME_WIDTH;
-    public static final float PLAYER_HEIGHT = ArrowStormGame.GAME_HEIGHT / 4;
+    public static final float PLAYER_WIDTH = 96f;
+    public static final float PLAYER_HEIGHT = 96f;
     // maximum attack speed is 0.33 second
     private static final long MAXIMUM_ATTACK_SPEED = 220000000;
     // minimum attack speed is 1.12 second
@@ -39,6 +41,8 @@ public class Player {
     private int attackDamageSkillLevel = 20;
     public static float attackDamage;
     private static final int MAX_LEVEL_SKILL = 20;
+
+    public static float angle = 0;
 
     public Player() {
         attackSpeed =

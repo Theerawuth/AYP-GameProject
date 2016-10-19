@@ -5,6 +5,7 @@ import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -79,6 +80,7 @@ public class GamePlayManager {
 
             float arrowAngle = angleDegree - 90;
             float arrowDirectionAngle = arrowAngle + 90;
+            player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
@@ -148,7 +150,6 @@ public class GamePlayManager {
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
                     // enemy is hit
                     enemies.get(i).takeDamage(player.attackDamage);
-                    Gdx.app.log(TAG, "enemy hp remaining: " + enemies.get(i).getHealthPoint());
                     arrows.removeIndex(j);
                     break;
                 }
