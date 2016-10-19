@@ -29,7 +29,6 @@ public class EnemyLevelManager {
         gameTimer += delta;
     }
 
-    public int getCurrentEnemyLevel() {
-        return currentEnemyLevel;
+    public int getCurrentEnemyLevel() {return currentEnemyLevel;
     }
 }

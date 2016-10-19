@@ -170,6 +170,7 @@ public class MainMenuScreen implements Screen {
         touchButton = new Vector3(x, y, 0);
         battleImageSprite.setPosition(BATTLE_POS_X, BATTLE_POS_Y);
         monsterImageSprite.setPosition(MONSTER_POS_X, MONSTER_POS_Y);
+        upGradeImageSprite.setPosition(UPGRADE_POS_X, UPGRADE_POS_Y);
         openMusicSprite.setPosition(OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y);
         closeMusicSprite.setPosition(CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y);
         game.camera.unproject(touchButton);
@@ -190,7 +191,12 @@ public class MainMenuScreen implements Screen {
                     && touchButton.y < (monsterImageSprite.getY() + monsterImageSprite.getHeight())) {
                 game.setScreen(new MonsterInfoScreen(game));
             }
-
+            if (touchButton.x > upGradeImageSprite.getX()
+                    && touchButton.x < (upGradeImageSprite.getX() + upGradeImageSprite.getWidth())
+                    && touchButton.y > upGradeImageSprite.getY()
+                    && touchButton.y < (upGradeImageSprite.getY() + upGradeImageSprite.getHeight())) {
+                game.setScreen(new UpGradeScreen(game));
+            }
             if (touchButton.x > openMusicSprite.getX()
                     && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
                     && touchButton.y > openMusicSprite.getY()
