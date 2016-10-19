@@ -55,8 +55,10 @@ public class PlayStateScreen implements Screen {
         if (Player.isAlive()) {
             if (gamePlayManager.isPause()) {
                 game.spriteBatch.begin();
+                game.spriteBatch.enableBlending();
                 gamePlayRenderer.drawResumeMessage();
                 gamePlayRenderer.drawQuitMessage();
+                game.spriteBatch.disableBlending();
                 game.spriteBatch.end();
             }
 

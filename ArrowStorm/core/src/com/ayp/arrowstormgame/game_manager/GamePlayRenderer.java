@@ -25,7 +25,7 @@ import java.util.HashMap;
  */
 
 public class GamePlayRenderer {
-
+    private static final String GAME_OVER_TEXT = "GAME OVER";
     final private ArrowStormGame game;
     private Sprite arrowSprite;
     private Sprite goldIconSprite;
@@ -273,11 +273,14 @@ public class GamePlayRenderer {
     public void drawGameOver() {
         Gdx.gl.glClearColor(0, 0, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        GlyphLayout glyphLayout = new GlyphLayout();
+        glyphLayout.setText(font, GAME_OVER_TEXT);
+
         font.draw(
                 game.spriteBatch,
-                "GAME OVER",
-                100,
-                400
+                GAME_OVER_TEXT,
+                ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2,
+                ArrowStormGame.GAME_HEIGHT / 2 - glyphLayout.height / 2
         );
     }
 }
