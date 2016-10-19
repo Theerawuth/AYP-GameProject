@@ -45,11 +45,11 @@ public class MonsterInfoBossScreen implements Screen {
         bodyFont.getData().setScale(0.5f, -0.5f);
         bodyShadow.getData().setScale(0.5f, -0.5f);
 
-        monsterInfoImageSprite = AssetsLoader.monsterInfoImageSprite;
+        monsterInfoImageSprite = AssetsLoader.monsterInfoBackgroundSprite;
         modelBossGoldenBugAnimation = AssetsLoader.bossGoldenBugAnimation;
         modelBossScorpion = AssetsLoader.bossScorpionAnimation;
         modelBossKraken = AssetsLoader.bossKrakenAnimation;
-        headerMonsterInfo = AssetsLoader.headerSprite;
+        headerMonsterInfo = AssetsLoader.headerMonsterInfoSprite;
         backIconSprite = AssetsLoader.backIconSprite;
 
         nameBossEnemies = new String[6][4];
@@ -83,7 +83,7 @@ public class MonsterInfoBossScreen implements Screen {
         game.spriteBatch.enableBlending();
         drawBackground();
         drawIcon();
-        drawFont();
+        drawText();
         drawModelEnemy();
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();
@@ -127,7 +127,7 @@ public class MonsterInfoBossScreen implements Screen {
         game.spriteBatch.draw(headerMonsterInfo, 65, 50, 340, 100);
     }
 
-    public void drawFont() {
+    public void drawText() {
         //ENEMY BUG
         bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][0], 130, 175);
         bodyFont.draw(game.spriteBatch, nameBossEnemies[0][0], 130, 177);

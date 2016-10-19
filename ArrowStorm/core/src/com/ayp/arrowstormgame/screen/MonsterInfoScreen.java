@@ -48,13 +48,15 @@ public class MonsterInfoScreen implements Screen {
         bodyFont.getData().setScale(0.5f, -0.5f);
         bodyShadow.getData().setScale(0.5f, -0.5f);
 
-        monsterInfoImageSprite = AssetsLoader.monsterInfoImageSprite;
+        monsterInfoImageSprite = AssetsLoader.monsterInfoBackgroundSprite;
         modelBugAnimation = AssetsLoader.enemyBugAnimation;
         modelWorm = AssetsLoader.enemyWormAnimation;
         modelGuardian = AssetsLoader.enemyGuardianAnimation;
-        headerMonsterInfo = AssetsLoader.headerSprite;
+        headerMonsterInfo = AssetsLoader.headerMonsterInfoSprite;
         backIconSprite = AssetsLoader.backIconSprite;
         forwardIconSprite = AssetsLoader.forwardIconSprite;
+
+        elapsedTime = 0;
 
         nameEnemies = new String[6][4];
         nameEnemies[0][0] = "- BUG -";
@@ -69,7 +71,7 @@ public class MonsterInfoScreen implements Screen {
         nameEnemies[2][1] = "HP = 10-470";
         nameEnemies[2][2] = "ATK = 2-37";
         nameEnemies[2][3] = "MS = 48-104";
-        elapsedTime = 0;
+
     }
 
     @Override
@@ -86,12 +88,11 @@ public class MonsterInfoScreen implements Screen {
         game.spriteBatch.enableBlending();
         drawBackground();
         drawIcon();
-        drawFont();
+        drawText();
         drawModelEnemy();
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();
         handleTouchEvent();
-
     }
 
     @Override
@@ -130,7 +131,7 @@ public class MonsterInfoScreen implements Screen {
         game.spriteBatch.draw(headerMonsterInfo, 65, 50, 340, 100);
     }
 
-    public void drawFont() {
+    public void drawText() {
         //ENEMY BUG
         bodyShadow.draw(game.spriteBatch, nameEnemies[0][0], 130, 175);
         bodyFont.draw(game.spriteBatch, nameEnemies[0][0], 130, 177);

@@ -154,14 +154,34 @@ public class AssetsLoader {
     public static Sprite closeMusicSprite;
 
     //MonsterInfoScreen
-    public static Texture monsterInfoImageTexture;
-    public static Sprite monsterInfoImageSprite;
-    public static Texture headerTexture;
-    public static Sprite headerSprite;
+    public static Texture monsterInfoBackgroundTexture;
+    public static Sprite monsterInfoBackgroundSprite;
+    public static Texture headerMonsterInfoTexture;
+    public static Sprite headerMonsterInfoSprite;
     public static Texture backIconTexture;
     public static Sprite backIconSprite;
     public static Texture forwardIconTexture;
     public static Sprite forwardIconSprite;
+
+    //UpgradeScreen
+    public static Texture upGradeBackgroundTexture;
+    public static Sprite upGradeBackgroundSprite;
+    public static Texture headerUpGradeTexture;
+    public static Sprite headerUpGradeSprite;
+    //Icon
+    public static Texture coinIconTexture;
+    public static Sprite coinIconSprite;
+    public static Texture atkIconTexture;
+    public static Sprite atkIconSprite;
+    public static Texture hpIconTexture;
+    public static Sprite hpIconSprite;
+    public static Texture aspdIconTexture;
+    public static Sprite aspdIconSprite;
+    public static Texture plusIconTexture;
+    public static Sprite plusIconSprite;
+    public static Texture coinUpgradeIconTexture;
+    public static Sprite coinUpgradeIconSprite;
+
 
     public static void load() {
         // PlayStateScreen
@@ -175,6 +195,9 @@ public class AssetsLoader {
 
         //MonsterInfoScreen
         loadAssetsMonsterInfoScreen();
+
+        //UpGradeScreen
+        loadAssetsUpGradeScreen();
     }
 
     public static void dispose() {
@@ -189,6 +212,9 @@ public class AssetsLoader {
 
         //MonsterInfoScreen
         disposeAssetsMonsterInfoScreen();
+
+        //UpGradeScreen
+        disposeAssetsUpGradeScreen();
     }
 
     private static void loadAssetsPlayStateScreen() {
@@ -429,12 +455,12 @@ public class AssetsLoader {
     }
 
     private static void loadAssetsMonsterInfoScreen() {
-        monsterInfoImageTexture = new Texture(Gdx.files.internal("background/monster_info_background.png"));
-        monsterInfoImageSprite = new Sprite(monsterInfoImageTexture);
-        monsterInfoImageSprite.flip(false, true);
-        headerTexture = new Texture(Gdx.files.internal("header_text_monster_info.png"));
-        headerSprite = new Sprite(headerTexture);
-        headerSprite.flip(false, true);
+        monsterInfoBackgroundTexture = new Texture(Gdx.files.internal("background/monster_info_background.png"));
+        monsterInfoBackgroundSprite = new Sprite(monsterInfoBackgroundTexture);
+        monsterInfoBackgroundSprite.flip(false, true);
+        headerMonsterInfoTexture = new Texture(Gdx.files.internal("header_text_monster_info.png"));
+        headerMonsterInfoSprite = new Sprite(headerMonsterInfoTexture);
+        headerMonsterInfoSprite.flip(false, true);
         backIconTexture = new Texture(Gdx.files.internal("icon/back_icon.png"));
         backIconSprite = new Sprite(backIconTexture);
         forwardIconTexture = new Texture(Gdx.files.internal("icon/forward_icon.png"));
@@ -442,10 +468,52 @@ public class AssetsLoader {
     }
 
     private static void disposeAssetsMonsterInfoScreen() {
-        monsterInfoImageTexture.dispose();
-        headerTexture.dispose();
+        monsterInfoBackgroundTexture.dispose();
+        headerMonsterInfoTexture.dispose();
         backIconTexture.dispose();
         forwardIconTexture.dispose();
+    }
+
+    private static void loadAssetsUpGradeScreen() {
+        //background
+        upGradeBackgroundTexture = new Texture(Gdx.files.internal("background/upgrade_background.png"));
+        upGradeBackgroundSprite = new Sprite(upGradeBackgroundTexture);
+        upGradeBackgroundSprite.flip(false, true);
+        headerUpGradeTexture = new Texture(Gdx.files.internal("header_text_upgrade.png"));
+        headerUpGradeSprite = new Sprite(headerUpGradeTexture);
+        headerUpGradeSprite.flip(false, true);
+        //icon
+        coinIconTexture = new Texture(Gdx.files.internal("icon/coin_icon_demo.png"));
+        coinIconSprite = new Sprite(coinIconTexture);
+        coinIconSprite.flip(false, true);
+        atkIconTexture = new Texture(Gdx.files.internal("icon/atk_icon.png"));
+        atkIconSprite = new Sprite(atkIconTexture);
+        atkIconSprite.flip(false, true);
+        hpIconTexture = new Texture(Gdx.files.internal("icon/hp_icon.png"));
+        hpIconSprite = new Sprite(hpIconTexture);
+        hpIconSprite.flip(false, true);
+        aspdIconTexture = new Texture(Gdx.files.internal("icon/aspd_icon.png"));
+        aspdIconSprite = new Sprite(aspdIconTexture);
+        aspdIconSprite.flip(false, true);
+        plusIconTexture = new Texture(Gdx.files.internal("icon/plus_icon.png"));
+        plusIconSprite = new Sprite(plusIconTexture);
+        plusIconSprite.flip(false, true);
+        coinUpgradeIconTexture = new Texture(Gdx.files.internal("icon/coin_upgrade_icon.png"));
+        coinUpgradeIconSprite = new Sprite(coinUpgradeIconTexture);
+        coinUpgradeIconSprite.flip(false, true);
+
+
+    }
+
+    private static void disposeAssetsUpGradeScreen() {
+        upGradeBackgroundTexture.dispose();
+        headerUpGradeTexture.dispose();
+        coinIconTexture.dispose();
+        atkIconTexture.dispose();
+        hpIconTexture.dispose();
+        aspdIconTexture.dispose();
+        plusIconTexture.dispose();
+        coinUpgradeIconTexture.dispose();
     }
 
 }
