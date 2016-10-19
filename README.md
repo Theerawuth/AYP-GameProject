@@ -21,8 +21,8 @@
 - Upgrading
   - Player can upgrade ATTACK DAMAGE, HEALTH POINT and ATTACK SPEED
 - Player HP Range
-  - Maximim HP: 120 (level 1 - 19 Max HP increase 5 ,level 20 Max HP increase 20)
-  - Minimum HP: 5
+  - Maximim HP: 420
+  - Minimum HP: 20
   - HP skill level 0 - 20  
 - Player Attack Speed Range
   - Maximum attack speed: 1.12
