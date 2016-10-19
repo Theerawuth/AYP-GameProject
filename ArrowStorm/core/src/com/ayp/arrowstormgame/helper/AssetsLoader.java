@@ -64,8 +64,10 @@ public class AssetsLoader {
     // PlayStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
-    public static BitmapFont font;
-    public static BitmapFont shadow;
+    public static BitmapFont scoreFont;
+    public static BitmapFont scoreShadow;
+    public static BitmapFont goldFont;
+    public static BitmapFont goldShadow;
     public static Music playStateBackgroundMusic;
     public static Music bossEnemyMusic;
     public static Music gameOverMusic;
@@ -81,6 +83,8 @@ public class AssetsLoader {
     public static Sprite quitSprite;
     public static Texture resumeTexture;
     public static Sprite resumeSprite;
+    public static Texture goldIconTexture;
+    public static Sprite goldIconSprite;
     //Player
     public static Texture playerTexture;
     public static TextureRegion playerStandBy, playerShooting;
@@ -217,6 +221,9 @@ public class AssetsLoader {
         resumeTexture = new Texture(Gdx.files.internal("icon/resume_icon.png"));
         resumeSprite = new Sprite(resumeTexture);
         resumeSprite.flip(false, true);
+        goldIconTexture = new Texture(Gdx.files.internal("icon/coin_point_icon.png"));
+        goldIconSprite = new Sprite(goldIconTexture);
+        goldIconSprite.flip(false, true);
         //Player
         playerTexture = new Texture(Gdx.files.internal("anim/anim_player.png"));
         playerStandBy = new TextureRegion(playerTexture, 0, 0, WIDTH_PLAYER, HEIGHT_PLAYER);
@@ -296,16 +303,22 @@ public class AssetsLoader {
         enemyAnimationMap.put(BOSS_SCORPION, bossScorpionAnimation);
         enemyAnimationMap.put(BOSS_KRAKEN, bossKrakenAnimation);
 
-        font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
-        font.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+        scoreFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        scoreFont.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
 
-        shadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
-        shadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+        scoreShadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        scoreShadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+
+        goldFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        goldFont.getData().setScale(0.4f, -0.4f);
+
+        goldShadow =  new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        goldShadow.getData().setScale(0.4f, -0.4f);
     }
 
     private static void disposeAssetsPlayStateScreen() {
         arrowImageTexture.dispose();
-        font.dispose();
+        scoreFont.dispose();
         monsterDeadMusic.dispose();
         bossEnemyMusic.dispose();
         gameOverMusic.dispose();

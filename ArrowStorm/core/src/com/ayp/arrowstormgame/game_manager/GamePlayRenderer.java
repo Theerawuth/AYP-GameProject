@@ -27,10 +27,14 @@ public class GamePlayRenderer {
 
     final private ArrowStormGame game;
     private Sprite arrowSprite;
+    private Sprite goldIconSprite;
     private static final int NORMAL_SCALE_ARROW = 1;
-    private BitmapFont font;
-    private BitmapFont shadow;
+    private BitmapFont scoreFont;
+    private BitmapFont scoreShadow;
+    private BitmapFont goldFont;
+    private BitmapFont goldShadow;
     private String score;
+    private String gold;
     private GlyphLayout glyphLayout;
     private HashMap<String, Animation> enemyAnimationMap;
     private TextureRegion backgroundStageOne;
@@ -40,11 +44,15 @@ public class GamePlayRenderer {
     private TextureRegion playerStandBy;
     private Vector3 touchPosition;
 
+
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
         arrowSprite = AssetsLoader.arrowImageSprite;
-        font = AssetsLoader.font;
-        shadow = AssetsLoader.shadow;
+        goldIconSprite = AssetsLoader.goldIconSprite;
+        scoreFont = AssetsLoader.scoreFont;
+        scoreShadow = AssetsLoader.scoreShadow;
+        goldFont = AssetsLoader.goldFont;
+        goldShadow = AssetsLoader.goldShadow;
         glyphLayout = new GlyphLayout();
         enemyAnimationMap = AssetsLoader.enemyAnimationMap;
         backgroundStageOne = AssetsLoader.playStateBackgroundOne;
@@ -125,15 +133,39 @@ public class GamePlayRenderer {
         );
     }
 
+    public void drawGold(GamePlayManager gamePlayManager) {
+        gold = gamePlayManager.getGold();
+        game.spriteBatch.draw(
+                goldIconSprite,
+                10,
+                40,
+                32,
+                32
+        );
+        goldShadow.draw(
+                game.spriteBatch,
+                gold,
+                48 + 2,
+                48 + 2
+        );
+        goldFont.draw(
+                game.spriteBatch,
+                gold,
+                48,
+                48
+        );
+    }
+
     public void drawScore(GamePlayManager gamePlayManager) {
         score = gamePlayManager.getScore();
-        glyphLayout.setText(font, score);
-        shadow.draw(
+        glyphLayout.setText(scoreFont, score);
+        scoreShadow.draw(
                 game.spriteBatch,
-                score, ((game.GAME_WIDTH / 2) + 2) + glyphLayout.height / 2,
+                score,
+                ((game.GAME_WIDTH / 2) + 2) + glyphLayout.height / 2,
                 (game.GAME_HEIGHT / 10) + 2
         );
-        font.draw(
+        scoreFont.draw(
                 game.spriteBatch,
                 score,
                 (game.GAME_WIDTH / 2) + glyphLayout.height / 2,
@@ -147,13 +179,24 @@ public class GamePlayRenderer {
 
     public void drawPlayer(float runtime) {
         if (Gdx.input.isTouched()) {
-//            touchPosition = new Vector3();
-//            touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-//            game.camera.unproject(touchPosition);
-//            if (touchPosition.y < Player.SHOOTING_POINT_Y) {
-//                // Cancelled touch outside of player zone
-//                return;
-//            }
+            touchPosition = new Vector3();
+            touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            game.camera.unproject(touchPosition);
+            if (touchPosition.y < Player.SHOOTING_POINT_Y) {
+                game.spriteBatch.draw(
+                        playerStandBy,
+                        Player.SHOOTING_POINT_X - 48,
+                        Player.POSITION_Y,
+                        Player.PLAYER_WIDTH / 2,
+                        Player.PLAYER_HEIGHT / 2,
+                        Player.PLAYER_WIDTH,
+                        Player.PLAYER_HEIGHT,
+                        Player.SCALE_X,
+                        Player.SCALE_Y,
+                        Player.angle
+                );
+                return;
+            }
             game.spriteBatch.draw(
                     playerAnimation.getKeyFrame(runtime, true),
                     Player.SHOOTING_POINT_X - 48,

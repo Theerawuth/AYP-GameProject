@@ -55,8 +55,8 @@ public abstract class Enemy {
         boundPosition = new Vector2(x + RADIUS, y + RADIUS);
         enemyBound = new Circle(boundPosition, RADIUS);
 
-        score = level + 1;
-        gold = (level + 1) * 2;
+        score = (level + 1) * 5 + level;
+        gold = (level + 1) + level * 1 / 3;
 
         attackDamage = BASE_ATTACK_DAMAGE + (level * (attackDamageRange / MAX_LEVEL));
         attackDamage *= factorAttackDamage;
@@ -113,5 +113,9 @@ public abstract class Enemy {
 
     public Circle getEnemyBound() {
         return enemyBound;
+    }
+
+    public int getGold() {
+        return gold;
     }
 }

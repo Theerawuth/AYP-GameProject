@@ -28,6 +28,8 @@ public class GamePlayManager {
     private static final int PREPARE_SHOOT = -1;
     private Vector3 touchPosition;
     private int score = 0;
+    // gold will be set from database
+    private int gold = 0;
     private Player player;
     private EnemySpawnManager enemySpawnManager;
     private EnemyLevelManager enemyLevelManager;
@@ -125,19 +127,15 @@ public class GamePlayManager {
     }
 
     public void updateEnemy(float delta, Array<Enemy> enemies) {
-        ArrayList<Integer> preparedRemovedEnemyIndexes = new ArrayList<Integer>();
         for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
             enemy.move(delta);
             if (enemy.getPosition().y
-                    > game.GAME_HEIGHT - Player.PLAYER_HEIGHT - Enemy.ENEMY_HEIGHT) {
-                preparedRemovedEnemyIndexes.add(i);
+                    > game.GAME_HEIGHT - 200) {
+                enemies.removeIndex(i);
+                Player.healthPoint -= enemy.getAttackDamage();
+                break;
             }
-        }
-        ArrayList<Integer> removedEnemyIndexes = removeDuplicateIndex(preparedRemovedEnemyIndexes);
-        int removedEnemyIndexesSize = removedEnemyIndexes.size();
-        for (int i = removedEnemyIndexesSize; i > 0; i--) {
-            enemies.removeIndex(removedEnemyIndexes.get(i - 1));
         }
     }
 
@@ -156,6 +154,7 @@ public class GamePlayManager {
             }
             if (enemies.get(i).isDied()) {
                 score += enemies.get(i).getScore();
+                gold += enemies.get(i).getGold();
                 enemies.removeIndex(i);
                 break;
             }
@@ -166,4 +165,7 @@ public class GamePlayManager {
         return Integer.toString(score);
     }
 
+    public String getGold() {
+        return Integer.toString(gold);
+    }
 }
