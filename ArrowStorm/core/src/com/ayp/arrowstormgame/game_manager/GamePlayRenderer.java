@@ -28,13 +28,17 @@ public class GamePlayRenderer {
     final private ArrowStormGame game;
     private Sprite arrowSprite;
     private Sprite goldIconSprite;
+    private Sprite heartIconSprite;
     private static final int NORMAL_SCALE_ARROW = 1;
     private BitmapFont scoreFont;
     private BitmapFont scoreShadow;
     private BitmapFont goldFont;
     private BitmapFont goldShadow;
+    private BitmapFont heartFont;
+    private BitmapFont heartShadow;
     private String score;
     private String gold;
+    private String heart;
     private GlyphLayout glyphLayout;
     private HashMap<String, Animation> enemyAnimationMap;
     private TextureRegion backgroundStageOne;
@@ -53,6 +57,8 @@ public class GamePlayRenderer {
         scoreShadow = AssetsLoader.scoreShadow;
         goldFont = AssetsLoader.goldFont;
         goldShadow = AssetsLoader.goldShadow;
+        heartFont = AssetsLoader.hearthFont;
+        heartShadow = AssetsLoader.hearthShadow;
         glyphLayout = new GlyphLayout();
         enemyAnimationMap = AssetsLoader.enemyAnimationMap;
         backgroundStageOne = AssetsLoader.playStateBackgroundOne;
@@ -61,6 +67,7 @@ public class GamePlayRenderer {
         playerAnimation = AssetsLoader.playerAnimation;
         playerAnimation.setFrameDuration(Player.attackSpeed / 2000000000f);
         playerStandBy = AssetsLoader.playerStandBy;
+        heartIconSprite = AssetsLoader.hearthIconSprite;
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -153,6 +160,29 @@ public class GamePlayRenderer {
                 gold,
                 48,
                 48
+        );
+    }
+
+    public void drawHeart() {
+        heart = Player.getHealthPoint();
+        game.spriteBatch.draw(
+                heartIconSprite,
+                10,
+                560,
+                32,
+                32
+        );
+        heartShadow.draw(
+                game.spriteBatch,
+                heart,
+                48 + 2,
+                560 + 2
+        );
+        heartFont.draw(
+                game.spriteBatch,
+                heart,
+                48,
+                560
         );
     }
 

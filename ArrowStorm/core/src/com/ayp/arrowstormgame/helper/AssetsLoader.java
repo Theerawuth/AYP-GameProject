@@ -68,6 +68,8 @@ public class AssetsLoader {
     public static BitmapFont scoreShadow;
     public static BitmapFont goldFont;
     public static BitmapFont goldShadow;
+    public static BitmapFont hearthFont;
+    public static BitmapFont hearthShadow;
     public static Music playStateBackgroundMusic;
     public static Music bossEnemyMusic;
     public static Music gameOverMusic;
@@ -85,6 +87,8 @@ public class AssetsLoader {
     public static Sprite resumeSprite;
     public static Texture goldIconTexture;
     public static Sprite goldIconSprite;
+    public static Texture hearthIconTexture;
+    public static Sprite hearthIconSprite;
     //Player
     public static Texture playerTexture;
     public static TextureRegion playerStandBy, playerShooting;
@@ -224,6 +228,9 @@ public class AssetsLoader {
         goldIconTexture = new Texture(Gdx.files.internal("icon/coin_point_icon.png"));
         goldIconSprite = new Sprite(goldIconTexture);
         goldIconSprite.flip(false, true);
+        hearthIconTexture = new Texture(Gdx.files.internal("icon/heart_icon.png"));
+        hearthIconSprite = new Sprite(hearthIconTexture);
+        hearthIconSprite.flip(false, true);
         //Player
         playerTexture = new Texture(Gdx.files.internal("anim/anim_player.png"));
         playerStandBy = new TextureRegion(playerTexture, 0, 0, WIDTH_PLAYER, HEIGHT_PLAYER);
@@ -312,8 +319,14 @@ public class AssetsLoader {
         goldFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         goldFont.getData().setScale(0.4f, -0.4f);
 
-        goldShadow =  new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        goldShadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
         goldShadow.getData().setScale(0.4f, -0.4f);
+
+        hearthFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        hearthFont.getData().setScale(0.4f, -0.4f);
+
+        hearthShadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        hearthShadow.getData().setScale(0.4f, -0.4f);
     }
 
     private static void disposeAssetsPlayStateScreen() {

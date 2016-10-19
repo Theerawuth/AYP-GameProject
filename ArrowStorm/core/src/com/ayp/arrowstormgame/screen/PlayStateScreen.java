@@ -66,6 +66,7 @@ public class PlayStateScreen implements Screen {
         gamePlayRenderer.drawEnemy(enemies, runtime);
         gamePlayRenderer.drawScore(gamePlayManager);
         gamePlayRenderer.drawGold(gamePlayManager);
+        gamePlayRenderer.drawHeart();
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();
 
