@@ -64,6 +64,8 @@ public class AssetsLoader {
     // PlayStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
+    public static BitmapFont font;
+    public static BitmapFont shadow;
     public static BitmapFont scoreFont;
     public static BitmapFont scoreShadow;
     public static BitmapFont goldFont;
@@ -335,6 +337,12 @@ public class AssetsLoader {
         enemyAnimationMap.put(BOSS_GOLDEN_BUG, bossGoldenBugAnimation);
         enemyAnimationMap.put(BOSS_SCORPION, bossScorpionAnimation);
         enemyAnimationMap.put(BOSS_KRAKEN, bossKrakenAnimation);
+
+        font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        font.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+
+        shadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        shadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
 
         scoreFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         scoreFont.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
