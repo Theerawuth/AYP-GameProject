@@ -33,7 +33,7 @@ public abstract class Enemy {
     private static final float MAXIMUM_HEALTH_POINT = 245;
     private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
 
-    private static final int MAX_LEVEL = 20;
+    private static final int MAX_LEVEL = 40;
     private Circle enemyBound;
     private Vector2 position;
     private Vector2 boundPosition;

@@ -1,10 +1,13 @@
 package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
+import com.ayp.arrowstormgame.screen.MainMenuScreen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -33,7 +36,10 @@ public class GamePlayManager {
     private Player player;
     private EnemySpawnManager enemySpawnManager;
     private EnemyLevelManager enemyLevelManager;
-    int stage;
+    private int stage;
+    private boolean isPause;
+    private Music shootingMusic;
+    private Music monsterDeadMusic;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
@@ -44,6 +50,13 @@ public class GamePlayManager {
         shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
         stage = 1;
+        isPause = false;
+        shootingMusic = AssetsLoader.shootingMusic;
+        monsterDeadMusic = AssetsLoader.monsterDeadMusic;
+    }
+
+    public boolean isPause() {
+        return isPause;
     }
 
     public EnemyLevelManager getEnemyLevelManager() {
@@ -67,14 +80,38 @@ public class GamePlayManager {
 
     public void handleTouchEvent(Array<Arrow> arrows) {
         if (Gdx.input.isTouched()) {
+            if (!player.isAlive()){
+                game.setScreen(new MainMenuScreen(game));
+            }
             touchPosition = new Vector3();
             touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             game.camera.unproject(touchPosition);
+            if (touchPosition.y >= 0
+                    && touchPosition.y <= 64
+                    && touchPosition.x >= 416
+                    && touchPosition.x <= 480
+                    ) {
+                Gdx.app.log("PAUSE", "pause btn is pressed");
+                isPause = true;
+            }
+            if (isPause()) {
+                if (touchPosition.y >= 300
+                        && touchPosition.y <= 396
+                        && touchPosition.x >= 112
+                        && touchPosition.x <= 368) {
+                    isPause = false;
+                    Gdx.app.log("PAUSE", "resume btn is pressed");
+                } else if (touchPosition.y >= 500
+                        && touchPosition.y <= 596
+                        && touchPosition.x >= 112
+                        && touchPosition.x <= 368){
+                    game.setScreen(new MainMenuScreen(game));
+                }
+            }
             if (touchPosition.y < Player.SHOOTING_POINT_Y) {
                 // Cancelled touch outside of player zone
                 return;
             }
-
             float angleDegree = (float) Math.toDegrees(Math.atan2(
                     touchPosition.y - Player.SHOOTING_POINT_Y,
                     touchPosition.x - Player.SHOOTING_POINT_X)
@@ -84,8 +121,10 @@ public class GamePlayManager {
             float arrowDirectionAngle = arrowAngle + 90;
             player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
+                shootingMusic.play();
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
+                shootingMusic.play();
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             }
         } else {
@@ -95,6 +134,7 @@ public class GamePlayManager {
                 lastTouched = TimeUtils.nanoTime();
             }
         }
+
     }
 
     public void updateArrow(float delta, Array<Arrow> arrows) {
@@ -134,6 +174,9 @@ public class GamePlayManager {
                     > game.GAME_HEIGHT - 200) {
                 enemies.removeIndex(i);
                 Player.healthPoint -= enemy.getAttackDamage();
+                if (Player.healthPoint < 1){
+                    player.setAlive(false);
+                }
                 break;
             }
         }
@@ -153,6 +196,7 @@ public class GamePlayManager {
                 }
             }
             if (enemies.get(i).isDied()) {
+                monsterDeadMusic.play();
                 score += enemies.get(i).getScore();
                 gold += enemies.get(i).getGold();
                 enemies.removeIndex(i);

@@ -31,7 +31,7 @@ public class Player {
     private static final float MINIMUM_HEALTH_POINT = 20;
     private static float BASE_HEALTH_POINT = 20;
     private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
-    private int healthPointSkillLevel = 20;
+    private int healthPointSkillLevel = 1;
     public static float healthPoint;
 
     private static final float MAXIMUM_ATTACK_DAMAGE = 100;
@@ -43,8 +43,11 @@ public class Player {
     private static final int MAX_LEVEL_SKILL = 20;
 
     public static float angle = 0;
+    private static boolean isAlive;
+
 
     public Player() {
+        isAlive = true;
         attackSpeed =
                 BASE_ATTACK_SPEED
                         + (attackSpeedSkillLevel * ((attackSpeedRange) / MAX_LEVEL_SKILL));
@@ -57,7 +60,15 @@ public class Player {
         Gdx.app.log("Player", "attackSpeed: " + attackSpeed + ", healthPoint: " + healthPoint + ", attackDamage: " + attackDamage);
     }
 
-    public static String getHealthPoint(){
+    public static String getHealthPoint() {
         return Integer.toString((int) healthPoint);
+    }
+
+    public static boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }

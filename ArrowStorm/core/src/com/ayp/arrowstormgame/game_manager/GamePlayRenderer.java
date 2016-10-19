@@ -9,6 +9,7 @@ import com.ayp.arrowstormgame.model.enemiespack.Bug;
 import com.ayp.arrowstormgame.model.enemiespack.Guardian;
 import com.ayp.arrowstormgame.model.enemiespack.Worm;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -36,6 +37,7 @@ public class GamePlayRenderer {
     private BitmapFont goldShadow;
     private BitmapFont heartFont;
     private BitmapFont heartShadow;
+    private BitmapFont font;
     private String score;
     private String gold;
     private String heart;
@@ -47,12 +49,17 @@ public class GamePlayRenderer {
     private Animation playerAnimation;
     private TextureRegion playerStandBy;
     private Vector3 touchPosition;
-
+    private Sprite pauseSprite;
+    private Sprite resumeSprite;
+    private Sprite quitSprite;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
         arrowSprite = AssetsLoader.arrowImageSprite;
         goldIconSprite = AssetsLoader.goldIconSprite;
+        pauseSprite = AssetsLoader.pauseSprite;
+        resumeSprite = AssetsLoader.resumeSprite;
+        quitSprite = AssetsLoader.quitSprite;
         scoreFont = AssetsLoader.scoreFont;
         scoreShadow = AssetsLoader.scoreShadow;
         goldFont = AssetsLoader.goldFont;
@@ -68,6 +75,7 @@ public class GamePlayRenderer {
         playerAnimation.setFrameDuration(Player.attackSpeed / 2000000000f);
         playerStandBy = AssetsLoader.playerStandBy;
         heartIconSprite = AssetsLoader.hearthIconSprite;
+        font = AssetsLoader.font;
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -123,20 +131,27 @@ public class GamePlayRenderer {
         }
     }
 
-    public void drawBackgroundPlayer() {
-        game.shapeRenderer.setColor(1, 0, 0, 1);
-        game.shapeRenderer.rect(
-                Player.POSITION_X,
-                Player.POSITION_Y,
-                Player.PLAYER_WIDTH,
-                Player.PLAYER_HEIGHT
+    public void drawResumeMessage() {
+        game.spriteBatch.draw(
+                resumeSprite,
+                112,
+                300
         );
-        game.shapeRenderer.setColor(1, 1, 0, 1);
-        game.shapeRenderer.rect(
-                Player.POSITION_X + Player.PLAYER_WIDTH / 2,
-                Player.POSITION_Y,
-                Player.PLAYER_WIDTH / 2,
-                Player.PLAYER_HEIGHT
+    }
+
+    public void drawQuitMessage() {
+        game.spriteBatch.draw(
+                quitSprite,
+                112,
+                500
+        );
+    }
+
+    public void drawPauseButton() {
+        game.spriteBatch.draw(
+                pauseSprite,
+                416,
+                0
         );
     }
 
@@ -253,5 +268,16 @@ public class GamePlayRenderer {
                     Player.angle
             );
         }
+    }
+
+    public void drawGameOver() {
+        Gdx.gl.glClearColor(0, 0, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        font.draw(
+                game.spriteBatch,
+                "GAME OVER",
+                100,
+                400
+        );
     }
 }

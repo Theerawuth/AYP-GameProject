@@ -6,6 +6,7 @@ import com.ayp.arrowstormgame.game_manager.GamePlayManager;
 import com.ayp.arrowstormgame.game_manager.GamePlayRenderer;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
+import com.ayp.arrowstormgame.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -48,30 +49,47 @@ public class PlayStateScreen implements Screen {
         runtime += delta;
         Gdx.gl.glClearColor(0, 0, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gamePlayManager.updateCollision(delta, enemies, arrows);
-        gamePlayManager.handleTouchEvent(arrows);
-        gamePlayManager.updateEnemy(delta, enemies);
-        gamePlayManager.updateArrow(delta, arrows);
-        enemyLevelManager.updateEnemyLevelByTime(delta);
-
-        game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        gamePlayRenderer.drawBackgroundPlayer();
-        game.shapeRenderer.end();
-
         game.spriteBatch.begin();
         gamePlayRenderer.drawBackground();
-        game.spriteBatch.enableBlending();
-        gamePlayRenderer.drawPlayer(runtime);
-        gamePlayRenderer.drawArrow(arrows);
-        gamePlayRenderer.drawEnemy(enemies, runtime);
-        gamePlayRenderer.drawScore(gamePlayManager);
-        gamePlayRenderer.drawGold(gamePlayManager);
-        gamePlayRenderer.drawHeart();
-        game.spriteBatch.disableBlending();
         game.spriteBatch.end();
+        if (Player.isAlive()) {
+            if (gamePlayManager.isPause()) {
+                game.spriteBatch.begin();
+                gamePlayRenderer.drawResumeMessage();
+                gamePlayRenderer.drawQuitMessage();
+                game.spriteBatch.end();
+            }
 
-        gamePlayManager.update();
-        gamePlayManager.spawnEnemy(delta, enemies);
+            gamePlayManager.handleTouchEvent(arrows);
+            if (!gamePlayManager.isPause()) {
+                gamePlayManager.updateCollision(delta, enemies, arrows);
+                gamePlayManager.updateEnemy(delta, enemies);
+                gamePlayManager.updateArrow(delta, arrows);
+                enemyLevelManager.updateEnemyLevelByTime(delta);
+
+                game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                game.shapeRenderer.end();
+
+                game.spriteBatch.begin();
+                game.spriteBatch.enableBlending();
+                gamePlayRenderer.drawPlayer(runtime);
+                gamePlayRenderer.drawArrow(arrows);
+                gamePlayRenderer.drawEnemy(enemies, runtime);
+                gamePlayRenderer.drawScore(gamePlayManager);
+                gamePlayRenderer.drawGold(gamePlayManager);
+                gamePlayRenderer.drawHeart();
+                gamePlayRenderer.drawPauseButton();
+                game.spriteBatch.disableBlending();
+                game.spriteBatch.end();
+
+                gamePlayManager.update();
+                gamePlayManager.spawnEnemy(delta, enemies);
+            }
+        } else {
+            game.spriteBatch.begin();
+            gamePlayRenderer.drawGameOver();
+            game.spriteBatch.end();
+        }
     }
 
     @Override
