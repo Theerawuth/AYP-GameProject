@@ -162,13 +162,13 @@ public class GamePlayRenderer {
         scoreShadow.draw(
                 game.spriteBatch,
                 score,
-                ((game.GAME_WIDTH / 2) + 2) + glyphLayout.height / 2,
+                ((game.GAME_WIDTH / 2) + 2) - glyphLayout.width / 2,
                 (game.GAME_HEIGHT / 10) + 2
         );
         scoreFont.draw(
                 game.spriteBatch,
                 score,
-                (game.GAME_WIDTH / 2) + glyphLayout.height / 2,
+                (game.GAME_WIDTH / 2) - glyphLayout.width / 2,
                 game.GAME_HEIGHT / 10
         );
     }

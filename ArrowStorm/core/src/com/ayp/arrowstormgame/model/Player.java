@@ -27,9 +27,9 @@ public class Player {
     // level of attack speed skill 0 - 20
     private int attackSpeedSkillLevel = 20;
 
-    private static final float MAXIMUM_HEALTH_POINT = 120;
-    private static final float MINIMUM_HEALTH_POINT = 5;
-    private static float BASE_HEALTH_POINT = 5;
+    private static final float MAXIMUM_HEALTH_POINT = 420;
+    private static final float MINIMUM_HEALTH_POINT = 20;
+    private static float BASE_HEALTH_POINT = 20;
     private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
     private int healthPointSkillLevel = 20;
     public static float healthPoint;
