@@ -60,12 +60,17 @@ public class AssetsLoader {
     private static final float FONT_SCALE_X = 0.4f;
     private static final float FONT_SCALE_Y = -0.4f;
 
+    private static final float UPGRAGE_SCREEN_FONT_SCALE_X = 0.5f;
+    private static final float UPGRAGE_SCREEN_FONT_SCALE_Y = -0.5f;
+
 
     // PlayStateScreen
     public static Texture arrowImageTexture;
     public static Sprite arrowImageSprite;
     public static BitmapFont font;
     public static BitmapFont shadow;
+    public static BitmapFont upgradeScreenFont;
+    public static BitmapFont upgradeScreenShadow;
     public static BitmapFont scoreFont;
     public static BitmapFont scoreShadow;
     public static BitmapFont goldFont;
@@ -297,6 +302,12 @@ public class AssetsLoader {
 
         shadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
         shadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+
+        upgradeScreenFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        upgradeScreenFont.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+
+        upgradeScreenShadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        upgradeScreenShadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
 
         scoreFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         scoreFont.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);

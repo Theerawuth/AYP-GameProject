@@ -44,7 +44,7 @@ public class UpGradeScreen implements Screen {
     private float elapsedTime;
 
 
-    public UpGradeScreen(final ArrowStormGame game){
+    public UpGradeScreen(final ArrowStormGame game) {
         this.game = game;
         upGradeBackgroundSprite = AssetsLoader.upGradeBackgroundSprite;
         headerUpGradeSprite = AssetsLoader.headerUpGradeSprite;
@@ -57,10 +57,8 @@ public class UpGradeScreen implements Screen {
         plusHpIconSprite = AssetsLoader.plusIconSprite;
         plusAspdIconSprite = AssetsLoader.plusIconSprite;
         coinUpgradeIconSprite = AssetsLoader.coinUpgradeIconSprite;
-        bodyFont = AssetsLoader.font;
-        bodyShadow = AssetsLoader.shadow;
-        bodyFont.getData().setScale(0.5f, -0.5f);
-        bodyShadow.getData().setScale(0.5f, -0.5f);
+        bodyFont = AssetsLoader.upgradeScreenFont;
+        bodyShadow = AssetsLoader.upgradeScreenShadow;
 
         elapsedTime = 0;
 
@@ -77,7 +75,6 @@ public class UpGradeScreen implements Screen {
         titleStatus[2][1] = "ASPD : ";
         titleStatus[2][2] = "30"; //status aspd
         titleStatus[2][3] = "300"; // coin up aspd
-
     }
 
     @Override
@@ -171,7 +168,6 @@ public class UpGradeScreen implements Screen {
         bodyFont.draw(game.spriteBatch, titleStatus[2][2], 270, 522);
         bodyShadow.draw(game.spriteBatch, titleStatus[2][3], 215, 560);
         bodyFont.draw(game.spriteBatch, titleStatus[2][3], 215, 562);
-
     }
 
     private void handleTouchEvent() {
