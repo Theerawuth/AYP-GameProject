@@ -2,6 +2,7 @@ package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
@@ -40,7 +41,9 @@ public class GamePlayManager {
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
-        player = new Player();
+        player = new Player(GdxPreference.getCurrentAttackDamageLevel(),
+                GdxPreference.getCurrenAttackSpeedLevel(),
+                GdxPreference.getCurrentHealthPointLevel());
         enemyLevelManager = new EnemyLevelManager();
         enemySpawnManager = new EnemySpawnManager();
         shootingMusic = AssetsLoader.shootingMusic;

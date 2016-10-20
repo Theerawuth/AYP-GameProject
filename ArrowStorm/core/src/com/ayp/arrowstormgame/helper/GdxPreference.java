@@ -16,7 +16,7 @@ public class GdxPreference {
     private static final String HEALTH_POINT_LEVEL_PREFERENCE = "Health Point";
 
     public static int getCurrentGold() {
-        return playerPreferences.getInteger(GOLD_PREFERENCE);
+        return playerPreferences.getInteger(GOLD_PREFERENCE, 0);
     }
 
     private static void putCurrentGold(int gold) {
@@ -24,7 +24,7 @@ public class GdxPreference {
     }
 
     public static int getCurrentAttackDamageLevel() {
-        return playerPreferences.getInteger(ATTACK_DAMAGE_LEVEL_PREFERENCE);
+        return playerPreferences.getInteger(ATTACK_DAMAGE_LEVEL_PREFERENCE, 0);
     }
 
     private static void putCurrentAttackDamageLevel(int level) {
@@ -32,7 +32,7 @@ public class GdxPreference {
     }
 
     public static int getCurrenAttackSpeedLevel() {
-        return playerPreferences.getInteger(ATTACK_SPEED_LEVEL_PREFERENCE);
+        return playerPreferences.getInteger(ATTACK_SPEED_LEVEL_PREFERENCE, 0);
     }
 
     private static void putCurrentAttackSpeedLevel(int level) {
@@ -40,7 +40,7 @@ public class GdxPreference {
     }
 
     public static int getCurrentHealthPointLevel() {
-        return playerPreferences.getInteger(HEALTH_POINT_LEVEL_PREFERENCE);
+        return playerPreferences.getInteger(HEALTH_POINT_LEVEL_PREFERENCE, 0);
     }
 
     private static void putCurrentHealthPointLevel(int level) {
