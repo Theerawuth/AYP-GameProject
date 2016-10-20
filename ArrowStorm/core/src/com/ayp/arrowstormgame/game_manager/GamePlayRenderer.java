@@ -217,7 +217,6 @@ public class GamePlayRenderer {
                     ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 150);
         }
 
-
         String scoreResult = SCORE_LABEL + score;
         glyphLayout.setText(font, scoreResult);
         font.draw(game.spriteBatch, scoreResult,

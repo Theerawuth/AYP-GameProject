@@ -14,4 +14,5 @@ public class Kraken extends Boss {
     public Kraken() {
         super(ATTACK_DAMAGE, MOVEMENT_SPEED, HEALTH_POINT);
     }
+
 }

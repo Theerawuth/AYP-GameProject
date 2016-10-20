@@ -6,6 +6,7 @@ import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
+import com.ayp.arrowstormgame.model.bossespack.Kraken;
 import com.ayp.arrowstormgame.screen.MainMenuScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -38,6 +39,10 @@ public class GamePlayManager {
     private EnemyLevelManager enemyLevelManager;
     private Music shootingMusic;
     private Music monsterDeadMusic;
+    private boolean bossOneSpawn;
+    private boolean bossTwoSpawn;
+    private boolean bossThreeSpawn;
+    private boolean bossThreeDied;
 
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
@@ -49,6 +54,10 @@ public class GamePlayManager {
         shootingMusic = AssetsLoader.shootingMusic;
         monsterDeadMusic = AssetsLoader.monsterDeadMusic;
         isPause = false;
+        bossOneSpawn = false;
+        bossTwoSpawn = false;
+        bossThreeSpawn = false;
+        bossThreeDied = false;
         score = 0;
         gold = GdxPreference.getCurrentGold();
         lastArrow = PREPARE_SHOOT;
@@ -73,9 +82,22 @@ public class GamePlayManager {
         } else if (currentEnemyLevel > 30 && currentEnemyLevel <= 40) {
             stage = 3;
         }
+        if (bossThreeDied) {
+            game.setScreen(new MainMenuScreen(game));
+        }
     }
 
     public void spawnEnemy(float delta, Array<Enemy> enemies) {
+        if (currentEnemyLevel == 15 && !bossOneSpawn) {
+            enemySpawnManager.spawnBoss(enemies);
+            bossOneSpawn = true;
+        } else if (currentEnemyLevel == 30 && !bossTwoSpawn) {
+            enemySpawnManager.spawnBoss(enemies);
+            bossTwoSpawn = true;
+        } else if (currentEnemyLevel == 40 && !bossThreeSpawn) {
+            enemySpawnManager.spawnBoss(enemies);
+            bossThreeSpawn = true;
+        }
         enemySpawnManager.spawnUnderStage(delta, stage, enemies, currentEnemyLevel);
     }
 
@@ -94,7 +116,7 @@ public class GamePlayManager {
                 game.setScreen(new MainMenuScreen(game));
             }
 
-            if (!player.isAlive()){
+            if (!player.isAlive()) {
                 return;
             }
 
@@ -172,7 +194,7 @@ public class GamePlayManager {
                 if (Player.healthPoint < 1) {
                     GdxPreference.putCurrentGold(gold);
                     GdxPreference.flushPreferences();
-                    if (score > 9999999){
+                    if (score > 9999999) {
                         score = 9999999;
                     }
                     if (score > GdxPreference.getHighScore()) {
@@ -203,6 +225,9 @@ public class GamePlayManager {
                 monsterDeadMusic.play();
                 score += enemies.get(i).getScore();
                 gold += enemies.get(i).getGold();
+                if (enemies.get(i) instanceof Kraken) {
+                    bossThreeDied = true;
+                }
                 enemies.removeIndex(i);
                 break;
             }
