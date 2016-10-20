@@ -11,7 +11,7 @@ public class Kraken extends Boss {
     private static final float MOVEMENT_SPEED = 90;
     private static final float HEALTH_POINT = 4000;
 
-    public Kraken(float attackDamage, float movementSpeed, float healthPoint) {
+    public Kraken() {
         super(ATTACK_DAMAGE, MOVEMENT_SPEED, HEALTH_POINT);
     }
 }

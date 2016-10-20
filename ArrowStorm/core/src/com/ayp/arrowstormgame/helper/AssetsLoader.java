@@ -53,9 +53,9 @@ public class AssetsLoader {
     public static final String WORM_ANIMATION = "WormAnimation";
     public static final String GUARDIAN_ANIMATION = "GuardianAnimation";
     // Boss animation key
-    public static final String BOSS_GOLDEN_BUG = "BossGoldenBugAnimation";
-    public static final String BOSS_SCORPION = "BossScorpionAnimation";
-    public static final String BOSS_KRAKEN = "BossKrakenAnimation";
+    public static final String BOSS_GOLDEN_BUG_ANIMATION = "BossGoldenBugAnimation";
+    public static final String BOSS_SCORPION_ANIMATION = "BossScorpionAnimation";
+    public static final String BOSS_KRAKEN_ANIMATION = "BossKrakenAnimation";
 
     private static final float FONT_SCALE_X = 0.6f;
     private static final float FONT_SCALE_Y = -0.6f;
@@ -288,9 +288,9 @@ public class AssetsLoader {
         enemyAnimationMap.put(BUG_ANIMATION, enemyBugAnimation);
         enemyAnimationMap.put(WORM_ANIMATION, enemyWormAnimation);
         enemyAnimationMap.put(GUARDIAN_ANIMATION, enemyGuardianAnimation);
-        enemyAnimationMap.put(BOSS_GOLDEN_BUG, bossGoldenBugAnimation);
-        enemyAnimationMap.put(BOSS_SCORPION, bossScorpionAnimation);
-        enemyAnimationMap.put(BOSS_KRAKEN, bossKrakenAnimation);
+        enemyAnimationMap.put(BOSS_GOLDEN_BUG_ANIMATION, bossGoldenBugAnimation);
+        enemyAnimationMap.put(BOSS_SCORPION_ANIMATION, bossScorpionAnimation);
+        enemyAnimationMap.put(BOSS_KRAKEN_ANIMATION, bossKrakenAnimation);
 
         font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         font.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);

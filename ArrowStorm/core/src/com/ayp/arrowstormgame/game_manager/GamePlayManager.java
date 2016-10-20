@@ -25,8 +25,8 @@ public class GamePlayManager {
     private static final int PREPARE_SHOOT = -1;
     private int score;
     private int gold;
-    private int stage;
-    private int currenEnemyLevel;
+    public static int stage;
+    private int currentEnemyLevel;
     private long lastArrow;
     private long lastTouched;
     private long shootDelay;
@@ -48,7 +48,6 @@ public class GamePlayManager {
         isPause = false;
         score = 0;
         gold = 0;
-        stage = 1;
         lastArrow = PREPARE_SHOOT;
         shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
@@ -63,16 +62,18 @@ public class GamePlayManager {
     }
 
     public void update() {
-        currenEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
-        if (currenEnemyLevel > 15 && currenEnemyLevel <= 30) {
+        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
+        if (currentEnemyLevel <= 15) {
+            stage = 1;
+        } else if (currentEnemyLevel > 15 && currentEnemyLevel <= 30) {
             stage = 2;
-        } else if (currenEnemyLevel > 30 && currenEnemyLevel <= 40) {
+        } else if (currentEnemyLevel > 30 && currentEnemyLevel <= 40) {
             stage = 3;
         }
     }
 
     public void spawnEnemy(float delta, Array<Enemy> enemies) {
-        enemySpawnManager.spawnUnderStage(delta, stage, enemies, currenEnemyLevel);
+        enemySpawnManager.spawnUnderStage(delta, stage, enemies, currentEnemyLevel);
     }
 
 

@@ -1,8 +1,12 @@
 package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.model.Boss;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.EnemyUniverse;
+import com.ayp.arrowstormgame.model.bossespack.GoldenBug;
+import com.ayp.arrowstormgame.model.bossespack.Kraken;
+import com.ayp.arrowstormgame.model.bossespack.Scorpion;
 import com.ayp.arrowstormgame.model.enemiespack.Bug;
 import com.ayp.arrowstormgame.model.enemiespack.Guardian;
 import com.ayp.arrowstormgame.model.enemiespack.Worm;
@@ -54,35 +58,55 @@ public class EnemySpawnManager {
         spawnTime = generateSpawnTime();
     }
 
+    public void spawnBoss(Array<Enemy> enemies){
+        switch (GamePlayManager.stage){
+            case 1:
+                Boss bossGoldenBug = new GoldenBug();
+                enemies.add(bossGoldenBug);
+                break;
+            case 2:
+                Boss bossScorpion = new Scorpion();
+                enemies.add(bossScorpion);
+                break;
+            case 3:
+                Boss bossKraken = new Kraken();
+                enemies.add(bossKraken);
+                break;
+            default:
+                break;
+        }
+    }
+
     public void spawnEnemy(Array<Enemy> enemies, float bugSpawnChance, float wormSpawnChance,
-                           float guardianSpawnChance, int currenEnemyLevel) {
+                           float guardianSpawnChance, int currentEnemyLevel) {
         float randomSpawnValue = random.nextFloat();
         float originX = random.nextFloat() * (ArrowStormGame.GAME_WIDTH - Enemy.WIDTH);
         if (randomSpawnValue <= bugSpawnChance) {
-            spawn(originX, 0, EnemyUniverse.EnemyType.BUG, enemies, currenEnemyLevel);
+            spawn(originX, 0, EnemyUniverse.EnemyType.BUG, enemies, currentEnemyLevel);
         } else if (randomSpawnValue > bugSpawnChance
                 && randomSpawnValue <= bugSpawnChance + wormSpawnChance) {
-            spawn(originX, 0, EnemyUniverse.EnemyType.WORM, enemies, currenEnemyLevel);
+            spawn(originX, 0, EnemyUniverse.EnemyType.WORM, enemies, currentEnemyLevel);
         } else if (randomSpawnValue > bugSpawnChance + wormSpawnChance
                 && randomSpawnValue <= bugSpawnChance + randomSpawnValue + guardianSpawnChance) {
-            spawn(originX, 0, EnemyUniverse.EnemyType.GUARDIAN, enemies, currenEnemyLevel);
+            spawn(originX, 0, EnemyUniverse.EnemyType.GUARDIAN, enemies, currentEnemyLevel);
         }
     }
 
     // Spawn an enemy.
     public void spawn(float originX, float originY, EnemyUniverse.EnemyType enemyType,
-                      Array<Enemy> enemies, int currenEnemyLevel) {
+                      Array<Enemy> enemies, int currentEnemyLevel) {
+        spawnBoss(enemies);
         switch (enemyType) {
             case BUG:
-                Enemy enemyBug = new Bug(originX, originY, currenEnemyLevel);
+                Enemy enemyBug = new Bug(originX, originY, currentEnemyLevel);
                 enemies.add(enemyBug);
                 break;
             case WORM:
-                Enemy enemyWorm = new Worm(originX, originY, currenEnemyLevel);
+                Enemy enemyWorm = new Worm(originX, originY, currentEnemyLevel);
                 enemies.add(enemyWorm);
                 return;
             case GUARDIAN:
-                Enemy enemyGuardian = new Guardian(originX, originY, currenEnemyLevel);
+                Enemy enemyGuardian = new Guardian(originX, originY, currentEnemyLevel);
                 enemies.add(enemyGuardian);
             default:
                 break;
@@ -106,18 +130,18 @@ public class EnemySpawnManager {
         return spawnTime;
     }
 
-    public void spawnUnderStage(float delta, int stage, Array<Enemy> enemies, int currenEnemyLevel) {
+    public void spawnUnderStage(float delta, int stage, Array<Enemy> enemies, int currentEnemyLevel) {
         if (elapseTime >= spawnTime) {
             // spawnEnemy enemy
             switch (stage) {
                 case 1:
-                    spawnEnemy(enemies, SpawnChance.HIGH, SpawnChance.LOW, SpawnChance.LOW, currenEnemyLevel);
+                    spawnEnemy(enemies, SpawnChance.HIGH, SpawnChance.LOW, SpawnChance.LOW, currentEnemyLevel);
                     break;
                 case 2:
-                    spawnEnemy(enemies, SpawnChance.LOW, SpawnChance.HIGH, SpawnChance.LOW, currenEnemyLevel);
+                    spawnEnemy(enemies, SpawnChance.LOW, SpawnChance.HIGH, SpawnChance.LOW, currentEnemyLevel);
                     break;
                 case 3:
-                    spawnEnemy(enemies, SpawnChance.LOW, SpawnChance.LOW, SpawnChance.HIGH, currenEnemyLevel);
+                    spawnEnemy(enemies, SpawnChance.LOW, SpawnChance.LOW, SpawnChance.HIGH, currentEnemyLevel);
                     break;
                 default:
             }

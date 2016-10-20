@@ -3,8 +3,12 @@ package com.ayp.arrowstormgame.game_manager;
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.model.Arrow;
+import com.ayp.arrowstormgame.model.Boss;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
+import com.ayp.arrowstormgame.model.bossespack.GoldenBug;
+import com.ayp.arrowstormgame.model.bossespack.Kraken;
+import com.ayp.arrowstormgame.model.bossespack.Scorpion;
 import com.ayp.arrowstormgame.model.enemiespack.Bug;
 import com.ayp.arrowstormgame.model.enemiespack.Guardian;
 import com.ayp.arrowstormgame.model.enemiespack.Worm;
@@ -97,23 +101,29 @@ public class GamePlayRenderer {
     public void drawEnemy(Array<Enemy> enemies, float runtime) {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Bug) {
-                game.spriteBatch.draw(
-                        enemyAnimationMap.get(AssetsLoader.BUG_ANIMATION)
+                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BUG_ANIMATION)
                                 .getKeyFrame(runtime, true),
-                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT
-                );
+                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
             } else if (enemy instanceof Worm) {
-                game.spriteBatch.draw(
-                        enemyAnimationMap.get(AssetsLoader.WORM_ANIMATION)
+                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.WORM_ANIMATION)
                                 .getKeyFrame(runtime, true),
-                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT
-                );
+                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
             } else if (enemy instanceof Guardian) {
-                game.spriteBatch.draw(
-                        enemyAnimationMap.get(AssetsLoader.GUARDIAN_ANIMATION)
+                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.GUARDIAN_ANIMATION)
                                 .getKeyFrame(runtime, true),
-                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT
-                );
+                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
+            } else if (enemy instanceof GoldenBug) {
+                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BOSS_GOLDEN_BUG_ANIMATION)
+                                .getKeyFrame(runtime, true),
+                        enemy.getPosition().x, enemy.getPosition().y, Boss.WIDTH, Boss.HEIGHT);
+            } else if (enemy instanceof Scorpion) {
+                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BOSS_SCORPION_ANIMATION)
+                                .getKeyFrame(runtime, true),
+                        enemy.getPosition().x, enemy.getPosition().y, Boss.WIDTH, Boss.HEIGHT);
+            } else if (enemy instanceof Kraken) {
+                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BOSS_KRAKEN_ANIMATION)
+                                .getKeyFrame(runtime, true),
+                        enemy.getPosition().x, enemy.getPosition().y, Boss.WIDTH, Boss.HEIGHT);
             }
         }
     }

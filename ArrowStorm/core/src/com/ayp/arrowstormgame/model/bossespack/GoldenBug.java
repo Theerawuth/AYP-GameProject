@@ -11,7 +11,7 @@ public class GoldenBug extends Boss {
     private static final float MOVEMENT_SPEED = 120;
     private static final float HEALTH_POINT = 800;
 
-    public GoldenBug(float attackDamage, float movementSpeed, float healthPoint) {
+    public GoldenBug() {
         super(ATTACK_DAMAGE, MOVEMENT_SPEED, HEALTH_POINT);
     }
 }

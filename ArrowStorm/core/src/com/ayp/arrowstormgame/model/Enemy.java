@@ -1,5 +1,7 @@
 package com.ayp.arrowstormgame.model;
 
+import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.game_manager.GamePlayManager;
 import com.ayp.arrowstormgame.model.enemiespack.Bug;
 import com.ayp.arrowstormgame.model.enemiespack.Guardian;
 import com.ayp.arrowstormgame.model.enemiespack.Worm;
@@ -13,7 +15,8 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Enemy {
     public static final float WIDTH = 64;
     public static final float HEIGHT = 64;
-    private static final float BOUNDING_RADIUS = 32;
+    private static final float ENEMY_BOUNDING_RADIUS = 32;
+    private static final float BOSS_BOUNDING_RADIUS = 64;
     private static final int MAX_LEVEL = 40;
 
     private static final class AttackDamage {
@@ -54,9 +57,15 @@ public abstract class Enemy {
 
     // Boss
     public Enemy(float attackDamage, float movementSpeed, float healthPoint) {
+        position = new Vector2(ArrowStormGame.GAME_WIDTH / 2 - BOSS_BOUNDING_RADIUS, 0);
         this.attackDamage = attackDamage;
         this.movementSpeed = movementSpeed;
         this.healthPoint = healthPoint;
+        boundPosition = new Vector2(ArrowStormGame.GAME_WIDTH / 2 + BOSS_BOUNDING_RADIUS,
+                0 + BOSS_BOUNDING_RADIUS);
+        enemyBound = new Circle(boundPosition, BOSS_BOUNDING_RADIUS);
+        score = GamePlayManager.stage * 1000;
+        gold = GamePlayManager.stage * 250;
     }
 
     // Enemy
@@ -65,8 +74,8 @@ public abstract class Enemy {
         position = new Vector2(x, y);
         // to set origin point of bound at center of sprite
         // when it has been drawn
-        boundPosition = new Vector2(x + BOUNDING_RADIUS, y + BOUNDING_RADIUS);
-        enemyBound = new Circle(boundPosition, BOUNDING_RADIUS);
+        boundPosition = new Vector2(x + ENEMY_BOUNDING_RADIUS, y + ENEMY_BOUNDING_RADIUS);
+        enemyBound = new Circle(boundPosition, ENEMY_BOUNDING_RADIUS);
 
         score = (level + 1) * 5 + level;
         gold = (level + 1) + level * 1 / 3;
@@ -82,6 +91,15 @@ public abstract class Enemy {
         healthPoint = HealthPoint.BASE + (level
                 * (HEALTH_POINT_RANGE / MAX_LEVEL));
         healthPoint *= factorHealthPoint;
+        switch (GamePlayManager.stage) {
+            case 2:
+                healthPoint *= 1.3;
+                break;
+            case 3:
+                healthPoint *= 1.6;
+                break;
+            default:
+        }
     }
 
     public boolean isDied() {
