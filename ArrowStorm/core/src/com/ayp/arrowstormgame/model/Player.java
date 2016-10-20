@@ -26,18 +26,18 @@ public class Player {
     public static long attackSpeed;
     // level of attack speed skill 0 - 20
 
-    private static final float MAXIMUM_HEALTH_POINT = 420;
+    private static final float MAXIMUM_HEALTH_POINT = 500;
     private static final float MINIMUM_HEALTH_POINT = 20;
     private static float BASE_HEALTH_POINT = 20;
     private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
     public static float healthPoint;
 
-    private static final float MAXIMUM_ATTACK_DAMAGE = 100;
+    private static final float MAXIMUM_ATTACK_DAMAGE = 240;
     private static final float MINIMUM_ATTACK_DAMAGE = 10;
     private static float BASE_ATTACK_DAMAGE = 10;
     private float attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
     public static float attackDamage;
-    private static final int MAX_LEVEL_SKILL = 20;
+    public static final int MAX_LEVEL_SKILL = 40;
 
     public static float angle = 0;
     private static boolean isAlive;
@@ -55,6 +55,14 @@ public class Player {
         attackDamage =
                 BASE_ATTACK_DAMAGE
                         + (attackDamageSkillLevel * ((attackDamageRange) / MAX_LEVEL_SKILL));
+    }
+
+    public static String skillUpCostString(int level) {
+        return String.valueOf(skillUpCostInt(level));
+    }
+
+    public static int skillUpCostInt(int level) {
+        return (level + 1) * (level + 4) + level * 4 + ((level + 3) * 2);
     }
 
     public static String getHealthPoint() {
