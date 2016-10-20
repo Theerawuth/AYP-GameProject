@@ -91,8 +91,10 @@ public class MainMenuScreen implements Screen {
         elapsedTime += delta;
         game.spriteBatch.setProjectionMatrix(game.camera.combined);
         game.spriteBatch.begin();
+        game.spriteBatch.enableBlending();
         drawBackground();
         drawIcon();
+        game.spriteBatch.disableBlending();
         game.spriteBatch.end();
         handleTouchEvent();
     }
@@ -163,6 +165,7 @@ public class MainMenuScreen implements Screen {
         upGradeImageSprite.setPosition(UPGRADE_POS_X, UPGRADE_POS_Y);
         openMusicSprite.setPosition(OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y);
         closeMusicSprite.setPosition(CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y);
+        facebookImageSprite.setPosition(FACEBOOK_POS_X, FACEBOOK_POS_Y);
         game.camera.unproject(touchButton);
         if (Gdx.input.isTouched() && elapsedTime > 0.5) {
             elapsedTime = 0;
@@ -189,6 +192,15 @@ public class MainMenuScreen implements Screen {
                     + upGradeImageSprite.getHeight())) {
                 game.setScreen(new UpGradeScreen(game));
             }
+            if (touchButton.x > facebookImageSprite.getX()
+                    && touchButton.x < (facebookImageSprite.getX()
+                    + facebookImageSprite.getWidth())
+                    && touchButton.y > facebookImageSprite.getY()
+                    && touchButton.y < (facebookImageSprite.getY()
+                    + facebookImageSprite.getHeight())) {
+                Gdx.app.log("FBBTN", "FBBTN is touched");
+            }
+
             if (touchButton.x > openMusicSprite.getX()
                     && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
                     && touchButton.y > openMusicSprite.getY()
