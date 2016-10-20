@@ -6,7 +6,6 @@ import com.ayp.arrowstormgame.model.EnemyUniverse;
 import com.ayp.arrowstormgame.model.enemiespack.Bug;
 import com.ayp.arrowstormgame.model.enemiespack.Guardian;
 import com.ayp.arrowstormgame.model.enemiespack.Worm;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
@@ -17,87 +16,73 @@ import java.util.Random;
 
 public class EnemySpawnManager {
 
-    private static final float FAST_SPAWN = 0.15f;
-    private static final float NORMAL_SPAWN = 0.9f;
-    private static final float SLOW_SPAWN = 1.0f;
+    private static final class SpawnPeriodProbability {
+        private static final float FAST_PERCENTILE = 0.15f;
+        private static final float NORMAL_PERCENTILE = 0.75f;
+        private static final float SLOW_PERCENTILE = 0.10f;
+        private static final float FAST = FAST_PERCENTILE;
+        private static final float NORMAL = FAST_PERCENTILE + NORMAL_PERCENTILE;
+        private static final float SLOW = FAST_PERCENTILE + NORMAL_PERCENTILE + SLOW_PERCENTILE;
+    }
 
-    private static final float BASE_DELAY_FAST_SPAWN = 0.9f;
-    private static final float BASE_DELAY_NORMAL_SPAWN = 1.5f;
-    private static final float BASE_DELAY_SLOW_SPAWN = 2.5f;
+    private static final class BaseDelaySpawn {
+        private static final float FAST = 0.9f;
+        private static final float NORMAL = 1.5f;
+        private static final float SLOW = 2.5f;
+    }
 
-    private static final float BIAS_DELAY_FAST_SPAWN = 0.6f;
-    private static final float BIAS_DELAY_NORMAL_SPAWN = 1.0f;
-    private static final float BIAS_DELAY_SLOW_SPAWN = 0.3f;
+    private static final class BiasDelaySpawn {
+        private static final float FAST = 0.6f;
+        private static final float NORMAL = 1.0f;
+        private static final float SLOW = 0.3f;
+    }
 
-    private static final float HIGH_SPAWN_CHANCE = 0.5f;
-    private static final float LOW_SPAWN_CHANCE = 0.25f;
+    private static final class SpawnChance {
+        private static final float HIGH = 0.50f;
+        private static final float LOW = 0.25f;
+    }
 
-
-    private float elapseTime;
-    private int currentEnemyLevel;
-    private EnemyLevelManager enemyLevelManager;
+    //    private EnemyLevelManager enemyLevelManager;
     private Random random;
+    private float elapseTime;
     private float spawnTime;
 
-    public EnemySpawnManager(EnemyLevelManager enemyLevelManager) {
-        this.enemyLevelManager = enemyLevelManager;
-        currentEnemyLevel = enemyLevelManager.getCurrentEnemyLevel();
+    public EnemySpawnManager() {
+//        this.enemyLevelManager = enemyLevelManager;
         elapseTime = 0;
         random = new Random();
         spawnTime = generateSpawnTime();
     }
 
-    public void spawn(
-            Array<Enemy> enemies,
-            float bugSpawnChance,
-            float wormSpawnChance,
-            float guardianSpawnChance
-    ) {
-        // 64 now is temp value for enemy width
+    public void spawnEnemy(Array<Enemy> enemies, float bugSpawnChance, float wormSpawnChance,
+                           float guardianSpawnChance, int currenEnemyLevel) {
         float randomSpawnValue = random.nextFloat();
-        float originX = random.nextFloat() * (ArrowStormGame.GAME_WIDTH - Enemy.ENEMY_WIDTH);
+        float originX = random.nextFloat() * (ArrowStormGame.GAME_WIDTH - Enemy.WIDTH);
         if (randomSpawnValue <= bugSpawnChance) {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.BUG, enemies);
+            spawn(originX, 0, EnemyUniverse.EnemyType.BUG, enemies, currenEnemyLevel);
         } else if (randomSpawnValue > bugSpawnChance
                 && randomSpawnValue <= bugSpawnChance + wormSpawnChance) {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.WORM, enemies);
+            spawn(originX, 0, EnemyUniverse.EnemyType.WORM, enemies, currenEnemyLevel);
         } else if (randomSpawnValue > bugSpawnChance + wormSpawnChance
                 && randomSpawnValue <= bugSpawnChance + randomSpawnValue + guardianSpawnChance) {
-            spawnEnemy(originX, 0, EnemyUniverse.EnemyType.GUARDIAN, enemies);
+            spawn(originX, 0, EnemyUniverse.EnemyType.GUARDIAN, enemies, currenEnemyLevel);
         }
     }
 
     // Spawn an enemy.
-    public void spawnEnemy(
-            float originX,
-            float originY,
-            EnemyUniverse.EnemyType enemyType,
-            Array<Enemy> enemies
-    ) {
-        spawnByType(originX, originY, enemyType, enemies);
-    }
-
-    private int getCurrentEnemyLevel() {
-        return enemyLevelManager.getCurrentEnemyLevel();
-    }
-
-    public void spawnByType(
-            float originX,
-            float originY,
-            EnemyUniverse.EnemyType enemyType,
-            Array<Enemy> enemies
-    ) {
+    public void spawn(float originX, float originY, EnemyUniverse.EnemyType enemyType,
+                      Array<Enemy> enemies, int currenEnemyLevel) {
         switch (enemyType) {
             case BUG:
-                Enemy enemyBug = new Bug(originX, originY, getCurrentEnemyLevel());
+                Enemy enemyBug = new Bug(originX, originY, currenEnemyLevel);
                 enemies.add(enemyBug);
                 break;
             case WORM:
-                Enemy enemyWorm = new Worm(originX, originY, getCurrentEnemyLevel());
+                Enemy enemyWorm = new Worm(originX, originY, currenEnemyLevel);
                 enemies.add(enemyWorm);
                 return;
             case GUARDIAN:
-                Enemy enemyGuardian = new Guardian(originX, originY, getCurrentEnemyLevel());
+                Enemy enemyGuardian = new Guardian(originX, originY, currenEnemyLevel);
                 enemies.add(enemyGuardian);
             default:
                 break;
@@ -109,32 +94,33 @@ public class EnemySpawnManager {
         float spawnTime = 0;
         float spawnRate = random.nextFloat();
         float factorBiasSpawn = random.nextFloat();
-        if (spawnRate <= FAST_SPAWN) {
-            spawnTime = BASE_DELAY_FAST_SPAWN + BIAS_DELAY_FAST_SPAWN * factorBiasSpawn;
-        } else if (spawnRate > FAST_SPAWN && spawnRate <= NORMAL_SPAWN) {
-            spawnTime = BASE_DELAY_NORMAL_SPAWN + BIAS_DELAY_NORMAL_SPAWN * factorBiasSpawn;
-        } else if (spawnRate > NORMAL_SPAWN && spawnRate <= SLOW_SPAWN) {
-            spawnTime = BASE_DELAY_SLOW_SPAWN + BIAS_DELAY_SLOW_SPAWN * factorBiasSpawn;
+        if (spawnRate <= SpawnPeriodProbability.FAST) {
+            spawnTime = BaseDelaySpawn.FAST + BiasDelaySpawn.FAST * factorBiasSpawn;
+        } else if (spawnRate > SpawnPeriodProbability.FAST
+                && spawnRate <= SpawnPeriodProbability.NORMAL) {
+            spawnTime = BaseDelaySpawn.NORMAL + BiasDelaySpawn.NORMAL * factorBiasSpawn;
+        } else if (spawnRate > SpawnPeriodProbability.NORMAL
+                && spawnRate <= SpawnPeriodProbability.SLOW) {
+            spawnTime = BaseDelaySpawn.SLOW + BiasDelaySpawn.SLOW * factorBiasSpawn;
         }
         return spawnTime;
     }
 
-    public void spawnUnderStage(float delta, int stage, Array<Enemy> enemies) {
+    public void spawnUnderStage(float delta, int stage, Array<Enemy> enemies, int currenEnemyLevel) {
         if (elapseTime >= spawnTime) {
-            // spawn enemy
+            // spawnEnemy enemy
             switch (stage) {
                 case 1:
-                    spawn(enemies, HIGH_SPAWN_CHANCE, LOW_SPAWN_CHANCE, LOW_SPAWN_CHANCE);
+                    spawnEnemy(enemies, SpawnChance.HIGH, SpawnChance.LOW, SpawnChance.LOW, currenEnemyLevel);
                     break;
                 case 2:
-                    spawn(enemies, LOW_SPAWN_CHANCE, HIGH_SPAWN_CHANCE, LOW_SPAWN_CHANCE);
+                    spawnEnemy(enemies, SpawnChance.LOW, SpawnChance.HIGH, SpawnChance.LOW, currenEnemyLevel);
                     break;
                 case 3:
-                    spawn(enemies, LOW_SPAWN_CHANCE, LOW_SPAWN_CHANCE, HIGH_SPAWN_CHANCE);
+                    spawnEnemy(enemies, SpawnChance.LOW, SpawnChance.LOW, SpawnChance.HIGH, currenEnemyLevel);
                     break;
                 default:
             }
-            Gdx.app.log("EnemySpawnManager", "elapseTime: " + elapseTime);
             spawnTime = generateSpawnTime();
             elapseTime = 0;
         }

@@ -25,12 +25,22 @@ import java.util.HashMap;
  */
 
 public class GamePlayRenderer {
+    private static final float RESUME_ICON_POSITION_X = 112;
+    private static final float RESUME_ICON_POSITION_Y = 300;
     private static final String GAME_OVER_TEXT = "GAME OVER";
+    private static final int NORMAL_SCALE_ARROW = 1;
+    private static final float ANIMATION_FRAME_DURATION_DlIVIDER = 2000000000f;
     final private ArrowStormGame game;
+    private HashMap<String, Animation> enemyAnimationMap;
+    private GlyphLayout glyphLayout;
+    private Animation playerAnimation;
+    private Vector3 touchPosition;
     private Sprite arrowSprite;
     private Sprite goldIconSprite;
     private Sprite heartIconSprite;
-    private static final int NORMAL_SCALE_ARROW = 1;
+    private Sprite pauseSprite;
+    private Sprite resumeSprite;
+    private Sprite quitSprite;
     private BitmapFont scoreFont;
     private BitmapFont scoreShadow;
     private BitmapFont goldFont;
@@ -41,17 +51,8 @@ public class GamePlayRenderer {
     private String score;
     private String gold;
     private String heart;
-    private GlyphLayout glyphLayout;
-    private HashMap<String, Animation> enemyAnimationMap;
-    private TextureRegion backgroundStageOne;
-    private TextureRegion backgroundStageTwo;
-    private TextureRegion backgroundStageThree;
-    private Animation playerAnimation;
+    private TextureRegion background;
     private TextureRegion playerStandBy;
-    private Vector3 touchPosition;
-    private Sprite pauseSprite;
-    private Sprite resumeSprite;
-    private Sprite quitSprite;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
@@ -68,11 +69,9 @@ public class GamePlayRenderer {
         heartShadow = AssetsLoader.hearthShadow;
         glyphLayout = new GlyphLayout();
         enemyAnimationMap = AssetsLoader.enemyAnimationMap;
-        backgroundStageOne = AssetsLoader.playStateBackgroundOne;
-        backgroundStageTwo = AssetsLoader.playStateBackgroundTwo;
-        backgroundStageThree = AssetsLoader.playStateBackgroundThree;
+        background = AssetsLoader.playStateBackgroundOne;
         playerAnimation = AssetsLoader.playerAnimation;
-        playerAnimation.setFrameDuration(Player.attackSpeed / 2000000000f);
+        playerAnimation.setFrameDuration(Player.attackSpeed / ANIMATION_FRAME_DURATION_DlIVIDER);
         playerStandBy = AssetsLoader.playerStandBy;
         heartIconSprite = AssetsLoader.hearthIconSprite;
         font = AssetsLoader.font;
@@ -99,127 +98,63 @@ public class GamePlayRenderer {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Bug) {
                 game.spriteBatch.draw(
-                        enemyAnimationMap
-                                .get(AssetsLoader.BUG_ANIMATION)
+                        enemyAnimationMap.get(AssetsLoader.BUG_ANIMATION)
                                 .getKeyFrame(runtime, true),
-                        enemy.getPosition().x,
-                        enemy.getPosition().y,
-                        Enemy.ENEMY_WIDTH,
-                        Enemy.ENEMY_HEIGHT
+                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT
                 );
             } else if (enemy instanceof Worm) {
                 game.spriteBatch.draw(
-                        enemyAnimationMap
-                                .get(AssetsLoader.WORM_ANIMATION)
+                        enemyAnimationMap.get(AssetsLoader.WORM_ANIMATION)
                                 .getKeyFrame(runtime, true),
-                        enemy.getPosition().x,
-                        enemy.getPosition().y,
-                        Enemy.ENEMY_WIDTH,
-                        Enemy.ENEMY_HEIGHT
+                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT
                 );
             } else if (enemy instanceof Guardian) {
                 game.spriteBatch.draw(
-                        enemyAnimationMap
-                                .get(AssetsLoader.GUARDIAN_ANIMATION)
+                        enemyAnimationMap.get(AssetsLoader.GUARDIAN_ANIMATION)
                                 .getKeyFrame(runtime, true),
-                        enemy.getPosition().x,
-                        enemy.getPosition().y,
-                        Enemy.ENEMY_WIDTH,
-                        Enemy.ENEMY_HEIGHT
+                        enemy.getPosition().x, enemy.getPosition().y, Enemy.WIDTH, Enemy.HEIGHT
                 );
             }
         }
     }
 
     public void drawResumeMessage() {
-        game.spriteBatch.draw(
-                resumeSprite,
-                112,
-                300
-        );
+        game.spriteBatch.draw(resumeSprite, RESUME_ICON_POSITION_X, RESUME_ICON_POSITION_Y);
     }
 
     public void drawQuitMessage() {
-        game.spriteBatch.draw(
-                quitSprite,
-                112,
-                500
-        );
+        game.spriteBatch.draw(quitSprite, 112, 500);
     }
 
     public void drawPauseButton() {
-        game.spriteBatch.draw(
-                pauseSprite,
-                416,
-                0
-        );
+        game.spriteBatch.draw(pauseSprite, 416, 0);
     }
 
     public void drawGold(GamePlayManager gamePlayManager) {
         gold = gamePlayManager.getGold();
-        game.spriteBatch.draw(
-                goldIconSprite,
-                10,
-                40,
-                32,
-                32
-        );
-        goldShadow.draw(
-                game.spriteBatch,
-                gold,
-                48 + 2,
-                48 + 2
-        );
-        goldFont.draw(
-                game.spriteBatch,
-                gold,
-                48,
-                48
-        );
+        game.spriteBatch.draw(goldIconSprite, 10, 40, 32, 32);
+        goldShadow.draw(game.spriteBatch, gold, 48 + 2, 48 + 2);
+        goldFont.draw(game.spriteBatch, gold, 48, 48);
     }
 
     public void drawHeart() {
         heart = Player.getHealthPoint();
-        game.spriteBatch.draw(
-                heartIconSprite,
-                10,
-                560,
-                32,
-                32
-        );
-        heartShadow.draw(
-                game.spriteBatch,
-                heart,
-                48 + 2,
-                560 + 2
-        );
-        heartFont.draw(
-                game.spriteBatch,
-                heart,
-                48,
-                560
-        );
+        game.spriteBatch.draw(heartIconSprite, 10, 560, 32, 32);
+        heartShadow.draw(game.spriteBatch, heart, 48 + 2, 560 + 2);
+        heartFont.draw(game.spriteBatch, heart, 48, 560);
     }
 
     public void drawScore(GamePlayManager gamePlayManager) {
         score = gamePlayManager.getScore();
         glyphLayout.setText(scoreFont, score);
-        scoreShadow.draw(
-                game.spriteBatch,
-                score,
-                ((game.GAME_WIDTH / 2) + 2) - glyphLayout.width / 2,
-                (game.GAME_HEIGHT / 10) + 2
-        );
-        scoreFont.draw(
-                game.spriteBatch,
-                score,
-                (game.GAME_WIDTH / 2) - glyphLayout.width / 2,
-                game.GAME_HEIGHT / 10
-        );
+        scoreShadow.draw(game.spriteBatch, score,
+                ((game.GAME_WIDTH / 2) + 2) - glyphLayout.width / 2, (game.GAME_HEIGHT / 10) + 2);
+        scoreFont.draw(game.spriteBatch, score, (game.GAME_WIDTH / 2) - glyphLayout.width / 2,
+                game.GAME_HEIGHT / 10);
     }
 
     public void drawBackground() {
-        game.spriteBatch.draw(backgroundStageOne, 0, 0);
+        game.spriteBatch.draw(background, 0, 0);
     }
 
     public void drawPlayer(float runtime) {
@@ -228,45 +163,20 @@ public class GamePlayRenderer {
             touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             game.camera.unproject(touchPosition);
             if (touchPosition.y < Player.SHOOTING_POINT_Y) {
-                game.spriteBatch.draw(
-                        playerStandBy,
-                        Player.SHOOTING_POINT_X - 48,
-                        Player.POSITION_Y,
-                        Player.PLAYER_WIDTH / 2,
-                        Player.PLAYER_HEIGHT / 2,
-                        Player.PLAYER_WIDTH,
-                        Player.PLAYER_HEIGHT,
-                        Player.SCALE_X,
-                        Player.SCALE_Y,
-                        Player.angle
-                );
+                game.spriteBatch.draw(playerStandBy, Player.SHOOTING_POINT_X - 48,
+                        Player.POSITION_Y, Player.PLAYER_WIDTH / 2, Player.PLAYER_HEIGHT / 2,
+                        Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT, Player.SCALE_X, Player.SCALE_Y,
+                        Player.angle);
                 return;
             }
-            game.spriteBatch.draw(
-                    playerAnimation.getKeyFrame(runtime, true),
-                    Player.SHOOTING_POINT_X - 48,
-                    Player.POSITION_Y,
-                    Player.PLAYER_WIDTH / 2,
-                    Player.PLAYER_HEIGHT / 2,
-                    Player.PLAYER_WIDTH,
-                    Player.PLAYER_HEIGHT,
-                    Player.SCALE_X,
-                    Player.SCALE_Y,
-                    Player.angle
-            );
+            game.spriteBatch.draw(playerAnimation.getKeyFrame(runtime, true),
+                    Player.SHOOTING_POINT_X - 48, Player.POSITION_Y, Player.PLAYER_WIDTH / 2,
+                    Player.PLAYER_HEIGHT / 2, Player.PLAYER_WIDTH, Player.PLAYER_HEIGHT,
+                    Player.SCALE_X, Player.SCALE_Y, Player.angle);
         } else {
-            game.spriteBatch.draw(
-                    playerStandBy,
-                    Player.SHOOTING_POINT_X - 48,
-                    Player.POSITION_Y,
-                    Player.PLAYER_WIDTH / 2,
-                    Player.PLAYER_HEIGHT / 2,
-                    Player.PLAYER_WIDTH,
-                    Player.PLAYER_HEIGHT,
-                    Player.SCALE_X,
-                    Player.SCALE_Y,
-                    Player.angle
-            );
+            game.spriteBatch.draw(playerStandBy, Player.SHOOTING_POINT_X - 48, Player.POSITION_Y,
+                    Player.PLAYER_WIDTH / 2, Player.PLAYER_HEIGHT / 2, Player.PLAYER_WIDTH,
+                    Player.PLAYER_HEIGHT, Player.SCALE_X, Player.SCALE_Y, Player.angle);
         }
     }
 
@@ -275,12 +185,8 @@ public class GamePlayRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         GlyphLayout glyphLayout = new GlyphLayout();
         glyphLayout.setText(font, GAME_OVER_TEXT);
-
-        font.draw(
-                game.spriteBatch,
-                GAME_OVER_TEXT,
+        font.draw(game.spriteBatch, GAME_OVER_TEXT,
                 ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2,
-                ArrowStormGame.GAME_HEIGHT / 2 - glyphLayout.height / 2
-        );
+                ArrowStormGame.GAME_HEIGHT / 2 - glyphLayout.height / 2);
     }
 }

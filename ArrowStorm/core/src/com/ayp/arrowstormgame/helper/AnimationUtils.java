@@ -13,16 +13,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationUtils {
 
-    public static Animation newAnimation(
-            String pathNameString,
-            Texture imageTexture,
-            TextureRegion[] perFramesAnimation,
-            int frameColumns,
-            int frameRows,
-            float frameDuration
-    ){
+    public static Animation newAnimation(String pathNameString, Texture imageTexture,
+                                         TextureRegion[] perFramesAnimation, int frameColumns,
+                                         int frameRows, float frameDuration) {
         imageTexture = new Texture(Gdx.files.internal(pathNameString));
-        TextureRegion[][] leafs = TextureRegion.split(
+        TextureRegion[][] textureRegionsArray = TextureRegion.split(
                 imageTexture,
                 imageTexture.getWidth() / frameColumns,
                 imageTexture.getHeight() / frameRows
@@ -31,10 +26,9 @@ public class AnimationUtils {
         int indexLeaf = 0;
         for (int i = 0; i < frameRows; i++) {
             for (int j = 0; j < frameColumns; j++) {
-                perFramesAnimation[indexLeaf++] = leafs[i][j];
+                perFramesAnimation[indexLeaf++] = textureRegionsArray[i][j];
             }
         }
-
         return new Animation(frameDuration, perFramesAnimation);
     }
 }

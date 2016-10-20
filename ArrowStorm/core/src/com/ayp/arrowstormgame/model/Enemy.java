@@ -11,60 +11,76 @@ import com.badlogic.gdx.math.Vector2;
  */
 
 public abstract class Enemy {
-
-    public static final float ENEMY_WIDTH = 64;
-    public static final float ENEMY_HEIGHT = 64;
-    private static final float RADIUS = 32;
-    private float attackDamage;
-    private float movementSpeed;
-    private float healthPoint;
-    private static final float BASE_ATTACK_DAMAGE = 2;
-    private static final float MINIMUM_ATTACK_DAMAGE = 2;
-    private static final float MAXIMUM_ATTACK_DAMAGE = 37;
-    private float attackDamageRange = MAXIMUM_ATTACK_DAMAGE - MINIMUM_ATTACK_DAMAGE;
-
-    private static final float BASE_MOVEMENT_SPEED = 70;
-    private static final float MINIMUM_MOVEMENT_SPEED = 70;
-    private static final float MAXIMUM_MOVEMENT_SPEED = 95;
-    private float movementSpeedRange = MAXIMUM_MOVEMENT_SPEED - MINIMUM_MOVEMENT_SPEED;
-
-    private static final float BASE_HEALTH_POINT = 8;
-    private static final float MINIMUM_HEALTH_POINT = 8;
-    private static final float MAXIMUM_HEALTH_POINT = 245;
-    private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
-
+    public static final float WIDTH = 64;
+    public static final float HEIGHT = 64;
+    private static final float BOUNDING_RADIUS = 32;
     private static final int MAX_LEVEL = 40;
-    private Circle enemyBound;
+
+    private static final class AttackDamage {
+        private static final float BASE = 2;
+        private static final float MINIMUM = 2;
+        private static final float MAXIMUM = 37;
+    }
+
+    private static float ATTACK_DAMAGE_RANGE = AttackDamage.MAXIMUM - AttackDamage.MINIMUM;
+
+    private static final class MovementSpeed {
+        private static final float BASE = 70;
+        private static final float MINIMUM = 70;
+        private static final float MAXIMUM = 95;
+    }
+
+    private static float MOVEMENT_SPEED_RANGE = MovementSpeed.MAXIMUM - MovementSpeed.MINIMUM;
+
+    private static final class HealthPoint {
+        private static final float BASE = 8;
+        private static final float MINIMUM = 8;
+        private static final float MAXIMUM = 245;
+    }
+
+    private static float HEALTH_POINT_RANGE = HealthPoint.MAXIMUM - HealthPoint.MINIMUM;
+
     private Vector2 position;
     private Vector2 boundPosition;
 
+    private Circle enemyBound;
     private String type;
     private int score;
     private int gold;
 
-    public Enemy(
-            float x,
-            float y,
-            float factorAttackDamage,
-            float factorMovementSpeed,
-            float factorHealthPoint,
-            int level
-    ) {
+    private float attackDamage;
+    private float movementSpeed;
+    private float healthPoint;
+
+    // Boss
+    public Enemy(float attackDamage, float movementSpeed, float healthPoint) {
+        this.attackDamage = attackDamage;
+        this.movementSpeed = movementSpeed;
+        this.healthPoint = healthPoint;
+    }
+
+    // Enemy
+    public Enemy(float x, float y, float factorAttackDamage, float factorMovementSpeed,
+                 float factorHealthPoint, int level) {
         position = new Vector2(x, y);
-        // to set origin point of bound at center of sprite when it has been drawn
-        boundPosition = new Vector2(x + RADIUS, y + RADIUS);
-        enemyBound = new Circle(boundPosition, RADIUS);
+        // to set origin point of bound at center of sprite
+        // when it has been drawn
+        boundPosition = new Vector2(x + BOUNDING_RADIUS, y + BOUNDING_RADIUS);
+        enemyBound = new Circle(boundPosition, BOUNDING_RADIUS);
 
         score = (level + 1) * 5 + level;
         gold = (level + 1) + level * 1 / 3;
 
-        attackDamage = BASE_ATTACK_DAMAGE + (level * (attackDamageRange / MAX_LEVEL));
+        attackDamage = AttackDamage.BASE + (level
+                * (ATTACK_DAMAGE_RANGE / MAX_LEVEL));
         attackDamage *= factorAttackDamage;
 
-        movementSpeed = BASE_MOVEMENT_SPEED + (level * (movementSpeedRange / MAX_LEVEL));
+        movementSpeed = MovementSpeed.BASE + (level
+                * (MOVEMENT_SPEED_RANGE / MAX_LEVEL));
         movementSpeed *= factorMovementSpeed;
 
-        healthPoint = BASE_HEALTH_POINT + (level * (healthPointRange / MAX_LEVEL));
+        healthPoint = HealthPoint.BASE + (level
+                * (HEALTH_POINT_RANGE / MAX_LEVEL));
         healthPoint *= factorHealthPoint;
     }
 

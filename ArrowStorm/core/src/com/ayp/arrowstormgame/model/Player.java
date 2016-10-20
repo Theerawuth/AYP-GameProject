@@ -57,7 +57,6 @@ public class Player {
         attackDamage =
                 BASE_ATTACK_DAMAGE
                         + (attackDamageSkillLevel * ((attackDamageRange) / MAX_LEVEL_SKILL));
-        Gdx.app.log("Player", "attackSpeed: " + attackSpeed + ", healthPoint: " + healthPoint + ", attackDamage: " + attackDamage);
     }
 
     public static String getHealthPoint() {

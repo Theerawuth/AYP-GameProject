@@ -146,21 +146,11 @@ public class MainMenuScreen implements Screen {
                 facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT
         );
         if (musicPref.getBoolean("soundOn")) {
-            game.spriteBatch.draw(
-                    closeMusicSprite,
-                    CLOSE_MUSIC_POS_X,
-                    CLOSE_MUSIC_POS_Y,
-                    MUSIC_ICON_WIDTH,
-                    MUSIC_ICON_HEIGHT
-            );
+            game.spriteBatch.draw(closeMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y,
+                    MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
         } else {
-            game.spriteBatch.draw(
-                    openMusicSprite,
-                    CLOSE_MUSIC_POS_X,
-                    CLOSE_MUSIC_POS_Y,
-                    MUSIC_ICON_WIDTH,
-                    MUSIC_ICON_HEIGHT
-            );
+            game.spriteBatch.draw(openMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y,
+                    MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
         }
     }
 
@@ -188,13 +178,15 @@ public class MainMenuScreen implements Screen {
             if (touchButton.x > monsterImageSprite.getX()
                     && touchButton.x < (monsterImageSprite.getX() + monsterImageSprite.getWidth())
                     && touchButton.y > monsterImageSprite.getY()
-                    && touchButton.y < (monsterImageSprite.getY() + monsterImageSprite.getHeight())) {
+                    && touchButton.y < (monsterImageSprite.getY()
+                    + monsterImageSprite.getHeight())) {
                 game.setScreen(new MonsterInfoScreen(game));
             }
             if (touchButton.x > upGradeImageSprite.getX()
                     && touchButton.x < (upGradeImageSprite.getX() + upGradeImageSprite.getWidth())
                     && touchButton.y > upGradeImageSprite.getY()
-                    && touchButton.y < (upGradeImageSprite.getY() + upGradeImageSprite.getHeight())) {
+                    && touchButton.y < (upGradeImageSprite.getY()
+                    + upGradeImageSprite.getHeight())) {
                 game.setScreen(new UpGradeScreen(game));
             }
             if (touchButton.x > openMusicSprite.getX()

@@ -127,7 +127,8 @@ public class MonsterInfoScreen implements Screen {
     }
 
     public void drawBackground() {
-        game.spriteBatch.draw(monsterInfoImageSprite, 0, 0, MONSTER_INFO_BG_WIDTH, MONSTER_INFO_BG_HEIGHT);
+        game.spriteBatch.draw(monsterInfoImageSprite, 0, 0, MONSTER_INFO_BG_WIDTH,
+                MONSTER_INFO_BG_HEIGHT);
         game.spriteBatch.draw(headerMonsterInfo, 65, 50, 340, 100);
     }
 

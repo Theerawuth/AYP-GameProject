@@ -10,7 +10,6 @@ import com.ayp.arrowstormgame.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -51,47 +50,36 @@ public class PlayStateScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.spriteBatch.begin();
         gamePlayRenderer.drawBackground();
-        game.spriteBatch.end();
+        gamePlayManager.handleTouchEvent(arrows);
         if (Player.isAlive()) {
             if (gamePlayManager.isPause()) {
-                game.spriteBatch.begin();
                 game.spriteBatch.enableBlending();
                 gamePlayRenderer.drawResumeMessage();
                 gamePlayRenderer.drawQuitMessage();
                 game.spriteBatch.disableBlending();
-                game.spriteBatch.end();
             }
 
-            gamePlayManager.handleTouchEvent(arrows);
             if (!gamePlayManager.isPause()) {
                 gamePlayManager.updateCollision(delta, enemies, arrows);
                 gamePlayManager.updateEnemy(delta, enemies);
                 gamePlayManager.updateArrow(delta, arrows);
                 enemyLevelManager.updateEnemyLevelByTime(delta);
-
-                game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                game.shapeRenderer.end();
-
-                game.spriteBatch.begin();
                 game.spriteBatch.enableBlending();
+                gamePlayRenderer.drawScore(gamePlayManager);
                 gamePlayRenderer.drawPlayer(runtime);
                 gamePlayRenderer.drawArrow(arrows);
                 gamePlayRenderer.drawEnemy(enemies, runtime);
-                gamePlayRenderer.drawScore(gamePlayManager);
                 gamePlayRenderer.drawGold(gamePlayManager);
                 gamePlayRenderer.drawHeart();
                 gamePlayRenderer.drawPauseButton();
                 game.spriteBatch.disableBlending();
-                game.spriteBatch.end();
-
                 gamePlayManager.update();
                 gamePlayManager.spawnEnemy(delta, enemies);
             }
         } else {
-            game.spriteBatch.begin();
             gamePlayRenderer.drawGameOver();
-            game.spriteBatch.end();
         }
+        game.spriteBatch.end();
     }
 
     @Override

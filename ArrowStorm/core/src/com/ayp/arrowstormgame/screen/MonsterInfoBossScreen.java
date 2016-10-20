@@ -21,6 +21,7 @@ public class MonsterInfoBossScreen implements Screen {
     private static final float MODEL_ENEMY_POS_Y = 160;
     private static final float BACK_ICON_POS_X = 0;
     private static final float BACK_ICON_POS_Y = 0;
+    private static final float START_COLUMN_X = 130;
 
     private ArrowStormGame game;
     private BitmapFont bodyFont;
@@ -123,38 +124,39 @@ public class MonsterInfoBossScreen implements Screen {
     }
 
     public void drawBackground() {
-        game.spriteBatch.draw(monsterInfoImageSprite, 0, 0, MONSTER_INFO_BG_WIDTH, MONSTER_INFO_BG_HEIGHT);
+        game.spriteBatch.draw(monsterInfoImageSprite, 0, 0,
+                MONSTER_INFO_BG_WIDTH, MONSTER_INFO_BG_HEIGHT);
         game.spriteBatch.draw(headerMonsterInfo, 65, 50, 340, 100);
     }
 
     public void drawText() {
-        //ENEMY BUG
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][0], 130, 175);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][0], 130, 177);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][1], 130, 215);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][1], 130, 217);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][2], 130, 255);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][2], 130, 257);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][3], 130, 295);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][3], 130, 297);
-        //ENEMY WORM
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][0], 130, 365);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][0], 130, 367);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][1], 130, 405);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][1], 130, 407);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][2], 130, 445);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][2], 130, 447);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][3], 130, 485);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][3], 130, 487);
-        //ENEMY GUARDIAN
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][0], 130, 565);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][0], 130, 567);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][1], 130, 605);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][1], 130, 607);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][2], 130, 645);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][2], 130, 647);
-        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][3], 130, 685);
-        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][3], 130, 687);
+        //ENEMY BOSS GOLDEN BUG
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][0], START_COLUMN_X, 175);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][0], START_COLUMN_X, 177);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][1], START_COLUMN_X, 215);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][1], START_COLUMN_X, 217);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][2], START_COLUMN_X, 255);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][2], START_COLUMN_X, 257);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[0][3], START_COLUMN_X, 295);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[0][3], START_COLUMN_X, 297);
+        //ENEMY BOSS SCORPION
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][0], START_COLUMN_X, 365);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][0], START_COLUMN_X, 367);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][1], START_COLUMN_X, 405);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][1], START_COLUMN_X, 407);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][2], START_COLUMN_X, 445);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][2], START_COLUMN_X, 447);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[1][3], START_COLUMN_X, 485);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[1][3], START_COLUMN_X, 487);
+        //ENEMY BOSS KRAKEN
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][0], START_COLUMN_X, 565);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][0], START_COLUMN_X, 567);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][1], START_COLUMN_X, 605);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][1], START_COLUMN_X, 607);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][2], START_COLUMN_X, 645);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][2], START_COLUMN_X, 647);
+        bodyShadow.draw(game.spriteBatch, nameBossEnemies[2][3], START_COLUMN_X, 685);
+        bodyFont.draw(game.spriteBatch, nameBossEnemies[2][3], START_COLUMN_X, 687);
     }
 
     public void drawModelEnemy() {

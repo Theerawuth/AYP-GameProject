@@ -62,13 +62,9 @@ public class TitleScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
         game.spriteBatch.setProjectionMatrix(game.camera.combined);
-
         elapsedTime += delta;
-
         currentFrameLeaf = leafAnimation.getKeyFrame(elapsedTime, true);
-
         game.spriteBatch.begin();
         game.spriteBatch.draw(introImageSprite, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
         game.spriteBatch.draw(touchToStartSprite, 85, 600, TOUCH_TO_START_WIDTH, TOUCH_TO_START_HEIGHT);
@@ -76,12 +72,10 @@ public class TitleScreen implements Screen {
             game.spriteBatch.draw(currentFrameLeaf, leafDrop.x, leafDrop.y);
         }
         game.spriteBatch.end();
-
         //check time for set start leaf drop and title change
         if (TimeUtils.nanoTime() - lastDropTime > 100000000) {
             spawnLeafDrop();
         }
-
         //set motion leafDrop
         Iterator<Rectangle> iteratorLeaf = leafDrops.iterator();
         while (iteratorLeaf.hasNext()) {
@@ -91,7 +85,6 @@ public class TitleScreen implements Screen {
                 iteratorLeaf.remove();
             }
         }
-
         //check touchscreen
         if (Gdx.input.isTouched() && elapsedTime > 1.0) {
             introBackgroundMusic.stop();

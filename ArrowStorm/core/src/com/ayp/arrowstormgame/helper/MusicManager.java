@@ -12,28 +12,25 @@ public class MusicManager {
     public Music backgroundMusic;
     Preferences musicPref;
 
-    public MusicManager(Music music){
+    public MusicManager(Music music) {
         backgroundMusic = music;
         musicPref = Gdx.app.getPreferences("MyPreference");
         musicPref.putBoolean("soundOn", true);
     }
 
     public void backgroundMusicPlay() {
-        if(musicPref.getBoolean("soundOn"))
-        {
+        if (musicPref.getBoolean("soundOn")) {
             //Play Sound
             backgroundMusic.play();
         }
     }
 
-    public void setSwitchSound(){
+    public void setSwitchSound() {
         // Switch : SoundOff
-        if(musicPref.getBoolean("soundOn")){
+        if (musicPref.getBoolean("soundOn")) {
             musicPref.putBoolean("soundOn", false);
             backgroundMusicStop();
-        }
-        else
-        {
+        } else {
             // Switch : SoundOn
             musicPref.putBoolean("soundOn", true);
             musicPref.flush();

@@ -6,7 +6,6 @@ import com.badlogic.gdx.Gdx;
  * Created by Tanaphon on 10/15/2016.
  */
 public class EnemyLevelManager {
-    private static final String TAG = "EnemyLevelManager";
     private float gameTimer;
     private int currentEnemyLevel;
 
@@ -24,11 +23,11 @@ public class EnemyLevelManager {
         if (currentEnemyLevel < 40 && gameTimer >= 12) {
             currentEnemyLevel++;
             gameTimer = 0;
-            Gdx.app.log("updateEnemyLevelByTime", "currentEnemyLevel" + currentEnemyLevel);
         }
         gameTimer += delta;
     }
 
-    public int getCurrentEnemyLevel() {return currentEnemyLevel;
+    public int getCurrentEnemyLevel() {
+        return currentEnemyLevel;
     }
 }
