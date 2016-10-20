@@ -65,13 +65,13 @@ public class PlayStateScreen implements Screen {
                 gamePlayManager.updateArrow(delta, arrows);
                 enemyLevelManager.updateEnemyLevelByTime(delta);
                 game.spriteBatch.enableBlending();
-                gamePlayRenderer.drawScore(gamePlayManager);
                 gamePlayRenderer.drawPlayer(runtime);
                 gamePlayRenderer.drawArrow(arrows);
                 gamePlayRenderer.drawEnemy(enemies, runtime);
                 gamePlayRenderer.drawGold(gamePlayManager);
                 gamePlayRenderer.drawHeart();
                 gamePlayRenderer.drawPauseButton();
+                gamePlayRenderer.drawScore(gamePlayManager);
                 game.spriteBatch.disableBlending();
                 gamePlayManager.update();
                 gamePlayManager.spawnEnemy(delta, enemies);

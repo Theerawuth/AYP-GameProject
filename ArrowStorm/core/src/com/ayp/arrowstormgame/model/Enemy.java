@@ -57,12 +57,13 @@ public abstract class Enemy {
 
     // Boss
     public Enemy(float attackDamage, float movementSpeed, float healthPoint) {
-        position = new Vector2(ArrowStormGame.GAME_WIDTH / 2 - BOSS_BOUNDING_RADIUS, 0);
+        float x = ArrowStormGame.GAME_WIDTH / 2 - BOSS_BOUNDING_RADIUS;
+        float y = 0;
+        position = new Vector2(x, y);
         this.attackDamage = attackDamage;
         this.movementSpeed = movementSpeed;
         this.healthPoint = healthPoint;
-        boundPosition = new Vector2(ArrowStormGame.GAME_WIDTH / 2 + BOSS_BOUNDING_RADIUS,
-                0 + BOSS_BOUNDING_RADIUS);
+        boundPosition = new Vector2(x + BOSS_BOUNDING_RADIUS, y + BOSS_BOUNDING_RADIUS);
         enemyBound = new Circle(boundPosition, BOSS_BOUNDING_RADIUS);
         score = GamePlayManager.stage * 1000;
         gold = GamePlayManager.stage * 250;

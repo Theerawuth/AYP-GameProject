@@ -43,11 +43,8 @@ public class MonsterInfoScreen implements Screen {
 
     public MonsterInfoScreen(final ArrowStormGame game) {
         this.game = game;
-        bodyFont = AssetsLoader.scoreFont;
-        bodyShadow = AssetsLoader.scoreShadow;
-        bodyFont.getData().setScale(0.5f, -0.5f);
-        bodyShadow.getData().setScale(0.5f, -0.5f);
-
+        bodyFont = AssetsLoader.font;
+        bodyShadow = AssetsLoader.font;
         monsterInfoImageSprite = AssetsLoader.monsterInfoBackgroundSprite;
         modelBugAnimation = AssetsLoader.enemyBugAnimation;
         modelWorm = AssetsLoader.enemyWormAnimation;

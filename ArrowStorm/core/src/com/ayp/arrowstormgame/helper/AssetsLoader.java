@@ -57,8 +57,8 @@ public class AssetsLoader {
     public static final String BOSS_SCORPION_ANIMATION = "BossScorpionAnimation";
     public static final String BOSS_KRAKEN_ANIMATION = "BossKrakenAnimation";
 
-    private static final float FONT_SCALE_X = 0.6f;
-    private static final float FONT_SCALE_Y = -0.6f;
+    private static final float FONT_SCALE_X = 0.4f;
+    private static final float FONT_SCALE_Y = -0.4f;
 
 
     // PlayStateScreen

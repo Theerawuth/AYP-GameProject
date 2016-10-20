@@ -31,7 +31,7 @@ public class Player {
     private static final float MINIMUM_HEALTH_POINT = 20;
     private static float BASE_HEALTH_POINT = 20;
     private float healthPointRange = MAXIMUM_HEALTH_POINT - MINIMUM_HEALTH_POINT;
-    private int healthPointSkillLevel = 1;
+    private int healthPointSkillLevel = 20;
     public static float healthPoint;
 
     private static final float MAXIMUM_ATTACK_DAMAGE = 100;

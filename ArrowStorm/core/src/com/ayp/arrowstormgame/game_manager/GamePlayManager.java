@@ -82,29 +82,20 @@ public class GamePlayManager {
             touchPosition = new Vector3();
             touchPosition.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             game.camera.unproject(touchPosition);
-            if (touchPosition.y >= 0
-                    && touchPosition.y <= 64
-                    && touchPosition.x >= 416
-                    && touchPosition.x <= 480
-                    ) {
+            if (touchPosition.y >= 0 && touchPosition.y <= 64 && touchPosition.x >= 416
+                    && touchPosition.x <= 480) {
                 isPause = true;
             }
             if (!player.isAlive()) {
-                Gdx.app.log("DIE", "game over");
                 game.setScreen(new MainMenuScreen(game));
             }
 
             if (isPause()) {
-                if (touchPosition.y >= 300
-                        && touchPosition.y <= 396
-                        && touchPosition.x >= 112
+                if (touchPosition.y >= 300 && touchPosition.y <= 396 && touchPosition.x >= 112
                         && touchPosition.x <= 368) {
                     isPause = false;
-                    Gdx.app.log("PAUSE", "resume btn is pressed");
-                } else if (touchPosition.y >= 500
-                        && touchPosition.y <= 596
-                        && touchPosition.x >= 112
-                        && touchPosition.x <= 368) {
+                } else if (touchPosition.y >= 500 && touchPosition.y <= 596
+                        && touchPosition.x >= 112 && touchPosition.x <= 368) {
                     game.setScreen(new MainMenuScreen(game));
                 }
             }
@@ -157,12 +148,8 @@ public class GamePlayManager {
     }
 
     private void shootArrow(float arrowAngle, float arrowDirectionInDegree, Array<Arrow> arrows) {
-        Arrow arrow = new Arrow(
-                Player.SHOOTING_POINT_X,
-                Player.SHOOTING_POINT_Y,
-                arrowDirectionInDegree,
-                arrowAngle
-        );
+        Arrow arrow = new Arrow(Player.SHOOTING_POINT_X, Player.SHOOTING_POINT_Y,
+                arrowDirectionInDegree, arrowAngle);
         arrows.add(arrow);
         lastArrow = TimeUtils.nanoTime();
     }
@@ -171,8 +158,8 @@ public class GamePlayManager {
         for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
             enemy.move(delta);
-            if (enemy.getPosition().y
-                    > game.GAME_HEIGHT - 200) {
+            if (enemy.getPosition().y > (game.GAME_HEIGHT - 200)
+                    - enemy.getEnemyBound().radius * 2) {
                 enemies.removeIndex(i);
                 Player.healthPoint -= enemy.getAttackDamage();
                 if (Player.healthPoint < 1) {
