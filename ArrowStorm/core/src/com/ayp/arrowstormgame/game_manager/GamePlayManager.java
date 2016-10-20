@@ -50,7 +50,7 @@ public class GamePlayManager {
         monsterDeadMusic = AssetsLoader.monsterDeadMusic;
         isPause = false;
         score = 0;
-        gold = 0;
+        gold = GdxPreference.getCurrentGold();
         lastArrow = PREPARE_SHOOT;
         shootDelay = player.attackSpeed;
         lastTouched = TimeUtils.nanoTime() - shootDelay;
@@ -102,7 +102,6 @@ public class GamePlayManager {
                     game.setScreen(new MainMenuScreen(game));
                 }
             }
-
 
             if (touchPosition.y < Player.SHOOTING_POINT_Y) {
                 // Cancelled touch outside of player zone
@@ -166,6 +165,10 @@ public class GamePlayManager {
                 enemies.removeIndex(i);
                 Player.healthPoint -= enemy.getAttackDamage();
                 if (Player.healthPoint < 1) {
+                    int currentGold = GdxPreference.getCurrentGold();
+                    currentGold += gold;
+                    GdxPreference.putCurrentGold(currentGold);
+                    GdxPreference.flushPreferences();
                     player.setAlive(false);
                 }
                 break;

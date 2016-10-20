@@ -10,36 +10,31 @@ import com.badlogic.gdx.audio.Music;
 
 public class MusicManager {
     public Music backgroundMusic;
-    Preferences musicPref;
 
     public MusicManager(Music music) {
         backgroundMusic = music;
-        musicPref = Gdx.app.getPreferences("MyPreference");
-        musicPref.putBoolean("soundOn", true);
     }
 
     public void backgroundMusicPlay() {
-        if (musicPref.getBoolean("soundOn")) {
-            //Play Sound
             backgroundMusic.play();
-        }
     }
 
     public void setSwitchSound() {
         // Switch : SoundOff
-        if (musicPref.getBoolean("soundOn")) {
-            musicPref.putBoolean("soundOn", false);
+        Gdx.app.log("SOUNDONOFF", "ONOFF: " + GdxPreference.getSoundSetting());
+        if (GdxPreference.getSoundSetting()) {
+            GdxPreference.putSoundSetting(false);
+            GdxPreference.flushPreferences();
             backgroundMusicStop();
         } else {
             // Switch : SoundOn
-            musicPref.putBoolean("soundOn", true);
-            musicPref.flush();
+            GdxPreference.putSoundSetting(true);
+            GdxPreference.flushPreferences();
             backgroundMusicPlay();
         }
     }
 
     public void backgroundMusicStop() {
-        musicPref.flush();
         backgroundMusic.stop();
     }
 

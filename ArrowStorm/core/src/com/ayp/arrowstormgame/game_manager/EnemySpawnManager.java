@@ -95,7 +95,6 @@ public class EnemySpawnManager {
     // Spawn an enemy.
     public void spawn(float originX, float originY, EnemyUniverse.EnemyType enemyType,
                       Array<Enemy> enemies, int currentEnemyLevel) {
-        spawnBoss(enemies);
         switch (enemyType) {
             case BUG:
                 Enemy enemyBug = new Bug(originX, originY, currentEnemyLevel);

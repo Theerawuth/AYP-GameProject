@@ -2,9 +2,9 @@ package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.helper.MusicManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -57,8 +57,6 @@ public class MainMenuScreen implements Screen {
     private MusicManager manageMusicToBattle;
     boolean isClick;
 
-    private Preferences musicPref;
-
     //TODO Create menu button
 
     public MainMenuScreen(final ArrowStormGame game) {
@@ -75,7 +73,6 @@ public class MainMenuScreen implements Screen {
         toBattleMusic = AssetsLoader.toBattleMusic;
         elapsedTime = 0;
         isClick = false;
-        musicPref = Gdx.app.getPreferences("MyPreference");
     }
 
     @Override
@@ -147,7 +144,7 @@ public class MainMenuScreen implements Screen {
         game.spriteBatch.draw(
                 facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT
         );
-        if (musicPref.getBoolean("soundOn")) {
+        if (GdxPreference.getSoundSetting()) {
             game.spriteBatch.draw(closeMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y,
                     MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
         } else {
@@ -198,7 +195,6 @@ public class MainMenuScreen implements Screen {
                     && touchButton.y > facebookImageSprite.getY()
                     && touchButton.y < (facebookImageSprite.getY()
                     + facebookImageSprite.getHeight())) {
-                Gdx.app.log("FBBTN", "FBBTN is touched");
             }
 
             if (touchButton.x > openMusicSprite.getX()
@@ -210,7 +206,7 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
                     && touchButton.y > closeMusicSprite.getY()
                     && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
-                Gdx.app.log("MusicManager", "Click On/Off Sound");
+                Gdx.app.log("MusicManager", "On/Off Sound: " + GdxPreference.getSoundSetting());
                 manageMusicMainBackground.setSwitchSound();
 
             }

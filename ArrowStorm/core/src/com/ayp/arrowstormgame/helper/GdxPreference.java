@@ -14,12 +14,25 @@ public class GdxPreference {
     private static final String ATTACK_DAMAGE_LEVEL_PREFERENCE = "Attack Damage";
     private static final String ATTACK_SPEED_LEVEL_PREFERENCE = "Attack Speed";
     private static final String HEALTH_POINT_LEVEL_PREFERENCE = "Health Point";
+    private static final String SOUND_SETTING_PREFERENCE = "Sound Setting";
+
+    public static void flushPreferences(){
+        playerPreferences.flush();
+    }
+
+    public static boolean getSoundSetting(){
+        return playerPreferences.getBoolean(SOUND_SETTING_PREFERENCE, true);
+    }
+
+    public static void putSoundSetting(boolean isOn){
+        playerPreferences.putBoolean(SOUND_SETTING_PREFERENCE, isOn);
+    }
 
     public static int getCurrentGold() {
         return playerPreferences.getInteger(GOLD_PREFERENCE, 0);
     }
 
-    private static void putCurrentGold(int gold) {
+    public static void putCurrentGold(int gold) {
         playerPreferences.putInteger(GOLD_PREFERENCE, gold);
     }
 
@@ -27,7 +40,7 @@ public class GdxPreference {
         return playerPreferences.getInteger(ATTACK_DAMAGE_LEVEL_PREFERENCE, 0);
     }
 
-    private static void putCurrentAttackDamageLevel(int level) {
+    public static void putCurrentAttackDamageLevel(int level) {
         playerPreferences.putInteger(ATTACK_DAMAGE_LEVEL_PREFERENCE, level);
     }
 
@@ -35,7 +48,7 @@ public class GdxPreference {
         return playerPreferences.getInteger(ATTACK_SPEED_LEVEL_PREFERENCE, 0);
     }
 
-    private static void putCurrentAttackSpeedLevel(int level) {
+    public static void putCurrentAttackSpeedLevel(int level) {
         playerPreferences.putInteger(ATTACK_SPEED_LEVEL_PREFERENCE, level);
     }
 
@@ -43,7 +56,7 @@ public class GdxPreference {
         return playerPreferences.getInteger(HEALTH_POINT_LEVEL_PREFERENCE, 0);
     }
 
-    private static void putCurrentHealthPointLevel(int level) {
+    public static void putCurrentHealthPointLevel(int level) {
         playerPreferences.putInteger(HEALTH_POINT_LEVEL_PREFERENCE, level);
     }
 }
