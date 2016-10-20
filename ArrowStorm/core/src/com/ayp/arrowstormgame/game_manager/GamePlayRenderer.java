@@ -36,6 +36,7 @@ public class GamePlayRenderer {
     private static final String SCORE_LABEL = "SCORE: ";
     private static final String NEW_HIGH_SCORE_LABEL = "NEW HIGH SCORE!!!";
     private static final String GOLD_LABEL = "GOLD: ";
+    private static final String GET_STRONGER_LABEL = "GET STRONGER";
 
     private static final int NORMAL_SCALE_ARROW = 1;
     private static final float ANIMATION_FRAME_DURATION_DlIVIDER = 2000000000f;
@@ -205,6 +206,10 @@ public class GamePlayRenderer {
         glyphLayout.setText(font, GAME_OVER_LABEL);
         font.draw(game.spriteBatch, GAME_OVER_LABEL,
                 ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 200);
+
+        glyphLayout.setText(font, GET_STRONGER_LABEL);
+        font.draw(game.spriteBatch, GET_STRONGER_LABEL,
+                ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 400);
 
         if (Integer.valueOf(score) > lastHighScore) {
             glyphLayout.setText(font, NEW_HIGH_SCORE_LABEL);

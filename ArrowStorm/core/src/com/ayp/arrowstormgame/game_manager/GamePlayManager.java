@@ -89,8 +89,13 @@ public class GamePlayManager {
                     && touchPosition.x <= 480) {
                 isPause = true;
             }
-            if (!player.isAlive()) {
+            if (!player.isAlive() && touchPosition.x > 200 && touchPosition.x < 400
+                    && touchPosition.y > 400 && touchPosition.y < 500) {
                 game.setScreen(new MainMenuScreen(game));
+            }
+
+            if (!player.isAlive()){
+                return;
             }
 
             if (isPause()) {

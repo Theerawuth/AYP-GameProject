@@ -155,8 +155,8 @@ public class UpGradeScreen implements Screen {
         bodyFont.draw(game.spriteBatch, titleStatus[0][0], 140, 162);
         bodyShadow.draw(game.spriteBatch, titleStatus[0][1], 140, 200);
         bodyFont.draw(game.spriteBatch, titleStatus[0][1], 140, 202);
-        bodyShadow.draw(game.spriteBatch, titleStatus[0][2], 250, 200);
-        bodyFont.draw(game.spriteBatch, titleStatus[0][2], 250, 202);
+        bodyShadow.draw(game.spriteBatch, titleStatus[0][2], 270, 200);
+        bodyFont.draw(game.spriteBatch, titleStatus[0][2], 272, 202);
         glyphLayout.setText(bodyFont, titleStatus[0][3]);
         bodyShadow.draw(game.spriteBatch, titleStatus[0][3], 340 - glyphLayout.width, 240);
         bodyFont.draw(game.spriteBatch, titleStatus[0][3], 342 - glyphLayout.width, 242);
@@ -165,8 +165,8 @@ public class UpGradeScreen implements Screen {
         bodyFont.draw(game.spriteBatch, titleStatus[1][0], 140, 322);
         bodyShadow.draw(game.spriteBatch, titleStatus[1][1], 140, 360);
         bodyFont.draw(game.spriteBatch, titleStatus[1][1], 140, 362);
-        bodyShadow.draw(game.spriteBatch, titleStatus[1][2], 240, 360);
-        bodyFont.draw(game.spriteBatch, titleStatus[1][2], 240, 362);
+        bodyShadow.draw(game.spriteBatch, titleStatus[1][2], 270, 360);
+        bodyFont.draw(game.spriteBatch, titleStatus[1][2], 272, 362);
         glyphLayout.setText(bodyFont, titleStatus[1][3]);
         bodyShadow.draw(game.spriteBatch, titleStatus[1][3], 340 - glyphLayout.width, 400);
         bodyFont.draw(game.spriteBatch, titleStatus[1][3], 342 - glyphLayout.width, 402);
@@ -176,7 +176,7 @@ public class UpGradeScreen implements Screen {
         bodyShadow.draw(game.spriteBatch, titleStatus[2][1], 140, 520);
         bodyFont.draw(game.spriteBatch, titleStatus[2][1], 140, 522);
         bodyShadow.draw(game.spriteBatch, titleStatus[2][2], 270, 520);
-        bodyFont.draw(game.spriteBatch, titleStatus[2][2], 270, 522);
+        bodyFont.draw(game.spriteBatch, titleStatus[2][2], 272, 522);
         glyphLayout.setText(bodyFont, titleStatus[2][3]);
         bodyShadow.draw(game.spriteBatch, titleStatus[2][3], 340 - glyphLayout.width, 560);
         bodyFont.draw(game.spriteBatch, titleStatus[2][3], 342 - glyphLayout.width, 562);
