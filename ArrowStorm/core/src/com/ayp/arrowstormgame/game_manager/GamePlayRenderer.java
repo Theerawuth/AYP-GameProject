@@ -2,6 +2,7 @@ package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Boss;
 import com.ayp.arrowstormgame.model.Enemy;
@@ -31,7 +32,11 @@ import java.util.HashMap;
 public class GamePlayRenderer {
     private static final float RESUME_ICON_POSITION_X = 112;
     private static final float RESUME_ICON_POSITION_Y = 300;
-    private static final String GAME_OVER_TEXT = "GAME OVER";
+    private static final String GAME_OVER_LABEL = "GAME OVER";
+    private static final String SCORE_LABEL = "SCORE: ";
+    private static final String NEW_HIGH_SCORE_LABEL = "NEW HIGH SCORE!!!";
+    private static final String GOLD_LABEL = "GOLD: ";
+
     private static final int NORMAL_SCALE_ARROW = 1;
     private static final float ANIMATION_FRAME_DURATION_DlIVIDER = 2000000000f;
     final private ArrowStormGame game;
@@ -57,6 +62,8 @@ public class GamePlayRenderer {
     private String heart;
     private TextureRegion background;
     private TextureRegion playerStandBy;
+    private boolean isHighScore = false;
+    private int lastHighScore;
 
     public GamePlayRenderer(final ArrowStormGame game) {
         this.game = game;
@@ -79,6 +86,7 @@ public class GamePlayRenderer {
         playerStandBy = AssetsLoader.playerStandBy;
         heartIconSprite = AssetsLoader.hearthIconSprite;
         font = AssetsLoader.font;
+        lastHighScore = GdxPreference.getHighScore();
     }
 
     public void drawArrow(Array<Arrow> arrows) {
@@ -194,9 +202,27 @@ public class GamePlayRenderer {
         Gdx.gl.glClearColor(0, 0, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         GlyphLayout glyphLayout = new GlyphLayout();
-        glyphLayout.setText(font, GAME_OVER_TEXT);
-        font.draw(game.spriteBatch, GAME_OVER_TEXT,
-                ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2,
-                ArrowStormGame.GAME_HEIGHT / 2 - glyphLayout.height / 2);
+        glyphLayout.setText(font, GAME_OVER_LABEL);
+        font.draw(game.spriteBatch, GAME_OVER_LABEL,
+                ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 200);
+
+        if (Integer.valueOf(score) > lastHighScore) {
+            glyphLayout.setText(font, NEW_HIGH_SCORE_LABEL);
+            font.draw(game.spriteBatch, NEW_HIGH_SCORE_LABEL,
+                    ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 150);
+        }
+
+
+        String scoreResult = SCORE_LABEL + score;
+        glyphLayout.setText(font, scoreResult);
+        font.draw(game.spriteBatch, scoreResult,
+                ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 250);
+
+        String goldResult = GOLD_LABEL + gold;
+        glyphLayout.setText(font, goldResult);
+        font.draw(game.spriteBatch, goldResult,
+                ArrowStormGame.GAME_WIDTH / 2 - glyphLayout.width / 2, 300);
+
+
     }
 }

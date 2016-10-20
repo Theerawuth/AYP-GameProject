@@ -165,10 +165,15 @@ public class GamePlayManager {
                 enemies.removeIndex(i);
                 Player.healthPoint -= enemy.getAttackDamage();
                 if (Player.healthPoint < 1) {
-                    int currentGold = GdxPreference.getCurrentGold();
-                    currentGold += gold;
-                    GdxPreference.putCurrentGold(currentGold);
+                    GdxPreference.putCurrentGold(gold);
                     GdxPreference.flushPreferences();
+                    if (score > 9999999){
+                        score = 9999999;
+                    }
+                    if (score > GdxPreference.getHighScore()) {
+                        GdxPreference.putHighScore(score);
+                        GdxPreference.flushPreferences();
+                    }
                     player.setAlive(false);
                 }
                 break;
