@@ -58,6 +58,7 @@ public class MainMenuScreen implements Screen {
     private BitmapFont highScoreShadow;
     private String highScoreString;
     private GlyphLayout glyphLayout;
+    private static final String HIGH_SCORE_LABEL = "SCORE";
 
     private MusicManager manageMusicMainBackground;
     private MusicManager manageMusicToBattle;
@@ -135,11 +136,18 @@ public class MainMenuScreen implements Screen {
     }
 
     private void drawHighScore() {
+
+        glyphLayout.setText(highScoreFont, HIGH_SCORE_LABEL);
+        highScoreShadow.draw(game.spriteBatch, HIGH_SCORE_LABEL,
+                (game.GAME_WIDTH / 2 - glyphLayout.width / 2) + 2, 202);
+        highScoreFont.draw(game.spriteBatch, HIGH_SCORE_LABEL,
+                game.GAME_WIDTH / 2 - glyphLayout.width / 2, 200);
+
         glyphLayout.setText(highScoreFont, highScoreString);
         highScoreShadow.draw(game.spriteBatch, highScoreString,
-                (game.GAME_WIDTH / 2 - glyphLayout.width / 2) + 2, 202);
+                (game.GAME_WIDTH / 2 - glyphLayout.width / 2) + 2, 272);
         highScoreFont.draw(game.spriteBatch, highScoreString,
-                game.GAME_WIDTH / 2 - glyphLayout.width / 2, 200);
+                game.GAME_WIDTH / 2 - glyphLayout.width / 2, 270);
     }
 
     private void drawBackground() {
