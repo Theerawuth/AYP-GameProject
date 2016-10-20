@@ -15,16 +15,25 @@ public class GdxPreference {
     private static final String ATTACK_SPEED_LEVEL_PREFERENCE = "Attack Speed";
     private static final String HEALTH_POINT_LEVEL_PREFERENCE = "Health Point";
     private static final String SOUND_SETTING_PREFERENCE = "Sound Setting";
+    private static final String HIGH_SCORE = "High Score";
 
-    public static void flushPreferences(){
+    public static void flushPreferences() {
         playerPreferences.flush();
     }
 
-    public static boolean getSoundSetting(){
+    public static int getHighScore() {
+        return playerPreferences.getInteger(HIGH_SCORE, 0);
+    }
+
+    public static void putHighScore(int score) {
+        playerPreferences.putInteger(HIGH_SCORE, score);
+    }
+
+    public static boolean getSoundSetting() {
         return playerPreferences.getBoolean(SOUND_SETTING_PREFERENCE, true);
     }
 
-    public static void putSoundSetting(boolean isOn){
+    public static void putSoundSetting(boolean isOn) {
         playerPreferences.putBoolean(SOUND_SETTING_PREFERENCE, isOn);
     }
 

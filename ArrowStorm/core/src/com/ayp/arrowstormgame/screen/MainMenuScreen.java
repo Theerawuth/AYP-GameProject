@@ -7,6 +7,8 @@ import com.ayp.arrowstormgame.helper.MusicManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
@@ -52,6 +54,10 @@ public class MainMenuScreen implements Screen {
     private Vector3 touchButton;
     private Music mainMenuBackgroundMusic;
     private Music toBattleMusic;
+    private BitmapFont highScoreFont;
+    private BitmapFont highScoreShadow;
+    private String highScoreString;
+    private GlyphLayout glyphLayout;
 
     private MusicManager manageMusicMainBackground;
     private MusicManager manageMusicToBattle;
@@ -71,6 +77,10 @@ public class MainMenuScreen implements Screen {
         closeMusicSprite = AssetsLoader.closeMusicSprite;
         mainMenuBackgroundMusic = AssetsLoader.mainMenuBackgroundMusic;
         toBattleMusic = AssetsLoader.toBattleMusic;
+        highScoreFont = AssetsLoader.highScoreFont;
+        highScoreShadow = AssetsLoader.highScoreShadow;
+        highScoreString = String.valueOf(GdxPreference.getHighScore());
+        glyphLayout = new GlyphLayout();
         elapsedTime = 0;
         isClick = false;
     }
@@ -79,7 +89,9 @@ public class MainMenuScreen implements Screen {
     public void show() {
         Gdx.app.log("MusicManager", "Start sound in main menu screen");
         manageMusicMainBackground = new MusicManager(mainMenuBackgroundMusic);
-        manageMusicMainBackground.backgroundMusicPlay();
+        if (GdxPreference.getSoundSetting()) {
+            manageMusicMainBackground.backgroundMusicPlay();
+        }
     }
 
 
@@ -90,6 +102,7 @@ public class MainMenuScreen implements Screen {
         game.spriteBatch.begin();
         game.spriteBatch.enableBlending();
         drawBackground();
+        drawHighScore();
         drawIcon();
         game.spriteBatch.disableBlending();
         game.spriteBatch.end();
@@ -121,29 +134,30 @@ public class MainMenuScreen implements Screen {
 
     }
 
+    private void drawHighScore() {
+        glyphLayout.setText(highScoreFont, highScoreString);
+        highScoreShadow.draw(game.spriteBatch, highScoreString,
+                (game.GAME_WIDTH / 2 - glyphLayout.width / 2) + 2, 202);
+        highScoreFont.draw(game.spriteBatch, highScoreString,
+                game.GAME_WIDTH / 2 - glyphLayout.width / 2, 200);
+    }
+
     private void drawBackground() {
-        game.spriteBatch.draw(
-                mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT
-        );
+        game.spriteBatch.draw(mainMenuImageSprite, 0, 0, MAIN_MENU_BG_WIDTH, MAIN_MENU_BG_HEIGHT);
     }
 
 
     private void drawIcon() {
+        game.spriteBatch.draw(highScoreImageSprite, HIGH_SCORE_POS_X, HIGH_SCORE_POS_Y, ICON_WIDTH,
+                ICON_HEIGHT);
+        game.spriteBatch.draw(upGradeImageSprite, UPGRADE_POS_X, UPGRADE_POS_Y, ICON_WIDTH,
+                ICON_HEIGHT);
+        game.spriteBatch.draw(battleImageSprite, BATTLE_POS_X, BATTLE_POS_Y, ICON_WIDTH,
+                ICON_HEIGHT);
         game.spriteBatch.draw(
-                highScoreImageSprite, HIGH_SCORE_POS_X, HIGH_SCORE_POS_Y, ICON_WIDTH, ICON_HEIGHT
-        );
+                monsterImageSprite, MONSTER_POS_X, MONSTER_POS_Y, ICON_WIDTH, ICON_HEIGHT);
         game.spriteBatch.draw(
-                upGradeImageSprite, UPGRADE_POS_X, UPGRADE_POS_Y, ICON_WIDTH, ICON_HEIGHT
-        );
-        game.spriteBatch.draw(
-                battleImageSprite, BATTLE_POS_X, BATTLE_POS_Y, ICON_WIDTH, ICON_HEIGHT
-        );
-        game.spriteBatch.draw(
-                monsterImageSprite, MONSTER_POS_X, MONSTER_POS_Y, ICON_WIDTH, ICON_HEIGHT
-        );
-        game.spriteBatch.draw(
-                facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT
-        );
+                facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT);
         if (GdxPreference.getSoundSetting()) {
             game.spriteBatch.draw(closeMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y,
                     MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);

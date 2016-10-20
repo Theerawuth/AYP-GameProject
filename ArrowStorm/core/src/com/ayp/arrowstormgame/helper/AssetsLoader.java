@@ -62,6 +62,8 @@ public class AssetsLoader {
 
     private static final float UPGRAGE_SCREEN_FONT_SCALE_X = 0.5f;
     private static final float UPGRAGE_SCREEN_FONT_SCALE_Y = -0.5f;
+    private static final float HIGH_SCORE_FONT_SCALE_X = 1.0f;
+    private static final float HIGH_SCORE_FONT_SCALE_Y = -1.0f;
 
 
     // PlayStateScreen
@@ -69,6 +71,8 @@ public class AssetsLoader {
     public static Sprite arrowImageSprite;
     public static BitmapFont font;
     public static BitmapFont shadow;
+    public static BitmapFont highScoreFont;
+    public static BitmapFont highScoreShadow;
     public static BitmapFont upgradeScreenFont;
     public static BitmapFont upgradeScreenShadow;
     public static BitmapFont scoreFont;
@@ -304,10 +308,18 @@ public class AssetsLoader {
         shadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
 
         upgradeScreenFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
-        upgradeScreenFont.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+        upgradeScreenFont.getData().setScale(UPGRAGE_SCREEN_FONT_SCALE_X,
+                UPGRAGE_SCREEN_FONT_SCALE_Y);
 
         upgradeScreenShadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
-        upgradeScreenShadow.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
+        upgradeScreenShadow.getData().setScale(UPGRAGE_SCREEN_FONT_SCALE_X,
+                UPGRAGE_SCREEN_FONT_SCALE_Y);
+
+        highScoreFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
+        highScoreFont.getData().setScale(HIGH_SCORE_FONT_SCALE_X, HIGH_SCORE_FONT_SCALE_Y);
+
+        highScoreShadow = new BitmapFont(Gdx.files.internal("font/shadow.fnt"));
+        highScoreShadow.getData().setScale(HIGH_SCORE_FONT_SCALE_X, HIGH_SCORE_FONT_SCALE_Y);
 
         scoreFont = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         scoreFont.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);
