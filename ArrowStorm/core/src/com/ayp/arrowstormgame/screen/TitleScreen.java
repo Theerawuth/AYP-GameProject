@@ -2,6 +2,7 @@ package com.ayp.arrowstormgame.screen;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.helper.MusicManager;
 import com.ayp.arrowstormgame.helper.SoundManager;
 import com.badlogic.gdx.Gdx;
@@ -57,7 +58,9 @@ public class TitleScreen implements Screen {
 
     @Override
     public void show() {
-        manageTitleMusicBackground.backgroundMusicPlay();
+        if (GdxPreference.getMusicSetting()) {
+            manageTitleMusicBackground.backgroundMusicPlay();
+        }
     }
 
     @Override

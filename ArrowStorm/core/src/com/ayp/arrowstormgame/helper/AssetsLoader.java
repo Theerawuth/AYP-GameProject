@@ -211,7 +211,6 @@ public class AssetsLoader {
     public static Texture touchToStartTexture;
     public static Sprite touchToStartSprite;
     public static Music introBackgroundMusic;
-    public static Sound startGameSound;
 
     // TitleScreen // set animation leaf
     public static Texture leafImageTexture;
@@ -504,7 +503,6 @@ public class AssetsLoader {
 
         introBackgroundMusic = Gdx.audio.newMusic(
                 Gdx.files.internal("music/intro_game_bg_music.mp3"));
-        startGameSound = Gdx.audio.newSound(Gdx.files.internal("sound/start_game_sound.wav"));
 
         // TitleScreen // set animation leaf
         leafAnimation = AnimationUtils.newAnimation(LEAF_IMAGE_FILE_PATH, leafImageTexture,
@@ -516,7 +514,6 @@ public class AssetsLoader {
         touchToStartTexture.dispose();
         leafImageTexture.dispose();
         introBackgroundMusic.dispose();
-        startGameSound.dispose();
     }
 
     private static void loadAssetsMainMenuScreen() {

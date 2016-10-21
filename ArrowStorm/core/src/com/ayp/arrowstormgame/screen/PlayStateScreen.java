@@ -21,10 +21,8 @@ public class PlayStateScreen implements Screen {
     private GamePlayRenderer gamePlayRenderer;
     private GamePlayManager gamePlayManager;
     private EnemyLevelManager enemyLevelManager;
-
     private Array<Arrow> arrows;
     private Array<Enemy> enemies;
-
     private float runtime;
 
 

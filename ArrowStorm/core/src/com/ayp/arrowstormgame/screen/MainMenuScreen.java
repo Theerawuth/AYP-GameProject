@@ -38,6 +38,8 @@ public class MainMenuScreen implements Screen {
     private static final float CLOSE_SOUND_POS_Y = 20;
     private static final float OPEN_SOUND_POS_X = 320;
     private static final float OPEN_SOUND_POS_Y = 20;
+    private static final float SWITCH_SOUND_POS_X = 320;
+    private static final float SWITCH_SOUND_POS_Y = 20;
 
     private static float MAIN_MENU_BG_WIDTH = 480;
     private static float MAIN_MENU_BG_HEIGHT = 800;
@@ -207,54 +209,47 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
                     && touchButton.y > battleImageSprite.getY()
                     && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
-                SoundManager.playToBattleSound();
+                if (GdxPreference.getSoundSetting()) {
+                    SoundManager.playToBattleSound();
+                }
                 manageMusicMainBackground.backgroundMusicStop();
                 game.setScreen(new PlayStateScreen(game));
-            }
-            if (touchButton.x > monsterImageSprite.getX()
+            } else if (touchButton.x > monsterImageSprite.getX()
                     && touchButton.x < (monsterImageSprite.getX() + monsterImageSprite.getWidth())
                     && touchButton.y > monsterImageSprite.getY()
                     && touchButton.y < (monsterImageSprite.getY()
                     + monsterImageSprite.getHeight())) {
                 game.setScreen(new MonsterInfoScreen(game));
-            }
-            if (touchButton.x > upGradeImageSprite.getX()
+            } else if (touchButton.x > upGradeImageSprite.getX()
                     && touchButton.x < (upGradeImageSprite.getX() + upGradeImageSprite.getWidth())
                     && touchButton.y > upGradeImageSprite.getY()
                     && touchButton.y < (upGradeImageSprite.getY()
                     + upGradeImageSprite.getHeight())) {
                 game.setScreen(new UpGradeScreen(game));
-            }
-            if (touchButton.x > facebookImageSprite.getX()
+            } else if (touchButton.x > facebookImageSprite.getX()
                     && touchButton.x < (facebookImageSprite.getX()
                     + facebookImageSprite.getWidth())
                     && touchButton.y > facebookImageSprite.getY()
                     && touchButton.y < (facebookImageSprite.getY()
                     + facebookImageSprite.getHeight())) {
                 game.setScreen(new TitleScreen(game));
-            }
-
-            if (touchButton.x > openMusicSprite.getX()
+            } else if (touchButton.x > openMusicSprite.getX()
                     && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
                     && touchButton.y > openMusicSprite.getY()
                     && touchButton.y < (openMusicSprite.getY() + openMusicSprite.getHeight())) {
-            }
-            if (touchButton.x > closeMusicSprite.getX()
+            } else if (touchButton.x > closeMusicSprite.getX()
                     && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
                     && touchButton.y > closeMusicSprite.getY()
                     && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
                 manageMusicMainBackground.setSwitchMusic();
-            }
-
-            if (touchButton.x > openSoundSprite.getX()
-                    && touchButton.x < (openSoundSprite.getX() + openSoundSprite.getWidth())
-                    && touchButton.y > openSoundSprite.getY()
-                    && touchButton.y < (openSoundSprite.getY() + openSoundSprite.getHeight())) {
-            }
-            if (touchButton.x > closeSoundSprite.getX()
-                    && touchButton.x < (closeSoundSprite.getX() + closeSoundSprite.getWidth())
-                    && touchButton.y > closeSoundSprite.getY()
-                    && touchButton.y < (closeSoundSprite.getY() + closeSoundSprite.getHeight())) {
+            } else if (touchButton.x > SWITCH_SOUND_POS_X
+                    && touchButton.x < (SWITCH_SOUND_POS_X + openSoundSprite.getWidth())
+                    && touchButton.y > SWITCH_SOUND_POS_Y
+                    && touchButton.y < (SWITCH_SOUND_POS_Y + openSoundSprite.getHeight())) {
+                boolean isOn = GdxPreference.getSoundSetting();
+                isOn = !isOn;
+                GdxPreference.putSoundSetting(isOn);
+                GdxPreference.flushPreferences();
             }
         }
     }

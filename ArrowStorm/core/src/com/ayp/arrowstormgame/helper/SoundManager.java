@@ -72,7 +72,6 @@ public class SoundManager {
 
     public static void setSwitchSound() {
         // Switch : SoundOff
-        Gdx.app.log("SOUNDONOFF", "ONOFF: " + GdxPreference.getSoundSetting());
         if (GdxPreference.getSoundSetting()) {
             GdxPreference.putSoundSetting(false);
             GdxPreference.flushPreferences();

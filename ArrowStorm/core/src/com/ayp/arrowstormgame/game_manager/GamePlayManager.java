@@ -141,10 +141,14 @@ public class GamePlayManager {
 
             player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
+                if (GdxPreference.getSoundSetting()){
+                    SoundManager.playShootingSound();
+                }
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
-                SoundManager.playShootingSound();
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
-                SoundManager.playShootingSound();
+                if (GdxPreference.getSoundSetting()){
+                    SoundManager.playShootingSound();
+                }
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             }
         } else {
@@ -220,7 +224,9 @@ public class GamePlayManager {
                 }
             }
             if (enemies.get(i).isDied()) {
-                SoundManager.playMonsterDead();
+                if (GdxPreference.getSoundSetting()) {
+                    SoundManager.playMonsterDead();
+                }
                 score += enemies.get(i).getScore();
                 gold += enemies.get(i).getGold();
                 if (enemies.get(i) instanceof Kraken) {
