@@ -9,7 +9,7 @@ import com.ayp.arrowstormgame.model.Player;
 import com.ayp.arrowstormgame.model.bossespack.Kraken;
 import com.ayp.arrowstormgame.screen.MainMenuScreen;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -37,8 +37,8 @@ public class GamePlayManager {
     private Player player;
     private EnemySpawnManager enemySpawnManager;
     private EnemyLevelManager enemyLevelManager;
-    private Music shootingMusic;
-    private Music monsterDeadMusic;
+    private Sound shootingSound;
+    private Sound monsterDeadSound;
     private boolean bossOneSpawn;
     private boolean bossTwoSpawn;
     private boolean bossThreeSpawn;
@@ -47,12 +47,12 @@ public class GamePlayManager {
     public GamePlayManager(final ArrowStormGame game) {
         this.game = game;
         player = new Player(GdxPreference.getCurrentAttackDamageLevel(),
-                GdxPreference.getCurrenAttackSpeedLevel(),
+                GdxPreference.getCurrentAttackSpeedLevel(),
                 GdxPreference.getCurrentHealthPointLevel());
         enemyLevelManager = new EnemyLevelManager();
         enemySpawnManager = new EnemySpawnManager();
-        shootingMusic = AssetsLoader.shootingMusic;
-        monsterDeadMusic = AssetsLoader.monsterDeadMusic;
+        shootingSound = AssetsLoader.shootingSound;
+        monsterDeadSound = AssetsLoader.monsterDeadSound;
         isPause = false;
         bossOneSpawn = false;
         bossTwoSpawn = false;
@@ -143,10 +143,10 @@ public class GamePlayManager {
             float arrowDirectionAngle = arrowAngle + 90;
             player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
-                shootingMusic.play();
+                shootingSound.play();
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
-                shootingMusic.play();
+                shootingSound.play();
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             }
         } else {
@@ -222,7 +222,7 @@ public class GamePlayManager {
                 }
             }
             if (enemies.get(i).isDied()) {
-                monsterDeadMusic.play();
+                monsterDeadSound.play();
                 score += enemies.get(i).getScore();
                 gold += enemies.get(i).getGold();
                 if (enemies.get(i) instanceof Kraken) {

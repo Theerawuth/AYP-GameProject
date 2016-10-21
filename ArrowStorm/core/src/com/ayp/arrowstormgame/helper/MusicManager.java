@@ -1,7 +1,6 @@
 package com.ayp.arrowstormgame.helper;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 
 /**
@@ -21,14 +20,14 @@ public class MusicManager {
 
     public void setSwitchSound() {
         // Switch : SoundOff
-        Gdx.app.log("SOUNDONOFF", "ONOFF: " + GdxPreference.getSoundSetting());
-        if (GdxPreference.getSoundSetting()) {
-            GdxPreference.putSoundSetting(false);
+        Gdx.app.log("SOUNDONOFF", "ONOFF: " + GdxPreference.getMusicSetting());
+        if (GdxPreference.getMusicSetting()) {
+            GdxPreference.putMusicSetting(false);
             GdxPreference.flushPreferences();
             backgroundMusicStop();
         } else {
             // Switch : SoundOn
-            GdxPreference.putSoundSetting(true);
+            GdxPreference.putMusicSetting(true);
             GdxPreference.flushPreferences();
             backgroundMusicPlay();
         }

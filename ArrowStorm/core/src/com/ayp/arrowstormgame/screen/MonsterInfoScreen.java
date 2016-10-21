@@ -19,10 +19,10 @@ public class MonsterInfoScreen implements Screen {
     private static final float MONSTER_INFO_BG_HEIGHT = 800;
     private static final float MODEL_ENEMY_POS_X = 45;
     private static final float MODEL_ENEMY_POS_Y = 160;
-    private static final float BACK_ICON_POS_X = 0;
-    private static final float BACK_ICON_POS_Y = 0;
+    private static final float BACK_ICON_POS_X = 10;
+    private static final float BACK_ICON_POS_Y = 10;
     private static final float FORWARD_ICON_POS_X = 416;
-    private static final float FORWARD_ICON_POS_Y = 0;
+    private static final float FORWARD_ICON_POS_Y = 10;
 
     private ArrowStormGame game;
     private BitmapFont bodyFont;

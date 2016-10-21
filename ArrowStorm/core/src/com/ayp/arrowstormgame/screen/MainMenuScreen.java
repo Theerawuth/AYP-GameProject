@@ -7,6 +7,7 @@ import com.ayp.arrowstormgame.helper.MusicManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -53,7 +54,7 @@ public class MainMenuScreen implements Screen {
     private Sprite closeMusicSprite;
     private Vector3 touchButton;
     private Music mainMenuBackgroundMusic;
-    private Music toBattleMusic;
+    private Music toBattleSound;
     private BitmapFont highScoreFont;
     private BitmapFont highScoreShadow;
     private String highScoreString;
@@ -68,7 +69,7 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(final ArrowStormGame game) {
         this.game = game;
-        mainMenuImageSprite = AssetsLoader.mainMenuImageSprite;
+        mainMenuImageSprite = AssetsLoader.mainMenuBackgroundSprite;
         highScoreImageSprite = AssetsLoader.highScoreImageSprite;
         upGradeImageSprite = AssetsLoader.upGradeImageSprite;
         battleImageSprite = AssetsLoader.battleImageSprite;
@@ -77,7 +78,7 @@ public class MainMenuScreen implements Screen {
         openMusicSprite = AssetsLoader.openMusicSprite;
         closeMusicSprite = AssetsLoader.closeMusicSprite;
         mainMenuBackgroundMusic = AssetsLoader.mainMenuBackgroundMusic;
-        toBattleMusic = AssetsLoader.toBattleMusic;
+        toBattleSound = AssetsLoader.toBattleSound;
         highScoreFont = AssetsLoader.highScoreFont;
         highScoreShadow = AssetsLoader.highScoreShadow;
         highScoreString = String.valueOf(GdxPreference.getHighScore());
@@ -90,7 +91,7 @@ public class MainMenuScreen implements Screen {
     public void show() {
         Gdx.app.log("MusicManager", "Start sound in main menu screen");
         manageMusicMainBackground = new MusicManager(mainMenuBackgroundMusic);
-        if (GdxPreference.getSoundSetting()) {
+        if (GdxPreference.getMusicSetting()) {
             manageMusicMainBackground.backgroundMusicPlay();
         }
     }
@@ -166,7 +167,7 @@ public class MainMenuScreen implements Screen {
                 monsterImageSprite, MONSTER_POS_X, MONSTER_POS_Y, ICON_WIDTH, ICON_HEIGHT);
         game.spriteBatch.draw(
                 facebookImageSprite, FACEBOOK_POS_X, FACEBOOK_POS_Y, ICON_WIDTH, ICON_HEIGHT);
-        if (GdxPreference.getSoundSetting()) {
+        if (GdxPreference.getMusicSetting()) {
             game.spriteBatch.draw(closeMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y,
                     MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
         } else {
@@ -192,7 +193,7 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
                     && touchButton.y > battleImageSprite.getY()
                     && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
-                manageMusicToBattle = new MusicManager(toBattleMusic);
+                manageMusicToBattle = new MusicManager(toBattleSound);
                 manageMusicToBattle.backgroundMusicPlay();
                 manageMusicMainBackground.backgroundMusicStop();
                 game.setScreen(new PlayStateScreen(game));
@@ -228,7 +229,7 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
                     && touchButton.y > closeMusicSprite.getY()
                     && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
-                Gdx.app.log("MusicManager", "On/Off Sound: " + GdxPreference.getSoundSetting());
+                Gdx.app.log("MusicManager", "On/Off Sound: " + GdxPreference.getMusicSetting());
                 manageMusicMainBackground.setSwitchSound();
 
             }

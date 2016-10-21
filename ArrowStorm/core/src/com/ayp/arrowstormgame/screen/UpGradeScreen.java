@@ -80,8 +80,8 @@ public class UpGradeScreen implements Screen {
         titleStatus[1][3] = Player.skillUpCostString(GdxPreference.getCurrentHealthPointLevel());
         titleStatus[2][0] = "ATTACK SPEED";
         titleStatus[2][1] = "LEVEL : ";
-        titleStatus[2][2] = String.valueOf(GdxPreference.getCurrenAttackSpeedLevel());
-        titleStatus[2][3] = Player.skillUpCostString(GdxPreference.getCurrenAttackSpeedLevel());
+        titleStatus[2][2] = String.valueOf(GdxPreference.getCurrentAttackSpeedLevel());
+        titleStatus[2][3] = Player.skillUpCostString(GdxPreference.getCurrentAttackSpeedLevel());
     }
 
     @Override
@@ -233,12 +233,12 @@ public class UpGradeScreen implements Screen {
                     && touchButton.y > PLUS_ASPD_ICON_POS_Y
                     && touchButton.y < PLUS_ASPD_ICON_POS_Y + plusAtkIconSprite.getHeight()) {
                 int remainGold = GdxPreference.getCurrentGold()
-                        - Player.skillUpCostInt(GdxPreference.getCurrenAttackSpeedLevel());
-                if (remainGold >= 0 && GdxPreference.getCurrenAttackSpeedLevel()
+                        - Player.skillUpCostInt(GdxPreference.getCurrentAttackSpeedLevel());
+                if (remainGold >= 0 && GdxPreference.getCurrentAttackSpeedLevel()
                         < Player.MAX_LEVEL_SKILL) {
                     GdxPreference.putCurrentGold(remainGold);
                     GdxPreference.flushPreferences();
-                    int nextLevel = GdxPreference.getCurrenAttackSpeedLevel() + 1;
+                    int nextLevel = GdxPreference.getCurrentAttackSpeedLevel() + 1;
                     GdxPreference.putCurrentAttackSpeedLevel(nextLevel);
                     GdxPreference.flushPreferences();
                 }
@@ -253,7 +253,7 @@ public class UpGradeScreen implements Screen {
         titleStatus[0][3] = Player.skillUpCostString(GdxPreference.getCurrentAttackDamageLevel());
         titleStatus[1][2] = String.valueOf(GdxPreference.getCurrentHealthPointLevel());
         titleStatus[1][3] = Player.skillUpCostString(GdxPreference.getCurrentHealthPointLevel());
-        titleStatus[2][2] = String.valueOf(GdxPreference.getCurrenAttackSpeedLevel());
-        titleStatus[2][3] = Player.skillUpCostString(GdxPreference.getCurrenAttackSpeedLevel());
+        titleStatus[2][2] = String.valueOf(GdxPreference.getCurrentAttackSpeedLevel());
+        titleStatus[2][3] = Player.skillUpCostString(GdxPreference.getCurrentAttackSpeedLevel());
     }
 }

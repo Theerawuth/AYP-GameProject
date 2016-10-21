@@ -146,7 +146,7 @@ public class GamePlayRenderer {
     }
 
     public void drawPauseButton() {
-        game.spriteBatch.draw(pauseSprite, 416, 0);
+        game.spriteBatch.draw(pauseSprite, 416, 10);
     }
 
     public void drawGold(GamePlayManager gamePlayManager) {

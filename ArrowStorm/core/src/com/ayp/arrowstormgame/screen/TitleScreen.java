@@ -41,7 +41,7 @@ public class TitleScreen implements Screen {
 
     public TitleScreen(final ArrowStormGame game) {
         this.game = game;
-        introImageSprite = AssetsLoader.introImageSprite;
+        introImageSprite = AssetsLoader.introBackgroundSprite;
         touchToStartSprite = AssetsLoader.touchToStartSprite;
         leafAnimation = AssetsLoader.leafAnimation;
         introBackgroundMusic = AssetsLoader.introBackgroundMusic;

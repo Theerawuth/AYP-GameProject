@@ -2,6 +2,7 @@ package com.ayp.arrowstormgame.helper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,20 +21,22 @@ public class AssetsLoader {
     private static final int PLAY_STATE_BG_WIDTH = 480;
     private static final int PLAY_STATE_BG_HEIGHT = 800;
 
-    private static final int FRAME_COLS_LEAF = 7;
-    private static final int FRAME_ROWS_LEAF = 1;
-    private static final int FRAME_COLS_BUG = 8;
-    private static final int FRAME_ROWS_BUG = 1;
-    private static final int FRAME_COLS_BOSS_GOLDEN_BUG = 8;
-    private static final int FRAME_ROWS_BOSS_GOLDEN_BUG = 1;
-    private static final int FRAME_COLS_WORM = 8;
-    private static final int FRAME_ROWS_WORM = 1;
-    private static final int FRAME_COLS_BOSS_SCORPION = 8;
-    private static final int FRAME_ROWS_BOSS_SCORPION = 1;
-    private static final int FRAME_COLS_GUARDIAN = 5;
-    private static final int FRAME_ROWS_GUARDIAN = 1;
-    private static final int FRAME_COLS_BOSS_KRAKEN = 5;
-    private static final int FRAME_ROWS_BOSS_KRAKEN = 1;
+    private static final class FrameAnimation {
+        private static final int COLS_LEAF = 7;
+        private static final int ROWS_LEAF = 1;
+        private static final int COLS_BUG = 8;
+        private static final int ROWS_BUG = 1;
+        private static final int COLS_BOSS_GOLDEN_BUG = 8;
+        private static final int ROWS_BOSS_GOLDEN_BUG = 1;
+        private static final int COLS_WORM = 8;
+        private static final int ROWS_WORM = 1;
+        private static final int COLS_BOSS_SCORPION = 8;
+        private static final int ROWS_BOSS_SCORPION = 1;
+        private static final int COLS_GUARDIAN = 5;
+        private static final int ROWS_GUARDIAN = 1;
+        private static final int COLS_BOSS_KRAKEN = 5;
+        private static final int ROWS_BOSS_KRAKEN = 1;
+    }
 
     private static final String LEAF_IMAGE_FILE_PATH = "anim/anim_leaf.png";
     private static final String ENEMY_BUG_IMAGE_FILE_PATH = "enemies_pack/enemy_bug.png";
@@ -82,13 +85,13 @@ public class AssetsLoader {
     public static BitmapFont hearthFont;
     public static BitmapFont hearthShadow;
     public static Music playStateBackgroundMusic;
-    public static Music bossEnemyMusic;
+    public static Sound bossEnemySound;
     public static Music gameOverMusic;
-    public static Music monsterDeadMusic;
-    public static Music shootingMusic;
+    public static Sound monsterDeadSound;
+    public static Sound shootingSound;
     //Background
-    public static Texture playStateImageTexture;
-    public static TextureRegion playStateBackgroundOne, playStateBackgroundTwo, playStateBackgroundThree;
+    public static Texture playStateBackgroundTexture;
+    public static TextureRegion playStateBackgroundOne;
     //Icon
     public static Texture pauseTexture;
     public static Sprite pauseSprite;
@@ -131,8 +134,8 @@ public class AssetsLoader {
     public static TextureRegion[] bossKrakenFrames;
 
     // TitleScreen
-    public static Texture introImageTexture;
-    public static Sprite introImageSprite;
+    public static Texture introBackgroundTexture;
+    public static Sprite introBackgroundSprite;
     public static Texture touchToStartTexture;
     public static Sprite touchToStartSprite;
     public static Music introBackgroundMusic;
@@ -143,10 +146,10 @@ public class AssetsLoader {
     public static TextureRegion[] leafFrames;
 
     // MainMenuScreen
-    public static Texture mainMenuImageTexture;
-    public static Sprite mainMenuImageSprite;
+    public static Texture mainMenuBackgroundTexture;
+    public static Sprite mainMenuBackgroundSprite;
     public static Music mainMenuBackgroundMusic;
-    public static Music toBattleMusic;
+    public static Music toBattleSound;
 
     // MainMenuScreen // set icon
     public static Texture highScoreImageTexture;
@@ -233,9 +236,9 @@ public class AssetsLoader {
         arrowImageSprite = new Sprite(arrowImageTexture);
         arrowImageSprite.flip(false, true);
         //PlayState background
-        playStateImageTexture = new Texture(
+        playStateBackgroundTexture = new Texture(
                 Gdx.files.internal("background/play_state_background.png"));
-        playStateBackgroundOne = new TextureRegion(playStateImageTexture, 0, 0, PLAY_STATE_BG_WIDTH,
+        playStateBackgroundOne = new TextureRegion(playStateBackgroundTexture, 0, 0, PLAY_STATE_BG_WIDTH,
                 PLAY_STATE_BG_HEIGHT);
         playStateBackgroundOne.flip(false, true);
         //Icon
@@ -267,30 +270,31 @@ public class AssetsLoader {
 
 
         playStateBackgroundMusic = Gdx.audio.newMusic(
-                Gdx.files.internal("sound/play_state_bg_sound.mp3"));
-        monsterDeadMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/monster_dead_sound.mp3"));
-        shootingMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/shooting_sound.mp3"));
-        bossEnemyMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/boss_enemy_sound.mp3"));
-        gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/game_over_sound.mp3"));
+                Gdx.files.internal("music/play_state_bg_music.mp3"));
+        monsterDeadSound = Gdx.audio.newSound(Gdx.files.internal("sound/monster_dead_sound.wav"));
+        shootingSound = Gdx.audio.newSound(Gdx.files.internal("sound/shooting_sound.wav"));
+        bossEnemySound = Gdx.audio.newSound(Gdx.files.internal("sound/boss_enemy_sound.wav"));
+        gameOverMusic = Gdx.audio.newMusic(Gdx.files.internal("music/game_over_bg_music.mp3"));
         // Enemy Stage One
         enemyBugAnimation = AnimationUtils.newAnimation(ENEMY_BUG_IMAGE_FILE_PATH, enemyBugTexture,
-                enemyBugFrames, FRAME_COLS_BUG, FRAME_ROWS_BUG, 0.1f);
+                enemyBugFrames, FrameAnimation.COLS_BUG, FrameAnimation.ROWS_BUG, 0.1f);
         bossGoldenBugAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_GOLDEN_BUG_IMAGE_FILE_PATH,
-                bossGoldenBugTexture, bossGoldenBugFrames, FRAME_COLS_BOSS_GOLDEN_BUG,
-                FRAME_ROWS_BOSS_GOLDEN_BUG, 0.1f);
+                bossGoldenBugTexture, bossGoldenBugFrames, FrameAnimation.COLS_BOSS_GOLDEN_BUG,
+                FrameAnimation.ROWS_BOSS_GOLDEN_BUG, 0.1f);
         // Enemy Stage Two
         enemyWormAnimation = AnimationUtils.newAnimation(ENEMY_WORM_IMAGE_FILE_PATH,
-                enemyWormTexture, enemyWormFrames, FRAME_COLS_WORM, FRAME_ROWS_WORM, 0.1f);
+                enemyWormTexture, enemyWormFrames, FrameAnimation.COLS_WORM,
+                FrameAnimation.ROWS_WORM, 0.1f);
         bossScorpionAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_SCORPION_FILE_PATH,
-                bossScorpionTexture, bossScorpionFrames, FRAME_COLS_BOSS_SCORPION,
-                FRAME_ROWS_BOSS_SCORPION, 0.1f);
+                bossScorpionTexture, bossScorpionFrames, FrameAnimation.COLS_BOSS_SCORPION,
+                FrameAnimation.ROWS_BOSS_SCORPION, 0.1f);
         // Enemy Last Stage
         enemyGuardianAnimation = AnimationUtils.newAnimation(ENEMY_GUARDIAN_IMAGE_FILE_PATH,
-                enemyGuardianTexture, enemyGuardianFrames, FRAME_COLS_GUARDIAN, FRAME_ROWS_GUARDIAN,
-                0.1f);
+                enemyGuardianTexture, enemyGuardianFrames, FrameAnimation.COLS_GUARDIAN,
+                FrameAnimation.ROWS_GUARDIAN, 0.1f);
         bossKrakenAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_KRAKEN_FILE_PATH,
-                bossKrakenTexture, bossKrakenFrames, FRAME_COLS_BOSS_KRAKEN, FRAME_ROWS_BOSS_KRAKEN,
-                0.1f);
+                bossKrakenTexture, bossKrakenFrames, FrameAnimation.COLS_BOSS_KRAKEN,
+                FrameAnimation.ROWS_BOSS_KRAKEN, 0.1f);
 
         // put enemies and bosses animation to map
         enemyAnimationMap = new HashMap<String, Animation>();
@@ -343,10 +347,10 @@ public class AssetsLoader {
     private static void disposeAssetsPlayStateScreen() {
         arrowImageTexture.dispose();
         scoreFont.dispose();
-        monsterDeadMusic.dispose();
-        bossEnemyMusic.dispose();
+        monsterDeadSound.dispose();
+        bossEnemySound.dispose();
         gameOverMusic.dispose();
-        shootingMusic.dispose();
+        shootingSound.dispose();
         playStateBackgroundMusic.dispose();
         enemyBugTexture.dispose();
         bossGoldenBugTexture.dispose();
@@ -358,25 +362,25 @@ public class AssetsLoader {
 
     private static void loadAssetsTitleScreen() {
         // TitleScreen
-        introImageTexture =
+        introBackgroundTexture =
                 new Texture(Gdx.files.internal("background/intro_title_background.png"));
-        introImageSprite = new Sprite(introImageTexture);
-        introImageSprite.flip(false, true);
+        introBackgroundSprite = new Sprite(introBackgroundTexture);
+        introBackgroundSprite.flip(false, true);
 
         touchToStartTexture = new Texture(Gdx.files.internal("start_game_title.png"));
         touchToStartSprite = new Sprite(touchToStartTexture);
         touchToStartSprite.flip(false, true);
 
         introBackgroundMusic = Gdx.audio.newMusic(
-                Gdx.files.internal("sound/intro_game_bg_sound.mp3"));
+                Gdx.files.internal("music/intro_game_bg_music.mp3"));
 
         // TitleScreen // set animation leaf
         leafAnimation = AnimationUtils.newAnimation(LEAF_IMAGE_FILE_PATH, leafImageTexture,
-                leafFrames, FRAME_COLS_LEAF, FRAME_ROWS_LEAF, 0.1f);
+                leafFrames, FrameAnimation.COLS_LEAF, FrameAnimation.ROWS_LEAF, 0.1f);
     }
 
     private static void disposeAssetsTitleScreen() {
-        introImageTexture.dispose();
+        introBackgroundTexture.dispose();
         touchToStartTexture.dispose();
         leafImageTexture.dispose();
         introBackgroundMusic.dispose();
@@ -385,14 +389,14 @@ public class AssetsLoader {
     private static void loadAssetsMainMenuScreen() {
 
         // MainMenuScreen
-        mainMenuImageTexture =
+        mainMenuBackgroundTexture =
                 new Texture(Gdx.files.internal("background/main_menu_background.png"));
-        mainMenuImageSprite = new Sprite(mainMenuImageTexture);
-        mainMenuImageSprite.flip(false, true);
+        mainMenuBackgroundSprite = new Sprite(mainMenuBackgroundTexture);
+        mainMenuBackgroundSprite.flip(false, true);
 
         mainMenuBackgroundMusic = Gdx.audio.newMusic(
-                Gdx.files.internal("sound/main_menu_bg_sound.mp3"));
-        toBattleMusic = Gdx.audio.newMusic(Gdx.files.internal("sound/to_battle_sound.mp3"));
+                Gdx.files.internal("music/main_menu_bg_music.mp3"));
+        toBattleSound = Gdx.audio.newMusic(Gdx.files.internal("sound/to_battle_sound.mp3"));
 
         //MainMenuScreen // set icon
         highScoreImageTexture = new Texture(Gdx.files.internal("icon/high_score_icon.png"));
@@ -426,7 +430,7 @@ public class AssetsLoader {
 
     private static void disposeAssetsMainMenuScreen() {
         // MainMenuScreen
-        mainMenuImageTexture.dispose();
+        mainMenuBackgroundTexture.dispose();
         highScoreImageTexture.dispose();
         upGradeImageTexture.dispose();
         battleImageTexture.dispose();
