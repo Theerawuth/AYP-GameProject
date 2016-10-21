@@ -4,6 +4,7 @@ import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.helper.MusicManager;
+import com.ayp.arrowstormgame.helper.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -33,13 +34,19 @@ public class MainMenuScreen implements Screen {
     private static final float OPEN_MUSIC_POS_Y = 20;
     private static final float CLOSE_MUSIC_POS_X = 400;
     private static final float CLOSE_MUSIC_POS_Y = 20;
+    private static final float CLOSE_SOUND_POS_X = 320;
+    private static final float CLOSE_SOUND_POS_Y = 20;
+    private static final float OPEN_SOUND_POS_X = 320;
+    private static final float OPEN_SOUND_POS_Y = 20;
 
     private static float MAIN_MENU_BG_WIDTH = 480;
     private static float MAIN_MENU_BG_HEIGHT = 800;
     private static float ICON_WIDTH = 96;
     private static float ICON_HEIGHT = 96;
-    private static final float MUSIC_ICON_WIDTH = 64;
-    private static final float MUSIC_ICON_HEIGHT = 64;
+    private static final float MUSIC_ICON_WIDTH = 48;
+    private static final float MUSIC_ICON_HEIGHT = 48;
+    private static final float SOUND_ICON_WIDTH = 48;
+    private static final float SOUND_ICON_HEIGHT = 48;
 
     private float elapsedTime;
 
@@ -52,9 +59,10 @@ public class MainMenuScreen implements Screen {
     private Sprite facebookImageSprite;
     private Sprite openMusicSprite;
     private Sprite closeMusicSprite;
+    private Sprite openSoundSprite;
+    private Sprite closeSoundSprite;
     private Vector3 touchButton;
     private Music mainMenuBackgroundMusic;
-    private Music toBattleSound;
     private BitmapFont highScoreFont;
     private BitmapFont highScoreShadow;
     private String highScoreString;
@@ -62,8 +70,6 @@ public class MainMenuScreen implements Screen {
     private static final String HIGH_SCORE_LABEL = "SCORE";
 
     private MusicManager manageMusicMainBackground;
-    private MusicManager manageMusicToBattle;
-    boolean isClick;
 
     //TODO Create menu button
 
@@ -77,19 +83,18 @@ public class MainMenuScreen implements Screen {
         facebookImageSprite = AssetsLoader.facebookImageSprite;
         openMusicSprite = AssetsLoader.openMusicSprite;
         closeMusicSprite = AssetsLoader.closeMusicSprite;
+        openSoundSprite = AssetsLoader.openSoundSprite;
+        closeSoundSprite = AssetsLoader.closeSoundSprite;
         mainMenuBackgroundMusic = AssetsLoader.mainMenuBackgroundMusic;
-        toBattleSound = AssetsLoader.toBattleSound;
         highScoreFont = AssetsLoader.highScoreFont;
         highScoreShadow = AssetsLoader.highScoreShadow;
         highScoreString = String.valueOf(GdxPreference.getHighScore());
         glyphLayout = new GlyphLayout();
         elapsedTime = 0;
-        isClick = false;
     }
 
     @Override
     public void show() {
-        Gdx.app.log("MusicManager", "Start sound in main menu screen");
         manageMusicMainBackground = new MusicManager(mainMenuBackgroundMusic);
         if (GdxPreference.getMusicSetting()) {
             manageMusicMainBackground.backgroundMusicPlay();
@@ -174,6 +179,13 @@ public class MainMenuScreen implements Screen {
             game.spriteBatch.draw(openMusicSprite, CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y,
                     MUSIC_ICON_WIDTH, MUSIC_ICON_HEIGHT);
         }
+        if (GdxPreference.getSoundSetting()) {
+            game.spriteBatch.draw(closeSoundSprite, CLOSE_SOUND_POS_X, CLOSE_SOUND_POS_Y,
+                    SOUND_ICON_WIDTH, SOUND_ICON_HEIGHT);
+        } else {
+            game.spriteBatch.draw(openSoundSprite, OPEN_SOUND_POS_X, OPEN_SOUND_POS_Y,
+                    SOUND_ICON_WIDTH, SOUND_ICON_HEIGHT);
+        }
     }
 
     private void handleTouchEvent() {
@@ -185,6 +197,8 @@ public class MainMenuScreen implements Screen {
         upGradeImageSprite.setPosition(UPGRADE_POS_X, UPGRADE_POS_Y);
         openMusicSprite.setPosition(OPEN_MUSIC_POS_X, OPEN_MUSIC_POS_Y);
         closeMusicSprite.setPosition(CLOSE_MUSIC_POS_X, CLOSE_MUSIC_POS_Y);
+        openSoundSprite.setPosition(OPEN_SOUND_POS_X, OPEN_SOUND_POS_Y);
+        closeSoundSprite.setPosition(CLOSE_SOUND_POS_X, CLOSE_SOUND_POS_Y);
         facebookImageSprite.setPosition(FACEBOOK_POS_X, FACEBOOK_POS_Y);
         game.camera.unproject(touchButton);
         if (Gdx.input.isTouched() && elapsedTime > 0.5) {
@@ -193,8 +207,7 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
                     && touchButton.y > battleImageSprite.getY()
                     && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
-                manageMusicToBattle = new MusicManager(toBattleSound);
-                manageMusicToBattle.backgroundMusicPlay();
+                SoundManager.playToBattleSound();
                 manageMusicMainBackground.backgroundMusicStop();
                 game.setScreen(new PlayStateScreen(game));
             }
@@ -218,6 +231,7 @@ public class MainMenuScreen implements Screen {
                     && touchButton.y > facebookImageSprite.getY()
                     && touchButton.y < (facebookImageSprite.getY()
                     + facebookImageSprite.getHeight())) {
+                game.setScreen(new TitleScreen(game));
             }
 
             if (touchButton.x > openMusicSprite.getX()
@@ -229,9 +243,18 @@ public class MainMenuScreen implements Screen {
                     && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
                     && touchButton.y > closeMusicSprite.getY()
                     && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
-                Gdx.app.log("MusicManager", "On/Off Sound: " + GdxPreference.getMusicSetting());
-                manageMusicMainBackground.setSwitchSound();
+                manageMusicMainBackground.setSwitchMusic();
+            }
 
+            if (touchButton.x > openSoundSprite.getX()
+                    && touchButton.x < (openSoundSprite.getX() + openSoundSprite.getWidth())
+                    && touchButton.y > openSoundSprite.getY()
+                    && touchButton.y < (openSoundSprite.getY() + openSoundSprite.getHeight())) {
+            }
+            if (touchButton.x > closeSoundSprite.getX()
+                    && touchButton.x < (closeSoundSprite.getX() + closeSoundSprite.getWidth())
+                    && touchButton.y > closeSoundSprite.getY()
+                    && touchButton.y < (closeSoundSprite.getY() + closeSoundSprite.getHeight())) {
             }
         }
     }

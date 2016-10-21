@@ -3,6 +3,7 @@ package com.ayp.arrowstormgame.game_manager;
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.GdxPreference;
+import com.ayp.arrowstormgame.helper.SoundManager;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
@@ -37,8 +38,6 @@ public class GamePlayManager {
     private Player player;
     private EnemySpawnManager enemySpawnManager;
     private EnemyLevelManager enemyLevelManager;
-    private Sound shootingSound;
-    private Sound monsterDeadSound;
     private boolean bossOneSpawn;
     private boolean bossTwoSpawn;
     private boolean bossThreeSpawn;
@@ -51,8 +50,6 @@ public class GamePlayManager {
                 GdxPreference.getCurrentHealthPointLevel());
         enemyLevelManager = new EnemyLevelManager();
         enemySpawnManager = new EnemySpawnManager();
-        shootingSound = AssetsLoader.shootingSound;
-        monsterDeadSound = AssetsLoader.monsterDeadSound;
         isPause = false;
         bossOneSpawn = false;
         bossTwoSpawn = false;
@@ -141,12 +138,13 @@ public class GamePlayManager {
 
             float arrowAngle = angleDegree - 90;
             float arrowDirectionAngle = arrowAngle + 90;
+
             player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
-                shootingSound.play();
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
+                SoundManager.playShootingSound();
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
-                shootingSound.play();
+                SoundManager.playShootingSound();
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             }
         } else {
@@ -222,7 +220,7 @@ public class GamePlayManager {
                 }
             }
             if (enemies.get(i).isDied()) {
-                monsterDeadSound.play();
+                SoundManager.playMonsterDead();
                 score += enemies.get(i).getScore();
                 gold += enemies.get(i).getGold();
                 if (enemies.get(i) instanceof Kraken) {

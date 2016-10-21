@@ -3,9 +3,11 @@ package com.ayp.arrowstormgame.screen;
 import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.MusicManager;
+import com.ayp.arrowstormgame.helper.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -45,6 +47,7 @@ public class TitleScreen implements Screen {
         touchToStartSprite = AssetsLoader.touchToStartSprite;
         leafAnimation = AssetsLoader.leafAnimation;
         introBackgroundMusic = AssetsLoader.introBackgroundMusic;
+        manageTitleMusicBackground = new MusicManager(introBackgroundMusic);
 
         // create Array leafDrops
         leafDrops = new Array<Rectangle>();
@@ -54,10 +57,7 @@ public class TitleScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.app.log("MusicManager", "Start sound in title screen");
-        manageTitleMusicBackground = new MusicManager(introBackgroundMusic);
         manageTitleMusicBackground.backgroundMusicPlay();
-
     }
 
     @Override
@@ -66,11 +66,13 @@ public class TitleScreen implements Screen {
         elapsedTime += delta;
         currentFrameLeaf = leafAnimation.getKeyFrame(elapsedTime, true);
         game.spriteBatch.begin();
+        game.spriteBatch.enableBlending();
         game.spriteBatch.draw(introImageSprite, 0, 0, INTRO_BG_WIDTH, INTRO_BG_HEIGHT);
         game.spriteBatch.draw(touchToStartSprite, 85, 600, TOUCH_TO_START_WIDTH, TOUCH_TO_START_HEIGHT);
         for (Rectangle leafDrop : leafDrops) {
             game.spriteBatch.draw(currentFrameLeaf, leafDrop.x, leafDrop.y);
         }
+        game.spriteBatch.disableBlending();
         game.spriteBatch.end();
         //check time for set start leaf drop and title change
         if (TimeUtils.nanoTime() - lastDropTime > 100000000) {
