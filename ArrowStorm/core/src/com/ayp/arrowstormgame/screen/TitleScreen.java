@@ -57,6 +57,7 @@ public class TitleScreen implements Screen {
         Gdx.app.log("MusicManager", "Start sound in title screen");
         manageTitleMusicBackground = new MusicManager(introBackgroundMusic);
         manageTitleMusicBackground.backgroundMusicPlay();
+        game.playServices.signIn();
 
     }
 

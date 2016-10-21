@@ -58,6 +58,9 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
+        // google play service: game
+        compile "com.google.android.gms:play-services-games:9.6.1"
+        compile project(':BaseGameUtils')
     }
 }
 

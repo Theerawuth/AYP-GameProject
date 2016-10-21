@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame;
 
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.interfaces.PlayServices;
 import com.ayp.arrowstormgame.screen.TitleScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +14,11 @@ public class ArrowStormGame extends Game {
     public SpriteBatch spriteBatch;
     public OrthographicCamera camera;
     public ShapeRenderer shapeRenderer;
+    public static PlayServices playServices;
+
+    public ArrowStormGame(PlayServices playServices) {
+        this.playServices = playServices;
+    }
 
     @Override
     public void create() {
