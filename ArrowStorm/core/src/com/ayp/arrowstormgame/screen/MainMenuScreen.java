@@ -34,6 +34,8 @@ public class MainMenuScreen implements Screen {
     private static final float OPEN_MUSIC_POS_Y = 20;
     private static final float CLOSE_MUSIC_POS_X = 400;
     private static final float CLOSE_MUSIC_POS_Y = 20;
+    private static final float SWITCH_MUSIC_POS_X = 400;
+    private static final float SWITCH_MUSIC_POS_Y = 20;
     private static final float CLOSE_SOUND_POS_X = 320;
     private static final float CLOSE_SOUND_POS_Y = 20;
     private static final float OPEN_SOUND_POS_X = 320;
@@ -233,14 +235,10 @@ public class MainMenuScreen implements Screen {
                     && touchButton.y < (facebookImageSprite.getY()
                     + facebookImageSprite.getHeight())) {
                 game.setScreen(new TitleScreen(game));
-            } else if (touchButton.x > openMusicSprite.getX()
-                    && touchButton.x < (openMusicSprite.getX() + openMusicSprite.getWidth())
-                    && touchButton.y > openMusicSprite.getY()
-                    && touchButton.y < (openMusicSprite.getY() + openMusicSprite.getHeight())) {
-            } else if (touchButton.x > closeMusicSprite.getX()
-                    && touchButton.x < (closeMusicSprite.getX() + closeMusicSprite.getWidth())
-                    && touchButton.y > closeMusicSprite.getY()
-                    && touchButton.y < (closeMusicSprite.getY() + closeMusicSprite.getHeight())) {
+            } else if (touchButton.x > SWITCH_MUSIC_POS_X
+                    && touchButton.x < (SWITCH_MUSIC_POS_X + closeMusicSprite.getWidth())
+                    && touchButton.y > SWITCH_MUSIC_POS_Y
+                    && touchButton.y < (SWITCH_MUSIC_POS_Y + closeMusicSprite.getHeight())) {
                 manageMusicMainBackground.setSwitchMusic();
             } else if (touchButton.x > SWITCH_SOUND_POS_X
                     && touchButton.x < (SWITCH_SOUND_POS_X + openSoundSprite.getWidth())

@@ -25,7 +25,6 @@ public class PlayStateScreen implements Screen {
     private Array<Enemy> enemies;
     private float runtime;
 
-
     public PlayStateScreen(final ArrowStormGame game) {
         this.game = game;
         gamePlayRenderer = new GamePlayRenderer(game);
@@ -79,6 +78,7 @@ public class PlayStateScreen implements Screen {
         }
         game.spriteBatch.end();
     }
+
 
     @Override
     public void resize(int width, int height) {

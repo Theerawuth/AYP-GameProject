@@ -43,7 +43,7 @@ public abstract class Enemy {
 
     private static float HEALTH_POINT_RANGE = HealthPoint.MAXIMUM - HealthPoint.MINIMUM;
 
-    private Vector2 position;
+    private Vector2 drawPosition;
     private Vector2 boundPosition;
 
     private Circle enemyBound;
@@ -54,12 +54,13 @@ public abstract class Enemy {
     private float attackDamage;
     private float movementSpeed;
     private float healthPoint;
+    private boolean bleeding;
 
     // Boss
     public Enemy(float attackDamage, float movementSpeed, float healthPoint) {
         float x = ArrowStormGame.GAME_WIDTH / 2 - BOSS_BOUNDING_RADIUS;
         float y = 0;
-        position = new Vector2(x, y);
+        drawPosition = new Vector2(x, y);
         this.attackDamage = attackDamage;
         this.movementSpeed = movementSpeed;
         this.healthPoint = healthPoint;
@@ -67,12 +68,13 @@ public abstract class Enemy {
         enemyBound = new Circle(boundPosition, BOSS_BOUNDING_RADIUS);
         score = GamePlayManager.stage * 1000;
         gold = GamePlayManager.stage * 250;
+        bleeding = false;
     }
 
     // Enemy
     public Enemy(float x, float y, float factorAttackDamage, float factorMovementSpeed,
                  float factorHealthPoint, int level) {
-        position = new Vector2(x, y);
+        drawPosition = new Vector2(x, y);
         // to set origin point of bound at center of sprite
         // when it has been drawn
         boundPosition = new Vector2(x + ENEMY_BOUNDING_RADIUS, y + ENEMY_BOUNDING_RADIUS);
@@ -101,6 +103,11 @@ public abstract class Enemy {
                 break;
             default:
         }
+        bleeding = false;
+    }
+
+    public boolean isBleeding() {
+        return bleeding;
     }
 
     public boolean isDied() {
@@ -108,6 +115,7 @@ public abstract class Enemy {
     }
 
     public void takeDamage(float damage) {
+        bleeding = true;
         healthPoint -= damage;
     }
 
@@ -134,13 +142,13 @@ public abstract class Enemy {
         return healthPoint;
     }
 
-    public Vector2 getPosition() {
-        return position;
+    public Vector2 getDrawPosition() {
+        return drawPosition;
     }
 
     public void move(float delta) {
         // Moving of square sprite
-        position.y += movementSpeed * delta;
+        drawPosition.y += movementSpeed * delta;
         // Moving of circle bounding
         boundPosition.y += movementSpeed * delta;
         enemyBound.setPosition(boundPosition);

@@ -57,7 +57,8 @@ public class AssetsLoader {
 
     private static final String LEAF_IMAGE_FILE_PATH = "anim/anim_leaf.png";
     private static final String BLOOD_SPLASH_LEFT_FILE_PATH = "enemies_pack/blood_splash_left.png";
-    private static final String BLOOD_SPLASH_RIGHT_FILE_PATH = "enemies_pack/blood_splash_right.png";
+    private static final String BLOOD_SPLASH_RIGHT_FILE_PATH
+            = "enemies_pack/blood_splash_right.png";
     private static final String ENEMY_BUG_IMAGE_FILE_PATH = "enemies_pack/enemy_bug.png";
     private static final String ENEMY_BUG_DEAD_IMAGE_FILE_PATH = "enemies_pack/enemy_bug_dead.png";
     private static final String ENEMY_BOSS_GOLDEN_BUG_IMAGE_FILE_PATH
