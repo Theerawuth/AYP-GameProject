@@ -14,6 +14,7 @@ public class GdxPreference {
     private static final String ATTACK_DAMAGE_LEVEL_PREFERENCE = "Attack Damage";
     private static final String ATTACK_SPEED_LEVEL_PREFERENCE = "Attack Speed";
     private static final String HEALTH_POINT_LEVEL_PREFERENCE = "Health Point";
+    private static final String SOUND_SETTING_PREFERENCE = "Sound Setting";
     private static final String MUSIC_SETTING_PREFERENCE = "Music Setting";
     private static final String HIGH_SCORE = "High Score";
 
@@ -27,6 +28,14 @@ public class GdxPreference {
 
     public static void putHighScore(int score) {
         playerPreferences.putInteger(HIGH_SCORE, score);
+    }
+
+    public static boolean getSoundSetting() {
+        return playerPreferences.getBoolean(SOUND_SETTING_PREFERENCE, true);
+    }
+
+    public static void putSoundSetting(boolean isOn) {
+        playerPreferences.putBoolean(SOUND_SETTING_PREFERENCE, isOn);
     }
 
     public static boolean getMusicSetting() {

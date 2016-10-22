@@ -2,6 +2,7 @@ package com.ayp.arrowstormgame;
 
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.interfaces.PlayServices;
+import com.ayp.arrowstormgame.helper.SoundManager;
 import com.ayp.arrowstormgame.screen.TitleScreen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -26,6 +27,7 @@ public class ArrowStormGame extends Game {
         spriteBatch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(true, ArrowStormGame.GAME_WIDTH, ArrowStormGame.GAME_HEIGHT);
+        new SoundManager();
         spriteBatch.setProjectionMatrix(camera.combined);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(camera.combined);

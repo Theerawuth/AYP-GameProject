@@ -11,6 +11,5 @@ public class DesktopLauncher {
 		config.width = 480;
 		config.height = 800;
 		new LwjglApplication(new ArrowStormGame(), config);
-
 	}
 }

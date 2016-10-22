@@ -11,6 +11,7 @@ public class MusicManager {
     public Music backgroundMusic;
 
     public MusicManager(Music music) {
+
         backgroundMusic = music;
     }
 
@@ -18,15 +19,15 @@ public class MusicManager {
             backgroundMusic.play();
     }
 
-    public void setSwitchSound() {
-        // Switch : SoundOff
-        Gdx.app.log("SOUNDONOFF", "ONOFF: " + GdxPreference.getMusicSetting());
+    public void setSwitchMusic() {
+        // Switch : MusicOff
+        Gdx.app.log("MUSICONOFF", "ONOFF: " + GdxPreference.getMusicSetting());
         if (GdxPreference.getMusicSetting()) {
             GdxPreference.putMusicSetting(false);
             GdxPreference.flushPreferences();
             backgroundMusicStop();
         } else {
-            // Switch : SoundOn
+            // Switch : MusicOn
             GdxPreference.putMusicSetting(true);
             GdxPreference.flushPreferences();
             backgroundMusicPlay();

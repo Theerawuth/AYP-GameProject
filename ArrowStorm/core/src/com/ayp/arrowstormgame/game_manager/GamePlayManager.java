@@ -1,15 +1,14 @@
 package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
-import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.GdxPreference;
+import com.ayp.arrowstormgame.helper.SoundManager;
 import com.ayp.arrowstormgame.model.Arrow;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.Player;
 import com.ayp.arrowstormgame.model.bossespack.Kraken;
 import com.ayp.arrowstormgame.screen.MainMenuScreen;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -37,8 +36,6 @@ public class GamePlayManager {
     private Player player;
     private EnemySpawnManager enemySpawnManager;
     private EnemyLevelManager enemyLevelManager;
-    private Sound shootingSound;
-    private Sound monsterDeadSound;
     private boolean bossOneSpawn;
     private boolean bossTwoSpawn;
     private boolean bossThreeSpawn;
@@ -51,8 +48,6 @@ public class GamePlayManager {
                 GdxPreference.getCurrentHealthPointLevel());
         enemyLevelManager = new EnemyLevelManager();
         enemySpawnManager = new EnemySpawnManager();
-        shootingSound = AssetsLoader.shootingSound;
-        monsterDeadSound = AssetsLoader.monsterDeadSound;
         isPause = false;
         bossOneSpawn = false;
         bossTwoSpawn = false;
@@ -141,12 +136,17 @@ public class GamePlayManager {
 
             float arrowAngle = angleDegree - 90;
             float arrowDirectionAngle = arrowAngle + 90;
+
             player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
-                shootingSound.play();
+                if (GdxPreference.getSoundSetting()){
+                    SoundManager.playShootingSound();
+                }
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
-                shootingSound.play();
+                if (GdxPreference.getSoundSetting()){
+                    SoundManager.playShootingSound();
+                }
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             }
         } else {
@@ -187,7 +187,7 @@ public class GamePlayManager {
         for (int i = 0; i < enemies.size; i++) {
             Enemy enemy = enemies.get(i);
             enemy.move(delta);
-            if (enemy.getPosition().y > (game.GAME_HEIGHT - 200)
+            if (enemy.getDrawPosition().y > (game.GAME_HEIGHT - 200)
                     - enemy.getEnemyBound().radius * 2) {
                 enemies.removeIndex(i);
                 Player.healthPoint -= enemy.getAttackDamage();
@@ -222,7 +222,9 @@ public class GamePlayManager {
                 }
             }
             if (enemies.get(i).isDied()) {
-                monsterDeadSound.play();
+                if (GdxPreference.getSoundSetting()) {
+                    SoundManager.playMonsterDead();
+                }
                 score += enemies.get(i).getScore();
                 gold += enemies.get(i).getGold();
                 if (enemies.get(i) instanceof Kraken) {
