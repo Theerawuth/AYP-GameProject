@@ -23,6 +23,7 @@ import java.util.Iterator;
  * Created by Theerawuth on 9/23/2016.
  */
 public class TitleScreen implements Screen {
+    private static final String TAG = "TitleScreen";
     final ArrowStormGame game;
 
     private Sprite introImageSprite;
@@ -63,7 +64,15 @@ public class TitleScreen implements Screen {
         if (GdxPreference.getMusicSetting()) {
             manageTitleMusicBackground.backgroundMusicPlay();
         }
-        game.playServices.signIn();
+
+
+        if (game.playServices.isSignedIn()) {
+            Gdx.app.log(TAG, "Google play service is signed in now");
+        } else {
+            Gdx.app.log(TAG, "Require signing in for using Google play service");
+            game.playServices.signIn();
+        }
+
     }
 
     @Override

@@ -54,7 +54,7 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        gameHelper.onActivityResult(requestCode, requestCode, data);
+        gameHelper.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
