@@ -9,11 +9,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesActivityResultCodes;
+import com.google.android.gms.games.snapshot.Snapshot;
 import com.google.example.games.basegameutils.GameHelper;
 
 public class AndroidLauncher extends AndroidApplication implements PlayServices {
-
+    public static final String TAG = "AndroidLauncher";
     private GameHelper gameHelper;
     private final static int requestCode = 1;
 
@@ -28,12 +31,12 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
         GameHelper.GameHelperListener gameHelperListener = new GameHelper.GameHelperListener() {
             @Override
             public void onSignInFailed() {
-
+                Gdx.app.log(TAG, "onSignInFailed");
             }
 
             @Override
             public void onSignInSucceeded() {
-
+                Gdx.app.log(TAG, "onSignInSucceeded");
             }
         };
         gameHelper.setup(gameHelperListener);
@@ -55,6 +58,14 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         gameHelper.onActivityResult(requestCode, resultCode, data);
+
+        // check for "inconsistent state"
+        if (resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED && requestCode == 1) {
+
+            // force a disconnect to sync up state, ensuring that mClient reports "not connected"
+            gameHelper.disconnect();
+        }
+
     }
 
     @Override
@@ -73,19 +84,14 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 
     @Override
     public void signOut() {
-        try
-        {
-            runOnUiThread(new Runnable()
-            {
+        try {
+            runOnUiThread(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     gameHelper.signOut();
                 }
             });
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Gdx.app.log("MainActivity", "Log out failed: " + e.getMessage() + ".");
         }
     }
@@ -100,15 +106,15 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     public void unlockAchievement() {
 //        Games.Achievements.unlock(gameHelper.getApiClient(),
 //                getString(R.string.achievement_dum_dum));
+
     }
 
     @Override
     public void submitScore(int highScore) {
-//        if (isSignedIn() == true)
-//        {
-//            Games.Leaderboards.submitScore(gameHelper.getApiClient(),
-//                    getString(R.string.leaderboard_highest), highScore);
-//        }
+        if (isSignedIn() == true) {
+            Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+                    getString(R.string.leaderboard_highest), highScore);
+        }
     }
 
     @Override
@@ -124,17 +130,15 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
 //        }
     }
 
+
     @Override
     public void showScore() {
-//        if (isSignedIn() == true)
-//        {
-//            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
-//                    getString(R.string.leaderboard_highest)), requestCode);
-//        }
-//        else
-//        {
-//            signIn()
-//        }
+        if (isSignedIn() == true) {
+            startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
+                    getString(R.string.leaderboard_highest)), requestCode);
+        } else {
+            signIn();
+        }
     }
 
     @Override

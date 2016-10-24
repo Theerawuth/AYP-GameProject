@@ -200,6 +200,8 @@ public class GamePlayManager {
                     if (score > GdxPreference.getHighScore()) {
                         GdxPreference.putHighScore(score);
                         GdxPreference.flushPreferences();
+                        // Add the highest score to leaderboard
+                        game.playServices.submitScore(score);
                     }
                     player.setAlive(false);
                 }

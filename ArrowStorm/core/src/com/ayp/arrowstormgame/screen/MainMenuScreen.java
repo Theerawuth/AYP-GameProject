@@ -196,6 +196,7 @@ public class MainMenuScreen implements Screen {
         float x = Gdx.input.getX();
         float y = Gdx.input.getY();
         touchButton = new Vector3(x, y, 0);
+        highScoreImageSprite.setPosition(HIGH_SCORE_POS_X, HIGH_SCORE_POS_Y);
         battleImageSprite.setPosition(BATTLE_POS_X, BATTLE_POS_Y);
         monsterImageSprite.setPosition(MONSTER_POS_X, MONSTER_POS_Y);
         upGradeImageSprite.setPosition(UPGRADE_POS_X, UPGRADE_POS_Y);
@@ -207,48 +208,86 @@ public class MainMenuScreen implements Screen {
         game.camera.unproject(touchButton);
         if (Gdx.input.isTouched() && elapsedTime > 0.5) {
             elapsedTime = 0;
-            if (touchButton.x > battleImageSprite.getX()
-                    && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
-                    && touchButton.y > battleImageSprite.getY()
-                    && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight())) {
+            if (onClickHighScore()) {
+                // show high score here !!
+                if (game.playServices.isSignedIn()) {
+                    game.playServices.showScore();
+                } else {
+                    game.playServices.signIn();
+                }
+            } else if (onClickBattle()) {
                 if (GdxPreference.getSoundSetting()) {
                     SoundManager.playToBattleSound();
                 }
                 manageMusicMainBackground.backgroundMusicStop();
                 game.setScreen(new PlayStateScreen(game));
-            } else if (touchButton.x > monsterImageSprite.getX()
-                    && touchButton.x < (monsterImageSprite.getX() + monsterImageSprite.getWidth())
-                    && touchButton.y > monsterImageSprite.getY()
-                    && touchButton.y < (monsterImageSprite.getY()
-                    + monsterImageSprite.getHeight())) {
+            } else if (onClickMonsterInfo()) {
                 game.setScreen(new MonsterInfoScreen(game));
-            } else if (touchButton.x > upGradeImageSprite.getX()
-                    && touchButton.x < (upGradeImageSprite.getX() + upGradeImageSprite.getWidth())
-                    && touchButton.y > upGradeImageSprite.getY()
-                    && touchButton.y < (upGradeImageSprite.getY()
-                    + upGradeImageSprite.getHeight())) {
+            } else if (onClickUpgrade()) {
                 game.setScreen(new UpGradeScreen(game));
-            } else if (touchButton.x > facebookImageSprite.getX()
-                    && touchButton.x < (facebookImageSprite.getX()
-                    + facebookImageSprite.getWidth())
-                    && touchButton.y > facebookImageSprite.getY()
-                    && touchButton.y < (facebookImageSprite.getY()
-                    + facebookImageSprite.getHeight())) {
+            } else if (onClickFacebook()) {
                 game.setScreen(new TitleScreen(game));
-            } else if (touchButton.x > SWITCH_MUSIC_POS_X
-                    && touchButton.x < (SWITCH_MUSIC_POS_X + closeMusicSprite.getWidth())
-                    && touchButton.y > SWITCH_MUSIC_POS_Y
-                    && touchButton.y < (SWITCH_MUSIC_POS_Y + closeMusicSprite.getHeight())) {
+            } else if (onClickMusicSetting()) {
                 manageMusicMainBackground.setSwitchMusic();
-            } else if (touchButton.x > SWITCH_SOUND_POS_X
-                    && touchButton.x < (SWITCH_SOUND_POS_X + openSoundSprite.getWidth())
-                    && touchButton.y > SWITCH_SOUND_POS_Y
-                    && touchButton.y < (SWITCH_SOUND_POS_Y + openSoundSprite.getHeight())) {
+            } else if (onClickSoundSetting()) {
                 boolean isOn = GdxPreference.getSoundSetting();
                 isOn = !isOn;
                 GdxPreference.putSoundSetting(isOn);
                 GdxPreference.flushPreferences();
             }
         }
+    }
+
+    private boolean onClickSoundSetting() {
+        return touchButton.x > SWITCH_SOUND_POS_X
+                && touchButton.x < (SWITCH_SOUND_POS_X + openSoundSprite.getWidth())
+                && touchButton.y > SWITCH_SOUND_POS_Y
+                && touchButton.y < (SWITCH_SOUND_POS_Y + openSoundSprite.getHeight());
+    }
+
+    private boolean onClickMusicSetting() {
+        return touchButton.x > SWITCH_MUSIC_POS_X
+                && touchButton.x < (SWITCH_MUSIC_POS_X + closeMusicSprite.getWidth())
+                && touchButton.y > SWITCH_MUSIC_POS_Y
+                && touchButton.y < (SWITCH_MUSIC_POS_Y + closeMusicSprite.getHeight());
+    }
+
+    private boolean onClickFacebook() {
+        return touchButton.x > facebookImageSprite.getX()
+                && touchButton.x < (facebookImageSprite.getX()
+                + facebookImageSprite.getWidth())
+                && touchButton.y > facebookImageSprite.getY()
+                && touchButton.y < (facebookImageSprite.getY()
+                + facebookImageSprite.getHeight());
+    }
+
+    private boolean onClickUpgrade() {
+        return touchButton.x > upGradeImageSprite.getX()
+                && touchButton.x < (upGradeImageSprite.getX() + upGradeImageSprite.getWidth())
+                && touchButton.y > upGradeImageSprite.getY()
+                && touchButton.y < (upGradeImageSprite.getY()
+                + upGradeImageSprite.getHeight());
+    }
+
+    private boolean onClickMonsterInfo() {
+        return touchButton.x > monsterImageSprite.getX()
+                && touchButton.x < (monsterImageSprite.getX() + monsterImageSprite.getWidth())
+                && touchButton.y > monsterImageSprite.getY()
+                && touchButton.y < (monsterImageSprite.getY()
+                + monsterImageSprite.getHeight());
+    }
+
+    private boolean onClickBattle() {
+        return touchButton.x > battleImageSprite.getX()
+                && touchButton.x < (battleImageSprite.getX() + battleImageSprite.getWidth())
+                && touchButton.y > battleImageSprite.getY()
+                && touchButton.y < (battleImageSprite.getY() + battleImageSprite.getHeight());
+    }
+
+    private boolean onClickHighScore() {
+        return touchButton.x > highScoreImageSprite.getX()
+                && touchButton.x < (highScoreImageSprite.getX() + highScoreImageSprite.getWidth())
+                && touchButton.y > highScoreImageSprite.getY()
+                && touchButton.y < (highScoreImageSprite.getY() + highScoreImageSprite.getHeight());
     }
 }

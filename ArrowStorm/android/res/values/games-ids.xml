@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">98888000228</string>
+    <string name="package_name">com.ayp.arrowstormgame</string>
+    <string name="achievement_monster_killer_i">CgkI5MW8sfACEAIQBg</string>
+    <string name="achievement_monster_killer_ii">CgkI5MW8sfACEAIQBw</string>
+    <string name="achievement_monster_killer_iii">CgkI5MW8sfACEAIQCA</string>
+    <string name="achievement_tanker_i">CgkI5MW8sfACEAIQCQ</string>
+    <string name="achievement_tanker_ii">CgkI5MW8sfACEAIQCg</string>
+    <string name="achievement_tanker_iii">CgkI5MW8sfACEAIQCw</string>
+    <string name="achievement_upgrader_i">CgkI5MW8sfACEAIQDA</string>
+    <string name="achievement_upgrader_iii">CgkI5MW8sfACEAIQDQ</string>
+    <string name="achievement_upgrader_ii">CgkI5MW8sfACEAIQDg</string>
+    <string name="leaderboard_highest">CgkI5MW8sfACEAIQAA</string>
+</resources>

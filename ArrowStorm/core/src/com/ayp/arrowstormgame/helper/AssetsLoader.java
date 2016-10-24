@@ -469,26 +469,26 @@ public class AssetsLoader {
         gameOverMusic.dispose();
         shootingSound.dispose();
         playStateBackgroundMusic.dispose();
-        enemyBugTexture.dispose();
-        enemyBugDeadTexture.dispose();
-        bossGoldenBugTexture.dispose();
-        bossGoldenBugDeadTexture.dispose();
-        enemyWormTexture.dispose();
-        enemyWormDeadTexture.dispose();
-        bossScorpionTexture.dispose();
-        bossScorpionDeadTexture.dispose();
-        enemyGuardianTexture.dispose();
-        enemyGuardianDeadTexture.dispose();
-        bossKrakenTexture.dispose();
-        bossKrakenDeadTexture.dispose();
-        bloodSplashLeafTexture.dispose();
-        bloodSplashRightTexture.dispose();
-        bugDeadSound.dispose();
-        bossGoldenBugDeadSound.dispose();
-        wormDeadSound.dispose();
-        bossScorpionDeadSound.dispose();
-        guardianDeadSound.dispose();
-        bossKrakenDeadSound.dispose();
+//        enemyBugTexture.dispose();
+//        enemyBugDeadTexture.dispose();
+//        bossGoldenBugTexture.dispose();
+//        bossGoldenBugDeadTexture.dispose();
+//        enemyWormTexture.dispose();
+//        enemyWormDeadTexture.dispose();
+//        bossScorpionTexture.dispose();
+//        bossScorpionDeadTexture.dispose();
+//        enemyGuardianTexture.dispose();
+//        enemyGuardianDeadTexture.dispose();
+//        bossKrakenTexture.dispose();
+//        bossKrakenDeadTexture.dispose();
+//        bloodSplashLeafTexture.dispose();
+//        bloodSplashRightTexture.dispose();
+//        bugDeadSound.dispose();
+//        bossGoldenBugDeadSound.dispose();
+//        wormDeadSound.dispose();
+//        bossScorpionDeadSound.dispose();
+//        guardianDeadSound.dispose();
+//        bossKrakenDeadSound.dispose();
     }
 
     private static void loadAssetsTitleScreen() {
@@ -513,7 +513,7 @@ public class AssetsLoader {
     private static void disposeAssetsTitleScreen() {
         introBackgroundTexture.dispose();
         touchToStartTexture.dispose();
-        leafImageTexture.dispose();
+//        leafImageTexture.dispose();
         introBackgroundMusic.dispose();
     }
 
