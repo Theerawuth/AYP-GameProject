@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "98888000228",
+    "firebase_url": "https://arrow-storm-18250632.firebaseio.com",
+    "project_id": "arrow-storm-18250632",
+    "storage_bucket": "arrow-storm-18250632.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:98888000228:android:72c82560d90d664c",
+        "android_client_info": {
+          "package_name": "com.ayp.arrowstormgame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "98888000228-llbjqs2j8l41uj81tk5rne1jbar1mfdp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayp.arrowstormgame",
+            "certificate_hash": "E56E6A90E7B1A11B588D6BFA6C228D254391CFBC"
+          }
+        },
+        {
+          "client_id": "98888000228-6kl237gc9qh5tsomht2en5iim64mv9d6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ayp.arrowstormgame",
+            "certificate_hash": "9C97575D43D2A0FCB224A44D01A7FBC6D70E8776"
+          }
+        },
+        {
+          "client_id": "98888000228-u9q101s0iie4d46qfm8bl95j5otnv6sp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJgRJlApYhMJfVrj2u-cD2t6OJiJKAE1g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "98888000228-u9q101s0iie4d46qfm8bl95j5otnv6sp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

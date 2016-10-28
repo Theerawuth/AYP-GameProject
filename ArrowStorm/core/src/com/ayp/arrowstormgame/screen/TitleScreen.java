@@ -4,11 +4,9 @@ import com.ayp.arrowstormgame.ArrowStormGame;
 import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.helper.MusicManager;
-import com.ayp.arrowstormgame.helper.SoundManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -18,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Theerawuth on 9/23/2016.
@@ -63,14 +62,6 @@ public class TitleScreen implements Screen {
         manageTitleMusicBackground = new MusicManager(introBackgroundMusic);
         if (GdxPreference.getMusicSetting()) {
             manageTitleMusicBackground.backgroundMusicPlay();
-        }
-
-
-        if (game.playServices.isSignedIn()) {
-            Gdx.app.log(TAG, "Google play service is signed in now");
-        } else {
-            Gdx.app.log(TAG, "Require signing in for using Google play service");
-            game.playServices.signIn();
         }
 
     }

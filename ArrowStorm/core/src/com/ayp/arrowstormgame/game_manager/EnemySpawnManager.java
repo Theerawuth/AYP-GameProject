@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame.game_manager;
 
 import com.ayp.arrowstormgame.ArrowStormGame;
+import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.model.Boss;
 import com.ayp.arrowstormgame.model.Enemy;
 import com.ayp.arrowstormgame.model.EnemyUniverse;
@@ -58,18 +59,26 @@ public class EnemySpawnManager {
         spawnTime = generateSpawnTime();
     }
 
-    public void spawnBoss(Array<Enemy> enemies){
-        switch (GamePlayManager.stage){
+    public void spawnBoss(Array<Enemy> enemies) {
+        switch (GamePlayManager.stage) {
             case 1:
                 Boss bossGoldenBug = new GoldenBug();
+                bossGoldenBug
+                        .setDeadAnimationDuration(AssetsLoader
+                                .BOSS_GOLDEN_BUG_DEAD_ANIMATION_DURATION);
                 enemies.add(bossGoldenBug);
                 break;
             case 2:
                 Boss bossScorpion = new Scorpion();
+                bossScorpion
+                        .setDeadAnimationDuration(AssetsLoader
+                                .BOSS_SCORPION_DEAD_ANIMATION_DURATION);
                 enemies.add(bossScorpion);
                 break;
             case 3:
                 Boss bossKraken = new Kraken();
+                bossKraken.setDeadAnimationDuration(AssetsLoader
+                        .BOSS_KRAKEN_DEAD_ANIMATION_DURATION);
                 enemies.add(bossKraken);
                 break;
             default:
@@ -98,14 +107,18 @@ public class EnemySpawnManager {
         switch (enemyType) {
             case BUG:
                 Enemy enemyBug = new Bug(originX, originY, currentEnemyLevel);
+                enemyBug.setDeadAnimationDuration(AssetsLoader.ENEMY_BUG_DEAD_ANIMATION_DURATION);
                 enemies.add(enemyBug);
                 break;
             case WORM:
                 Enemy enemyWorm = new Worm(originX, originY, currentEnemyLevel);
+                enemyWorm.setDeadAnimationDuration(AssetsLoader.ENEMY_WORM_DEAD_ANIMATION_DURATION);
                 enemies.add(enemyWorm);
                 return;
             case GUARDIAN:
                 Enemy enemyGuardian = new Guardian(originX, originY, currentEnemyLevel);
+                enemyGuardian.setDeadAnimationDuration(AssetsLoader
+                        .ENEMY_GUARDIAN_DEAD_ANIMATION_DURATION);
                 enemies.add(enemyGuardian);
             default:
                 break;

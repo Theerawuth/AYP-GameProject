@@ -55,6 +55,7 @@ public class AssetsLoader {
         private static final int ROWS_BOSS_KRAKEN_DEAD = 1;
     }
 
+
     private static final String LEAF_IMAGE_FILE_PATH = "anim/anim_leaf.png";
     private static final String BLOOD_SPLASH_LEFT_FILE_PATH = "enemies_pack/blood_splash_left.png";
     private static final String BLOOD_SPLASH_RIGHT_FILE_PATH
@@ -82,9 +83,17 @@ public class AssetsLoader {
     private static final String ENEMY_BOSS_KRAKEN_DEAD_FILE_PATH
             = "enemies_pack/enemy_boss_kraken_dead.png";
 
+    public static float ENEMY_BUG_DEAD_ANIMATION_DURATION;
+    public static float ENEMY_WORM_DEAD_ANIMATION_DURATION;
+    public static float ENEMY_GUARDIAN_DEAD_ANIMATION_DURATION;
+    public static float BOSS_GOLDEN_BUG_DEAD_ANIMATION_DURATION;
+    public static float BOSS_SCORPION_DEAD_ANIMATION_DURATION;
+    public static float BOSS_KRAKEN_DEAD_ANIMATION_DURATION;
+
     // Blood Splash key
     public static final String BLOOD_SPLASH_LEAF_ANIMATION = "BloodSplashSideLeftAnimation";
     public static final String BLOOD_SPLASH_RIGHT_ANIMATION = "BloodSplashSideRightAnimation";
+
     // Enemy animation key
     public static final String BUG_ANIMATION = "BugAnimation";
     public static final String BUG_DEAD_ANIMATION = "BugDeadAnimation";
@@ -373,6 +382,8 @@ public class AssetsLoader {
         enemyBugDeadAnimation = AnimationUtils.newAnimation(ENEMY_BUG_DEAD_IMAGE_FILE_PATH,
                 enemyBugDeadTexture, enemyBugDeadFrames, FrameAnimation.COLS_BUG_DEAD,
                 FrameAnimation.ROWS_BUG_DEAD, 0.2f);
+        ENEMY_BUG_DEAD_ANIMATION_DURATION = enemyBugDeadAnimation.getAnimationDuration();
+
         bossGoldenBugAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_GOLDEN_BUG_IMAGE_FILE_PATH,
                 bossGoldenBugTexture, bossGoldenBugFrames, FrameAnimation.COLS_BOSS_GOLDEN_BUG,
                 FrameAnimation.ROWS_BOSS_GOLDEN_BUG, 0.1f);
@@ -380,6 +391,8 @@ public class AssetsLoader {
                 ENEMY_BOSS_GOLDEN_BUG_DEAD_IMAGE_FILE_PATH, bossGoldenBugDeadTexture,
                 bossGoldenBugDeadFrames, FrameAnimation.COLS_BOSS_GOLDEN_BUG_DEAD,
                 FrameAnimation.ROWS_BOSS_GOLDEN_BUG_DEAD, 0.2f);
+        BOSS_GOLDEN_BUG_DEAD_ANIMATION_DURATION = bossGoldenBugDeadAnimation.getAnimationDuration();
+
         // Enemy Stage Two
         enemyWormAnimation = AnimationUtils.newAnimation(ENEMY_WORM_IMAGE_FILE_PATH,
                 enemyWormTexture, enemyWormFrames, FrameAnimation.COLS_WORM,
@@ -387,6 +400,8 @@ public class AssetsLoader {
         enemyWormDeadAnimation = AnimationUtils.newAnimation(ENEMY_WORM_DEAD_IMAGE_FILE_PATH,
                 enemyWormDeadTexture, enemyWormDeadFrames, FrameAnimation.COLS_WORM_DEAD,
                 FrameAnimation.ROWS_WORM_DEAD, 0.2f);
+        ENEMY_WORM_DEAD_ANIMATION_DURATION = enemyWormDeadAnimation.getAnimationDuration();
+
         bossScorpionAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_SCORPION_FILE_PATH,
                 bossScorpionTexture, bossScorpionFrames, FrameAnimation.COLS_BOSS_SCORPION,
                 FrameAnimation.ROWS_BOSS_SCORPION, 0.1f);
@@ -394,6 +409,8 @@ public class AssetsLoader {
                 bossScorpionDeadTexture, bossScorpionDeadFrames,
                 FrameAnimation.COLS_BOSS_SCORPION_DEAD, FrameAnimation.ROWS_BOSS_SCORPION_DEAD,
                 0.2f);
+        BOSS_SCORPION_DEAD_ANIMATION_DURATION = bossScorpionDeadAnimation.getAnimationDuration();
+
         // Enemy Last Stage
         enemyGuardianAnimation = AnimationUtils.newAnimation(ENEMY_GUARDIAN_IMAGE_FILE_PATH,
                 enemyGuardianTexture, enemyGuardianFrames, FrameAnimation.COLS_GUARDIAN,
@@ -401,12 +418,15 @@ public class AssetsLoader {
         enemyGuardianDeadAnimation = AnimationUtils.newAnimation(ENEMY_GUARDIAN_DEAD_IMAGE_FILE_PATH,
                 enemyGuardianDeadTexture, enemyGuardianDeadFrames, FrameAnimation.COLS_GUARDIAN_DEAD,
                 FrameAnimation.ROWS_GUARDIAN_DEAD, 0.2f);
+        ENEMY_GUARDIAN_DEAD_ANIMATION_DURATION = enemyGuardianDeadAnimation.getAnimationDuration();
+
         bossKrakenAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_KRAKEN_FILE_PATH,
                 bossKrakenTexture, bossKrakenFrames, FrameAnimation.COLS_BOSS_KRAKEN,
                 FrameAnimation.ROWS_BOSS_KRAKEN, 0.1f);
         bossKrakenDeadAnimation = AnimationUtils.newAnimation(ENEMY_BOSS_KRAKEN_DEAD_FILE_PATH,
                 bossKrakenDeadTexture, bossKrakenDeadFrames, FrameAnimation.COLS_BOSS_KRAKEN_DEAD,
                 FrameAnimation.ROWS_BOSS_KRAKEN_DEAD, 0.2f);
+        BOSS_KRAKEN_DEAD_ANIMATION_DURATION = bossKrakenDeadAnimation.getAnimationDuration();
 
         // put enemies and bosses animation to map
         enemyAnimationMap = new HashMap<String, Animation>();
@@ -420,7 +440,6 @@ public class AssetsLoader {
         enemyAnimationMap.put(BOSS_GOLDEN_BUG_DEAD_ANIMATION, bossGoldenBugDeadAnimation);
         enemyAnimationMap.put(BOSS_SCORPION_DEAD_ANIMATION, bossScorpionDeadAnimation);
         enemyAnimationMap.put(BOSS_KRAKEN_DEAD_ANIMATION, bossKrakenDeadAnimation);
-
 
         font = new BitmapFont(Gdx.files.internal("font/text.fnt"));
         font.getData().setScale(FONT_SCALE_X, FONT_SCALE_Y);

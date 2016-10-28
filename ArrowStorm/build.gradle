@@ -6,6 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath 'com.google.gms:google-services:3.0.0'
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.2.0'
@@ -60,6 +61,9 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
         // google play service: game
         compile "com.google.android.gms:play-services-games:9.6.1"
+        compile 'com.google.firebase:firebase-auth:9.6.1'
+        compile 'com.google.android.gms:play-services-auth:9.6.1'
+        compile 'com.google.firebase:firebase-database:9.6.1'
         compile project(':BaseGameUtils')
     }
 }

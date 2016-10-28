@@ -25,10 +25,10 @@ public class PlayStateScreen implements Screen {
     private Array<Enemy> enemies;
     private float runtime;
 
-    public PlayStateScreen(final ArrowStormGame game) {
+    public PlayStateScreen(final ArrowStormGame game, Player player) {
         this.game = game;
         gamePlayRenderer = new GamePlayRenderer(game);
-        gamePlayManager = new GamePlayManager(game);
+        gamePlayManager = new GamePlayManager(game, player);
         enemyLevelManager = gamePlayManager.getEnemyLevelManager();
         arrows = new Array<Arrow>();
         enemies = new Array<Enemy>();
@@ -64,7 +64,7 @@ public class PlayStateScreen implements Screen {
                 game.spriteBatch.enableBlending();
                 gamePlayRenderer.drawPlayer(runtime);
                 gamePlayRenderer.drawArrow(arrows);
-                gamePlayRenderer.drawEnemy(enemies, runtime);
+                gamePlayRenderer.drawEnemies(enemies, runtime);
                 gamePlayRenderer.drawGold(gamePlayManager);
                 gamePlayRenderer.drawHeart();
                 gamePlayRenderer.drawPauseButton();

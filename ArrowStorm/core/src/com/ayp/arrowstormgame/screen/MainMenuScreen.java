@@ -5,6 +5,7 @@ import com.ayp.arrowstormgame.helper.AssetsLoader;
 import com.ayp.arrowstormgame.helper.GdxPreference;
 import com.ayp.arrowstormgame.helper.MusicManager;
 import com.ayp.arrowstormgame.helper.SoundManager;
+import com.ayp.arrowstormgame.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -13,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
+
+import java.util.Map;
 
 /**
  * Created by Theerawuth on 9/23/2016.
@@ -72,6 +75,7 @@ public class MainMenuScreen implements Screen {
     private String highScoreString;
     private GlyphLayout glyphLayout;
     private static final String HIGH_SCORE_LABEL = "SCORE";
+    Player player;
 
     private MusicManager manageMusicMainBackground;
 
@@ -99,6 +103,19 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
+        if (game.playServices.isSignedIn()) {
+            Gdx.app.log(TAG, "Playservices is signed in");
+            Map<String, Integer> user;
+            user = game.firebaseAuthentication.retrieveUserData();
+            player = new Player(user.get("AttackDamageLevel"), user.get("AttackSpeedLevel"),
+                    user.get("HealthPointLevel"), user.get("Gold"));
+        } else {
+            Gdx.app.log(TAG, "Playservices is not signed in");
+            player = new Player(GdxPreference.getCurrentAttackDamageLevel(),
+                    GdxPreference.getCurrentAttackSpeedLevel(),
+                    GdxPreference.getCurrentHealthPointLevel(),
+                    GdxPreference.getCurrentGold());
+        }
         manageMusicMainBackground = new MusicManager(mainMenuBackgroundMusic);
         if (GdxPreference.getMusicSetting()) {
             manageMusicMainBackground.backgroundMusicPlay();
@@ -210,23 +227,30 @@ public class MainMenuScreen implements Screen {
             elapsedTime = 0;
             if (onClickHighScore()) {
                 // show high score here !!
-                if (game.playServices.isSignedIn()) {
-                    game.playServices.showScore();
-                } else {
-                    game.playServices.signIn();
-                }
+                game.playServices.showScore();
             } else if (onClickBattle()) {
                 if (GdxPreference.getSoundSetting()) {
                     SoundManager.playToBattleSound();
                 }
                 manageMusicMainBackground.backgroundMusicStop();
-                game.setScreen(new PlayStateScreen(game));
+                game.setScreen(new PlayStateScreen(game, player));
             } else if (onClickMonsterInfo()) {
                 game.setScreen(new MonsterInfoScreen(game));
             } else if (onClickUpgrade()) {
-                game.setScreen(new UpGradeScreen(game));
+                game.setScreen(new UpGradeScreen(game, player));
             } else if (onClickFacebook()) {
-                game.setScreen(new TitleScreen(game));
+//                game.setScreen(new TitleScreen(game));
+                if (!game.firebaseAuthentication.isSignInGoogle()) {
+                    if (game.playServices.isSignedIn()) {
+                        Gdx.app.log(TAG, "sign in google");
+                        game.firebaseAuthentication.signInGoogle();
+                    }
+                } else {
+                    if (!game.playServices.isSignedIn()) {
+                        Gdx.app.log(TAG, "sigh out google");
+                        game.firebaseAuthentication.signOutGoogle();
+                    }
+                }
             } else if (onClickMusicSetting()) {
                 manageMusicMainBackground.setSwitchMusic();
             } else if (onClickSoundSetting()) {

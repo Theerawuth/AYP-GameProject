@@ -9,11 +9,14 @@ import com.ayp.arrowstormgame.model.Player;
 import com.ayp.arrowstormgame.model.bossespack.Kraken;
 import com.ayp.arrowstormgame.screen.MainMenuScreen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
 
@@ -22,6 +25,7 @@ import static com.ayp.arrowstormgame.helper.ArrayListUtils.removeDuplicateIndex;
  */
 
 public class GamePlayManager {
+    private static final String TAG = "GamePlayManager";
     private final ArrowStormGame game;
     private static final int PREPARE_SHOOT = -1;
     private int score;
@@ -41,11 +45,9 @@ public class GamePlayManager {
     private boolean bossThreeSpawn;
     private boolean bossThreeDied;
 
-    public GamePlayManager(final ArrowStormGame game) {
+    public GamePlayManager(final ArrowStormGame game, Player player) {
         this.game = game;
-        player = new Player(GdxPreference.getCurrentAttackDamageLevel(),
-                GdxPreference.getCurrentAttackSpeedLevel(),
-                GdxPreference.getCurrentHealthPointLevel());
+        this.player = player;
         enemyLevelManager = new EnemyLevelManager();
         enemySpawnManager = new EnemySpawnManager();
         isPause = false;
@@ -139,12 +141,12 @@ public class GamePlayManager {
 
             player.angle = arrowAngle;
             if (lastArrow == PREPARE_SHOOT) {
-                if (GdxPreference.getSoundSetting()){
+                if (GdxPreference.getSoundSetting()) {
                     SoundManager.playShootingSound();
                 }
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
             } else if (TimeUtils.nanoTime() - lastArrow > shootDelay) {
-                if (GdxPreference.getSoundSetting()){
+                if (GdxPreference.getSoundSetting()) {
                     SoundManager.playShootingSound();
                 }
                 shootArrow(arrowAngle, arrowDirectionAngle, arrows);
@@ -200,6 +202,7 @@ public class GamePlayManager {
                     if (score > GdxPreference.getHighScore()) {
                         GdxPreference.putHighScore(score);
                         GdxPreference.flushPreferences();
+                        player.setHighScore(score);
                         // Add the highest score to leaderboard
                         game.playServices.submitScore(score);
                     }
@@ -218,21 +221,31 @@ public class GamePlayManager {
                 Arrow arrow = arrows.get(j);
                 if (arrow.getArrowBound().overlaps(enemy.getEnemyBound())) {
                     // enemy is hit
-                    enemies.get(i).takeDamage(player.attackDamage);
+                    enemy.setDrawPosition(new Vector2(enemy.getDrawPosition().x,
+                            enemy.getDrawPosition().y - 4f));
+                    enemy.setBoundPosition(new Vector2(enemy.getEnemyBound().x,
+                            enemy.getEnemyBound().y - 4f));
+                    enemy.takeDamage(player.attackDamage);
                     arrows.removeIndex(j);
                     break;
                 }
             }
-            if (enemies.get(i).isDied()) {
+            if (enemy.isDied()) {
                 if (GdxPreference.getSoundSetting()) {
                     SoundManager.playMonsterDead();
                 }
-                score += enemies.get(i).getScore();
-                gold += enemies.get(i).getGold();
-                if (enemies.get(i) instanceof Kraken) {
+                score += enemy.getScore();
+                gold += enemy.getGold();
+
+                if (enemy instanceof Kraken) {
                     bossThreeDied = true;
                 }
+
+//                if (enemy.getDeadAnimationRuntime() > enemy.getDeadAnimationDuration()) {
+//                    Gdx.app.log(TAG,"runtime: " + enemy.getDeadAnimationRuntime() + ", duration"
+//                            + enemy.getDeadAnimationDuration());
                 enemies.removeIndex(i);
+//                }
                 break;
             }
         }

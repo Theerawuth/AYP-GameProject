@@ -42,9 +42,18 @@ public class Player {
     public static float angle = 0;
     private static boolean isAlive;
 
+    private int attackDamageSkillLevel;
+    private int healthPointSkillLevel;
+    private int attackSpeedSkillLevel;
+    private int gold;
+    private int highScore;
 
     public Player(int attackDamageSkillLevel, int attackSpeedSkillLevel,
-                  int healthPointSkillLevel) {
+                  int healthPointSkillLevel, int gold) {
+        this.attackDamageSkillLevel = attackDamageSkillLevel;
+        this.healthPointSkillLevel = healthPointSkillLevel;
+        this.attackSpeedSkillLevel = attackSpeedSkillLevel;
+        this.gold = gold;
         isAlive = true;
         attackSpeed =
                 BASE_ATTACK_SPEED
@@ -75,5 +84,45 @@ public class Player {
 
     public void setAlive(boolean alive) {
         isAlive = alive;
+    }
+
+    public int getAttackDamageSkillLevel() {
+        return attackDamageSkillLevel;
+    }
+
+    public void setAttackDamageSkillLevel(int attackDamageSkillLevel) {
+        this.attackDamageSkillLevel = attackDamageSkillLevel;
+    }
+
+    public int getHealthPointSkillLevel() {
+        return healthPointSkillLevel;
+    }
+
+    public void setHealthPointSkillLevel(int healthPointSkillLevel) {
+        this.healthPointSkillLevel = healthPointSkillLevel;
+    }
+
+    public int getAttackSpeedSkillLevel() {
+        return attackSpeedSkillLevel;
+    }
+
+    public void setAttackSpeedSkillLevel(int attackSpeedSkillLevel) {
+        this.attackSpeedSkillLevel = attackSpeedSkillLevel;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 }

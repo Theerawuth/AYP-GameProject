@@ -94,6 +94,26 @@ public class GamePlayRenderer {
         lastHighScore = GdxPreference.getHighScore();
     }
 
+    public void drawEnemy(float runtime, Enemy enemy, String animationKey, String deadAnimationKey) {
+
+        if (!enemy.isDied()) {
+            game.spriteBatch.draw(enemyAnimationMap.get(animationKey)
+                            .getKeyFrame(runtime, true),
+                    enemy.getDrawPosition().x, enemy.getDrawPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
+        } else {
+            drawEnemyDeadAnimation(runtime, deadAnimationKey, enemy);
+        }
+        if (enemy.isBleeding()) {
+//            drawBloodSplash(enemy, runtime);
+        }
+
+    }
+
+    public void drawEnemyDeadAnimation(float runtime, String deadAnimationKey, Enemy enemy) {
+        game.spriteBatch.draw(enemyAnimationMap.get(deadAnimationKey).getKeyFrame(runtime, false),
+                enemy.getDrawPosition().x, enemy.getDrawPosition().y);
+    }
+
     public void drawBloodSplash(Enemy enemy, float runtime) {
         game.spriteBatch.draw(bloodSplashLeftAnimation.getKeyFrame(runtime),
                 enemy.getDrawPosition().x + Enemy.WIDTH / 2, enemy.getDrawPosition().y);
@@ -116,50 +136,26 @@ public class GamePlayRenderer {
         }
     }
 
-    public void drawEnemy(Array<Enemy> enemies, float runtime) {
+    public void drawEnemies(Array<Enemy> enemies, float runtime) {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Bug) {
-                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BUG_ANIMATION)
-                                .getKeyFrame(runtime, true),
-                        enemy.getDrawPosition().x, enemy.getDrawPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
-                if (enemy.isBleeding()){
-                    drawBloodSplash(enemy, runtime);
-                }
+                drawEnemy(runtime, enemy, AssetsLoader.BUG_ANIMATION
+                        , AssetsLoader.BUG_DEAD_ANIMATION);
             } else if (enemy instanceof Worm) {
-                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.WORM_ANIMATION)
-                                .getKeyFrame(runtime, true),
-                        enemy.getDrawPosition().x, enemy.getDrawPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
-                if (enemy.isBleeding()){
-                    drawBloodSplash(enemy, runtime);
-                }
+                drawEnemy(runtime, enemy, AssetsLoader.WORM_ANIMATION,
+                        AssetsLoader.WORM_DEAD_ANIMATION);
             } else if (enemy instanceof Guardian) {
-                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.GUARDIAN_ANIMATION)
-                                .getKeyFrame(runtime, true),
-                        enemy.getDrawPosition().x, enemy.getDrawPosition().y, Enemy.WIDTH, Enemy.HEIGHT);
-                if (enemy.isBleeding()){
-                    drawBloodSplash(enemy, runtime);
-                }
+                drawEnemy(runtime, enemy, AssetsLoader.GUARDIAN_ANIMATION,
+                        AssetsLoader.GUARDIAN_DEAD_ANIMATION);
             } else if (enemy instanceof GoldenBug) {
-                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BOSS_GOLDEN_BUG_ANIMATION)
-                                .getKeyFrame(runtime, true),
-                        enemy.getDrawPosition().x, enemy.getDrawPosition().y, Boss.WIDTH, Boss.HEIGHT);
-                if (enemy.isBleeding()){
-                    drawBloodSplash(enemy, runtime);
-                }
+                drawEnemy(runtime, enemy, AssetsLoader.BOSS_GOLDEN_BUG_ANIMATION,
+                        AssetsLoader.BOSS_GOLDEN_BUG_DEAD_ANIMATION);
             } else if (enemy instanceof Scorpion) {
-                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BOSS_SCORPION_ANIMATION)
-                                .getKeyFrame(runtime, true),
-                        enemy.getDrawPosition().x, enemy.getDrawPosition().y, Boss.WIDTH, Boss.HEIGHT);
-                if (enemy.isBleeding()){
-                    drawBloodSplash(enemy, runtime);
-                }
+                drawEnemy(runtime, enemy, AssetsLoader.BOSS_SCORPION_ANIMATION,
+                        AssetsLoader.BOSS_SCORPION_DEAD_ANIMATION);
             } else if (enemy instanceof Kraken) {
-                game.spriteBatch.draw(enemyAnimationMap.get(AssetsLoader.BOSS_KRAKEN_ANIMATION)
-                                .getKeyFrame(runtime, true),
-                        enemy.getDrawPosition().x, enemy.getDrawPosition().y, Boss.WIDTH, Boss.HEIGHT);
-                if (enemy.isBleeding()){
-                    drawBloodSplash(enemy, runtime);
-                }
+                drawEnemy(runtime, enemy, AssetsLoader.BOSS_KRAKEN_ANIMATION,
+                        AssetsLoader.BOSS_KRAKEN_DEAD_ANIMATION);
             }
         }
     }

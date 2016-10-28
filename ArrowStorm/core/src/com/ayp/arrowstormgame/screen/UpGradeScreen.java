@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 /**
  * Created by Theerawuth on 10/18/2016.
@@ -26,7 +27,7 @@ public class UpGradeScreen implements Screen {
     private static final float PLUS_HP_ICON_POS_Y = 400;
     private static final float PLUS_ASPD_ICON_POS_X = 140;
     private static final float PLUS_ASPD_ICON_POS_Y = 560;
-    private static final float UPGRADE_DELAY = 1.5f;
+    private static final float UPGRADE_DELAY = 0.5f;
 
     private ArrowStormGame game;
     private Sprite coinIconSprite;
@@ -48,9 +49,11 @@ public class UpGradeScreen implements Screen {
     private Vector3 touchButton;
     private float elapsedTime;
     private float upgradeDelay;
+    private Player player;
 
-    public UpGradeScreen(final ArrowStormGame game) {
+    public UpGradeScreen(final ArrowStormGame game, Player player) {
         this.game = game;
+        this.player = player;
         upGradeBackgroundSprite = AssetsLoader.upGradeBackgroundSprite;
         headerUpGradeSprite = AssetsLoader.headerUpGradeSprite;
         backIconSprite = AssetsLoader.backIconSprite;
@@ -186,6 +189,54 @@ public class UpGradeScreen implements Screen {
         bodyFont.draw(game.spriteBatch, currentGoldString, 422 - glyphLayout.width, 736);
     }
 
+    private boolean clickBackButton() {
+        return touchButton.x > backIconSprite.getX()
+                && touchButton.x < (backIconSprite.getX() + backIconSprite.getWidth())
+                && touchButton.y > backIconSprite.getY()
+                && touchButton.y < (backIconSprite.getY() + backIconSprite.getHeight());
+    }
+
+    private boolean clickUpgradeAttackDamage() {
+        return upgradeDelay > UPGRADE_DELAY && touchButton.x > PLUS_ATK_ICON_POS_X
+                && touchButton.x < PLUS_ATK_ICON_POS_X + plusAtkIconSprite.getWidth()
+                && touchButton.y > PLUS_ATK_ICON_POS_Y
+                && touchButton.y < PLUS_ATK_ICON_POS_Y + plusAtkIconSprite.getHeight();
+    }
+
+    private boolean clickUpgradeHealthPoint() {
+        return upgradeDelay > UPGRADE_DELAY && touchButton.x > PLUS_HP_ICON_POS_X
+                && touchButton.x < PLUS_HP_ICON_POS_X + plusAtkIconSprite.getWidth()
+                && touchButton.y > PLUS_HP_ICON_POS_Y
+                && touchButton.y < PLUS_HP_ICON_POS_Y + plusAtkIconSprite.getHeight();
+    }
+
+    private boolean clickUpgradeAttackSpeed() {
+        return upgradeDelay > UPGRADE_DELAY && touchButton.x > PLUS_ASPD_ICON_POS_X
+                && touchButton.x < PLUS_ASPD_ICON_POS_X + plusAtkIconSprite.getWidth()
+                && touchButton.y > PLUS_ASPD_ICON_POS_Y
+                && touchButton.y < PLUS_ASPD_ICON_POS_Y + plusAtkIconSprite.getHeight();
+    }
+
+    private void saveData() {
+        if (game.playServices.isSignedIn()) {
+            game.firebaseAuthentication.saveGameData(GdxPreference.getCurrentAttackDamageLevel(),
+                    GdxPreference.getCurrentAttackSpeedLevel(),
+                    GdxPreference.getCurrentHealthPointLevel(), GdxPreference.getHighScore(),
+                    GdxPreference.getCurrentGold());
+        } else {
+            GdxPreference.putCurrentGold(player.getGold());
+            GdxPreference.flushPreferences();
+            GdxPreference.putHighScore(player.getHighScore());
+            GdxPreference.flushPreferences();
+            GdxPreference.putCurrentAttackDamageLevel(player.getAttackDamageSkillLevel());
+            GdxPreference.flushPreferences();
+            GdxPreference.putCurrentHealthPointLevel(player.getHealthPointSkillLevel());
+            GdxPreference.flushPreferences();
+            GdxPreference.putCurrentAttackSpeedLevel(player.getAttackSpeedSkillLevel());
+            GdxPreference.flushPreferences();
+        }
+    }
+
     private void handleTouchEvent() {
         if (Gdx.input.isTouched() && elapsedTime > 0.5) {
             touchButton = new Vector3();
@@ -193,54 +244,47 @@ public class UpGradeScreen implements Screen {
             backIconSprite.setPosition(BACK_ICON_POS_X, BACK_ICON_POS_Y);
             game.camera.unproject(touchButton);
             elapsedTime = 0;
-            if (touchButton.x > backIconSprite.getX()
-                    && touchButton.x < (backIconSprite.getX() + backIconSprite.getWidth())
-                    && touchButton.y > backIconSprite.getY()
-                    && touchButton.y < (backIconSprite.getY() + backIconSprite.getHeight())) {
+            if (clickBackButton()) {
+                saveData();
                 game.setScreen(new MainMenuScreen(game));
-            } else if (upgradeDelay > UPGRADE_DELAY && touchButton.x > PLUS_ATK_ICON_POS_X
-                    && touchButton.x < PLUS_ATK_ICON_POS_X + plusAtkIconSprite.getWidth()
-                    && touchButton.y > PLUS_ATK_ICON_POS_Y
-                    && touchButton.y < PLUS_ATK_ICON_POS_Y + plusAtkIconSprite.getHeight()) {
+            } else if (clickUpgradeAttackDamage()) {
                 int remainGold = GdxPreference.getCurrentGold()
-                        - Player.skillUpCostInt(GdxPreference.getCurrentAttackDamageLevel());
-                if (remainGold >= 0 && GdxPreference.getCurrentAttackDamageLevel()
+                        - Player.skillUpCostInt(player.getAttackDamageSkillLevel());
+                if (remainGold >= 0 && player.getAttackDamageSkillLevel()
                         < Player.MAX_LEVEL_SKILL) {
+                    player.setAttackDamageSkillLevel(player.getAttackDamageSkillLevel() + 1);
                     GdxPreference.putCurrentGold(remainGold);
                     GdxPreference.flushPreferences();
                     int nextLevel = GdxPreference.getCurrentAttackDamageLevel() + 1;
                     GdxPreference.putCurrentAttackDamageLevel(nextLevel);
                     GdxPreference.flushPreferences();
+                    saveData();
                 }
                 upgradeDelay = 0;
-            } else if (upgradeDelay > UPGRADE_DELAY && touchButton.x > PLUS_HP_ICON_POS_X
-                    && touchButton.x < PLUS_HP_ICON_POS_X + plusAtkIconSprite.getWidth()
-                    && touchButton.y > PLUS_HP_ICON_POS_Y
-                    && touchButton.y < PLUS_HP_ICON_POS_Y + plusAtkIconSprite.getHeight()) {
+            } else if (clickUpgradeHealthPoint()) {
                 int remainGold = GdxPreference.getCurrentGold()
-                        - Player.skillUpCostInt(GdxPreference.getCurrentHealthPointLevel());
-                if (remainGold >= 0 && GdxPreference.getCurrentHealthPointLevel()
-                        < Player.MAX_LEVEL_SKILL) {
+                        - Player.skillUpCostInt(player.getHealthPointSkillLevel());
+                if (remainGold >= 0 && player.getHealthPointSkillLevel() < Player.MAX_LEVEL_SKILL) {
+                    player.setHealthPointSkillLevel(player.getHealthPointSkillLevel() + 1);
                     GdxPreference.putCurrentGold(remainGold);
                     GdxPreference.flushPreferences();
-                    int nextLevel = GdxPreference.getCurrentHealthPointLevel() + 1;
+                    int nextLevel = player.getAttackDamageSkillLevel();
                     GdxPreference.putCurrentHealthPointLevel(nextLevel);
                     GdxPreference.flushPreferences();
+                    saveData();
                 }
                 upgradeDelay = 0;
-            } else if (upgradeDelay > UPGRADE_DELAY && touchButton.x > PLUS_ASPD_ICON_POS_X
-                    && touchButton.x < PLUS_ASPD_ICON_POS_X + plusAtkIconSprite.getWidth()
-                    && touchButton.y > PLUS_ASPD_ICON_POS_Y
-                    && touchButton.y < PLUS_ASPD_ICON_POS_Y + plusAtkIconSprite.getHeight()) {
+            } else if (clickUpgradeAttackSpeed()) {
                 int remainGold = GdxPreference.getCurrentGold()
-                        - Player.skillUpCostInt(GdxPreference.getCurrentAttackSpeedLevel());
-                if (remainGold >= 0 && GdxPreference.getCurrentAttackSpeedLevel()
-                        < Player.MAX_LEVEL_SKILL) {
+                        - Player.skillUpCostInt(player.getAttackSpeedSkillLevel());
+                if (remainGold >= 0 && player.getAttackSpeedSkillLevel() < Player.MAX_LEVEL_SKILL) {
+                    player.setAttackSpeedSkillLevel(player.getAttackSpeedSkillLevel() + 1);
                     GdxPreference.putCurrentGold(remainGold);
                     GdxPreference.flushPreferences();
                     int nextLevel = GdxPreference.getCurrentAttackSpeedLevel() + 1;
                     GdxPreference.putCurrentAttackSpeedLevel(nextLevel);
                     GdxPreference.flushPreferences();
+                    saveData();
                 }
                 upgradeDelay = 0;
             }
@@ -249,11 +293,11 @@ public class UpGradeScreen implements Screen {
     }
 
     private void updateScreen() {
-        titleStatus[0][2] = String.valueOf(GdxPreference.getCurrentAttackDamageLevel());
-        titleStatus[0][3] = Player.skillUpCostString(GdxPreference.getCurrentAttackDamageLevel());
-        titleStatus[1][2] = String.valueOf(GdxPreference.getCurrentHealthPointLevel());
-        titleStatus[1][3] = Player.skillUpCostString(GdxPreference.getCurrentHealthPointLevel());
-        titleStatus[2][2] = String.valueOf(GdxPreference.getCurrentAttackSpeedLevel());
-        titleStatus[2][3] = Player.skillUpCostString(GdxPreference.getCurrentAttackSpeedLevel());
+        titleStatus[0][2] = String.valueOf(player.getAttackDamageSkillLevel());
+        titleStatus[0][3] = Player.skillUpCostString(player.getAttackDamageSkillLevel());
+        titleStatus[1][2] = String.valueOf(player.getHealthPointSkillLevel());
+        titleStatus[1][3] = Player.skillUpCostString(player.getHealthPointSkillLevel());
+        titleStatus[2][2] = String.valueOf(player.getAttackSpeedSkillLevel());
+        titleStatus[2][3] = Player.skillUpCostString(player.getAttackSpeedSkillLevel());
     }
 }

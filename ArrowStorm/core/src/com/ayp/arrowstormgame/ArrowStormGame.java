@@ -1,6 +1,7 @@
 package com.ayp.arrowstormgame;
 
 import com.ayp.arrowstormgame.helper.AssetsLoader;
+import com.ayp.arrowstormgame.interfaces.FirebaseAuthentication;
 import com.ayp.arrowstormgame.interfaces.PlayServices;
 import com.ayp.arrowstormgame.helper.SoundManager;
 import com.ayp.arrowstormgame.screen.TitleScreen;
@@ -16,9 +17,12 @@ public class ArrowStormGame extends Game {
     public OrthographicCamera camera;
     public ShapeRenderer shapeRenderer;
     public static PlayServices playServices;
+    public static FirebaseAuthentication firebaseAuthentication;
 
-    public ArrowStormGame(PlayServices playServices) {
+    public ArrowStormGame(PlayServices playServices,
+                          FirebaseAuthentication firebaseAuthentication) {
         this.playServices = playServices;
+        this.firebaseAuthentication = firebaseAuthentication;
     }
 
     @Override
@@ -33,7 +37,6 @@ public class ArrowStormGame extends Game {
         shapeRenderer.setProjectionMatrix(camera.combined);
         setScreen(new TitleScreen(this));
     }
-
 
     @Override
     public void render() {

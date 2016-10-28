@@ -51,6 +51,9 @@ public abstract class Enemy {
     private int score;
     private int gold;
 
+    private float deadAnimationDuration;
+    private float deadAnimationRuntime;
+
     private float attackDamage;
     private float movementSpeed;
     private float healthPoint;
@@ -58,6 +61,7 @@ public abstract class Enemy {
 
     // Boss
     public Enemy(float attackDamage, float movementSpeed, float healthPoint) {
+        deadAnimationRuntime = 0;
         float x = ArrowStormGame.GAME_WIDTH / 2 - BOSS_BOUNDING_RADIUS;
         float y = 0;
         drawPosition = new Vector2(x, y);
@@ -160,5 +164,29 @@ public abstract class Enemy {
 
     public int getGold() {
         return gold;
+    }
+
+    public void setDrawPosition(Vector2 drawPosition) {
+        this.drawPosition = drawPosition;
+    }
+
+    public void setBoundPosition(Vector2 boundPosition) {
+        this.boundPosition = boundPosition;
+    }
+
+    public float getDeadAnimationDuration() {
+        return deadAnimationDuration;
+    }
+
+    public void setDeadAnimationDuration(float deadAnimationDuration) {
+        this.deadAnimationDuration = deadAnimationDuration;
+    }
+
+    public float getDeadAnimationRuntime() {
+        return deadAnimationRuntime;
+    }
+
+    public void setDeadAnimationRuntime(float deadAnimationRuntime) {
+        this.deadAnimationRuntime = deadAnimationRuntime;
     }
 }
